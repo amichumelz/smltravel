@@ -1,0 +1,2464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Langkawi Escape — Island Adventures & Booking</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue-dark: #081840;
+      --blue-mid: #0d2660;
+      --blue-light: #1a4080;
+      --accent: #3a9eff;
+      --accent-glow: rgba(58,158,255,0.35);
+      --accent2: #ffbe3a;
+      --white: #ffffff;
+      --offwhite: #f2f7ff;
+      --text-muted: #8fa3bf;
+      --card-bg: #ffffff;
+      --section-bg: #f2f7fd;
+      --radius: 20px;
+      --shadow: 0 12px 28px rgba(10,28,72,0.10);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; background: var(--blue-dark); color: #fff; overflow-x: hidden; }
+    body.loading { overflow: hidden; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; }
+    a { text-decoration: none; color: inherit; }
+    input, select { font-family: inherit; }
+
+    /* ─── LOADER ─── */
+    .page-loader {
+      position: fixed; inset: 0; display: grid; place-items: center;
+      background: linear-gradient(160deg, #060f2a 0%, #0c1f50 60%, #081840 100%);
+      z-index: 9999; transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    .page-loader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-inner { display: flex; flex-direction: column; align-items: center; gap: 18px; width: min(400px,86vw); text-align: center; }
+    .loader-island { width: 52px; height: 52px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.3); border-top-color: #fff; animation: spin 1.1s linear infinite; }
+    .loader-title { font-size: 22px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #e8f4ff; }
+    .loader-sub { font-size: 13px; color: rgba(200,224,255,0.7); letter-spacing: 0.5px; }
+    .loader-bar-wrap { width: 100%; height: 8px; border-radius: 99px; background: rgba(255,255,255,0.1); overflow: hidden; }
+    .loader-bar { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #3a9eff, #5dd6ff); transition: width 0.15s ease; box-shadow: 0 0 12px rgba(90,200,255,0.6); }
+    .loader-pct { font-size: 13px; font-weight: 600; color: #c8e4ff; }
+    @keyframes islandBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+    /* ─── TOAST ─── */
+    .toast-wrap { position: fixed; top: 24px; right: 24px; z-index: 8000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+    .toast {
+      display: flex; align-items: center; gap: 10px; padding: 12px 18px;
+      background: #fff; border-radius: 12px; color: #1a2a40;
+      box-shadow: 0 8px 24px rgba(10,28,72,0.18); font-size: 14px; font-weight: 500;
+      transform: translateX(120%); transition: transform 0.35s cubic-bezier(.32,.72,0,1);
+      pointer-events: auto; min-width: 240px;
+    }
+    .toast.show { transform: translateX(0); }
+    .toast-icon { font-size: 20px; }
+
+    /* ─── CART BADGE ─── */
+    .cart-btn {
+      position: relative; width: 42px; height: 42px; border-radius: 12px;
+      border: 1px solid #d7e2f0; background: #ffffff;
+      color: #2a3a52; font-size: 18px; display: grid; place-items: center;
+      box-shadow: 0 6px 16px rgba(10,28,72,0.08); transition: 0.2s ease;
+    }
+    .cart-btn:hover { background: #f7fbff; transform: scale(1.05); }
+    .cart-count {
+      position: absolute; top: -6px; right: -6px; background: var(--accent2);
+      color: #1a2a00; font-size: 10px; font-weight: 700; width: 18px; height: 18px;
+      border-radius: 50%; display: grid; place-items: center; display: none;
+    }
+    .cart-count.show { display: grid; }
+
+    /* ─── HERO SLIDESHOW ─── */
+    .sky-wrap {
+      min-height: 100vh; position: relative; isolation: isolate; overflow: hidden;
+      padding: 122px 52px 0;
+    }
+    .hero-slideshow {
+      position: absolute; inset: 0; z-index: 0;
+    }
+    .hero-slide {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      opacity: 0; transition: opacity 1.4s ease;
+    }
+    .hero-slide.active { opacity: 1; }
+    .hero-slide::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(5,12,32,0.55) 0%, rgba(8,18,52,0.65) 50%, rgba(6,10,28,0.85) 100%);
+    }
+    /* Slide images using high-quality Unsplash photos */
+    .hs1 { background-image: url('https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=1600&q=80'); }
+    .hs2 { background-image: url('https://images.unsplash.com/photo-1504274066651-8d31a536b11a?w=1600&q=80'); }
+    .hs3 { background-image: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1600&q=80'); }
+    .hs4 { background-image: url('https://images.unsplash.com/photo-1559628233-100c798642d8?w=1600&q=80'); }
+    .hs5 { background-image: url('https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?w=1600&q=80'); }
+    .slideshow-dots {
+      position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 8px; z-index: 6;
+    }
+    .ss-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4);
+      cursor: pointer; transition: 0.3s ease; border: none;
+    }
+    .ss-dot.active { background: #fff; width: 24px; border-radius: 4px; }
+    .sky-wrap::before { display: none; }
+    @keyframes starDrift { from{transform:translateX(0)} to{transform:translateX(-20px)} }
+
+    /* Moon */
+    .moon {
+      position: absolute; right: 8%; top: 8%; width: 220px; height: 220px;
+      border-radius: 50%; z-index: 1; pointer-events: none;
+      background: radial-gradient(circle at 36% 36%, #fffffc, #e6f3ff 54%, #8ec8ff 100%);
+      box-shadow: 0 0 60px rgba(160,220,255,0.55), 0 0 120px rgba(120,190,255,0.25);
+      animation: moonGlow 6s ease-in-out infinite;
+    }
+    @keyframes moonGlow { 0%,100%{box-shadow:0 0 60px rgba(160,220,255,0.55),0 0 120px rgba(120,190,255,0.25)} 50%{box-shadow:0 0 90px rgba(180,235,255,0.7),0 0 160px rgba(140,205,255,0.35)} }
+
+    /* Aurora */
+    .aurora {
+      position: absolute; left: -8%; top: 14%; width: 60vw; max-width: 760px;
+      height: 280px; filter: blur(32px); opacity: 0.45; z-index: 0; pointer-events: none;
+      background: radial-gradient(circle at 18% 48%, rgba(58,158,255,0.5), transparent 50%),
+                  radial-gradient(circle at 50% 42%, rgba(100,200,255,0.38), transparent 52%),
+                  radial-gradient(circle at 82% 55%, rgba(140,225,255,0.3), transparent 50%);
+      animation: auroraDrift 12s ease-in-out infinite;
+    }
+    @keyframes auroraDrift { 0%,100%{transform:translateX(0) translateY(0) rotate(-3deg)} 50%{transform:translateX(52px) translateY(-12px) rotate(3deg)} }
+
+    /* Shooting star */
+    .shoot { position: absolute; right: 25%; top: 18%; width: 160px; height: 2px; border-radius: 99px; background: linear-gradient(90deg, transparent, rgba(210,240,255,0.95)); transform: rotate(-18deg); opacity: 0; z-index: 1; pointer-events: none; animation: shoot 5.5s ease-in-out infinite; }
+    @keyframes shoot { 0%{opacity:0;transform:translate(0,0)rotate(-18deg)} 10%{opacity:1} 45%{opacity:0.9;transform:translate(200px,78px)rotate(-18deg)} 55%,100%{opacity:0;transform:translate(240px,94px)rotate(-18deg)} }
+
+    /* Island silhouette */
+    .island-silhouette {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 320px; z-index: 1; pointer-events: none;
+      background:
+        radial-gradient(120% 70% at 14% 100%, #091e52 0 58%, transparent 59%),
+        radial-gradient(95% 72% at 42% 100%, #0b2360 0 60%, transparent 61%),
+        radial-gradient(110% 65% at 78% 100%, #0a1f52 0 56%, transparent 57%),
+        radial-gradient(75% 55% at 94% 100%, #071a46 0 60%, transparent 61%);
+    }
+    /* Palm trees */
+    .palms { position: absolute; bottom: 90px; left: 4%; font-size: 52px; z-index: 2; opacity: 0.6; user-select: none; pointer-events: none; filter: brightness(0.4) sepia(1) hue-rotate(200deg); animation: palmSway 4s ease-in-out infinite; }
+    .palms-r { right: 4%; left: auto; animation-direction: reverse; }
+    @keyframes palmSway { 0%,100%{transform:rotate(-2deg) translateY(0)} 50%{transform:rotate(2deg) translateY(-4px)} }
+    /* Twinkles */
+    .twinkle { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.95); box-shadow: 0 0 8px rgba(255,255,255,0.9); animation: twinkle 2.8s ease-in-out infinite; pointer-events: none; z-index: 1; }
+    .tw1{top:11%;left:14%;animation-delay:0s} .tw2{top:19%;left:34%;animation-delay:0.7s} .tw3{top:13%;left:61%;animation-delay:1.3s} .tw4{top:22%;left:79%;animation-delay:2s} .tw5{top:29%;left:52%;animation-delay:0.4s} .tw6{top:8%;left:47%;animation-delay:1.8s}
+    @keyframes twinkle { 0%,100%{opacity:0.2;transform:scale(0.8)} 50%{opacity:1;transform:scale(1.2)} }
+
+    /* ─── NAV ─── */
+    .topbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1200;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; padding: 14px 52px;
+      background: rgba(255,255,255,0.96); border-bottom: 1px solid #dbe5f2;
+      backdrop-filter: blur(10px); animation: slideDown 0.8s ease both;
+      box-shadow: 0 8px 18px rgba(10,28,72,0.08);
+    }
+    @keyframes slideDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+    .logo { display: flex; align-items: center; }
+    .company-logo {
+      height: 68px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 10px rgba(5,14,40,0.25));
+    }
+    .nav-pill {
+      display: flex; align-items: center; gap: 4px; padding: 6px;
+      background: #f6f9ff; border: 1px solid #dce6f4;
+      border-radius: 14px;
+    }
+    .nav-pill a {
+      color: #4b617e; font-size: 13px; font-weight: 500;
+      padding: 8px 14px; border-radius: 9px; transition: 0.2s ease;
+    }
+    .nav-pill a:hover, .nav-pill a.active { background: #ffffff; color: #1e76d8; }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .btn-plan {
+      border: 1px solid #d2e1f3; background: #ffffff;
+      color: #2a3a52; border-radius: 12px; padding: 10px 18px; font-size: 13.5px; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: 0.2s ease;
+    }
+    .btn-plan:hover { background: #f4f9ff; transform: translateY(-1px); color: #1e76d8; }
+    #step3,
+    #bkgStep3 { display: none !important; }
+
+    /* ─── HERO TEXT ─── */
+    .hero {
+      position: relative; z-index: 5; display: flex; flex-direction: column;
+      align-items: center; text-align: center; padding: 92px 0 180px;
+      animation: heroFade 1s ease both 0.3s;
+    }
+    @keyframes heroFade { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+    .hero-eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; opacity: 0.9; }
+    .hero-title { font-size: clamp(80px,15vw,190px); font-weight: 900; line-height: 0.9; letter-spacing: 8px; color: #f4f8ff; text-shadow: 0 6px 40px rgba(0,0,0,0.4); user-select: none; }
+    .hero-title em { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 500; color: var(--accent); font-size: 0.38em; letter-spacing: 2px; display: block; margin-top: 8px; }
+    .hero-subtitle { margin-top: 24px; font-size: 17px; color: rgba(200,224,255,0.8); max-width: 480px; line-height: 1.6; }
+    .hero-actions { margin-top: 36px; display: flex; gap: 14px; }
+    .btn-primary {
+      background: linear-gradient(110deg, #3a9eff, #1e76d8); color: #fff;
+      border-radius: 14px; padding: 14px 30px; font-size: 15px; font-weight: 600;
+      box-shadow: 0 8px 24px rgba(58,158,255,0.4); transition: 0.2s ease;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(58,158,255,0.5); }
+    .btn-outline {
+      border: 1.5px solid rgba(255,255,255,0.3); color: #fff; border-radius: 14px;
+      padding: 14px 28px; font-size: 15px; font-weight: 500; background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(8px); transition: 0.2s ease;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-outline:hover { background: rgba(255,255,255,0.14); transform: translateY(-2px); }
+    .hero-stats { margin-top: 40px; display: flex; gap: 40px; }
+    .hero-stat { text-align: center; }
+    .hero-stat strong { display: block; font-size: 26px; font-weight: 800; color: #fff; }
+    .hero-stat span { font-size: 12px; color: rgba(190,218,255,0.7); letter-spacing: 0.5px; }
+    .hero-scroll { position: absolute; bottom: 130px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0.5; animation: bounce 2s ease-in-out infinite; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+    .scroll-arrow { font-size: 20px; }
+    .plane-deco { position: absolute; right: 13%; top: 38%; font-size: 58px; transform: rotate(-14deg); opacity: 0.85; filter: drop-shadow(0 6px 8px rgba(4,12,38,0.4)); animation: planeFloat 4.5s ease-in-out infinite; z-index: 3; }
+    @keyframes planeFloat { 0%,100%{transform:rotate(-14deg) translateY(0)} 50%{transform:rotate(-11deg) translateY(-12px)} }
+
+    /* ─── SEARCH BAR ─── */
+    .search-section {
+      position: relative; z-index: 20; margin-top: -50px; padding: 0 52px 0;
+    }
+    .search-card {
+      background: #fff; border-radius: 22px; padding: 8px;
+      box-shadow: 0 20px 50px rgba(8,24,64,0.22), 0 0 0 1px rgba(200,220,255,0.15);
+      display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr 160px;
+      align-items: stretch; overflow: hidden;
+    }
+    .s-chip {
+      display: flex; flex-direction: column; justify-content: center; padding: 12px 16px;
+      border-right: 1px solid #edf2fb; cursor: pointer; transition: 0.2s ease; border-radius: 14px;
+      position: relative;
+    }
+    .s-chip:last-of-type { border-right: none; }
+    .s-chip:hover { background: #f5f8ff; }
+    .s-chip label { font-size: 10px; font-weight: 700; color: #2f86de; text-transform: uppercase; letter-spacing: 0.8px; pointer-events: none; }
+    .s-chip input, .s-chip select {
+      border: none; outline: none; font-size: 14px; font-weight: 600; color: #1a2a40;
+      background: transparent; padding: 4px 0 0; cursor: pointer; width: 100%;
+    }
+    .s-chip input::placeholder { color: #8fa3bf; font-weight: 400; }
+    .s-chip .chip-val { font-size: 14px; font-weight: 600; color: #1a2a40; padding-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .s-chip .chip-sub { font-size: 11px; color: #8fa3bf; }
+    .search-go {
+      margin: 6px; background: linear-gradient(110deg, #3a9eff, #1e76d8); border-radius: 14px;
+      color: #fff; font-size: 15px; font-weight: 700; display: flex; align-items: center;
+      justify-content: center; gap: 8px; box-shadow: 0 8px 20px rgba(58,158,255,0.35);
+      transition: 0.2s ease;
+    }
+    .search-go:hover { transform: scale(1.02); box-shadow: 0 12px 28px rgba(58,158,255,0.45); }
+
+    /* Dropdown panels */
+    .chip-dropdown {
+      position: absolute; top: calc(100% + 10px); left: 0; min-width: 280px; background: #fff;
+      border-radius: 16px; box-shadow: 0 16px 40px rgba(10,28,72,0.18); padding: 16px;
+      z-index: 100; opacity: 0; visibility: hidden; transform: translateY(-8px);
+      transition: 0.2s ease; border: 1px solid #e8eef8;
+    }
+    .chip-dropdown.open { opacity: 1; visibility: visible; transform: translateY(0); }
+    .dropdown-title { font-size: 11px; font-weight: 700; color: #8fa3bf; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+    .dropdown-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .dropdown-option {
+      border: 1px solid #dde7f5; border-radius: 8px; padding: 7px 12px; font-size: 13px;
+      color: #2a3a52; font-weight: 500; cursor: pointer; transition: 0.15s ease; background: #fff;
+    }
+    .dropdown-option:hover, .dropdown-option.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .guest-counter { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+    .guest-type { flex: 1; font-size: 13px; font-weight: 500; color: #2a3a52; }
+    .guest-type small { display: block; color: #8fa3bf; font-size: 11px; font-weight: 400; }
+    .counter-btns { display: flex; align-items: center; gap: 10px; }
+    .cnt-btn { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid #ccd8ec; font-size: 16px; font-weight: 600; color: #2a3a52; display: grid; place-items: center; cursor: pointer; background: #fff; transition: 0.15s ease; }
+    .cnt-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .cnt-val { font-size: 15px; font-weight: 700; color: #1a2a40; min-width: 20px; text-align: center; }
+
+    /* ─── LIGHT SECTIONS WRAPPER ─── */
+    .light-wrap { background: var(--section-bg); color: #1a2a40; padding: 0 52px 60px; }
+    body.inner-page .light-wrap { padding-top: 26px; }
+
+    /* ─── ABOUT SECTION ─── */
+    .about-section { padding-top: 72px; }
+    .section-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    .section-title { font-size: clamp(34px,3.8vw,56px); font-weight: 800; line-height: 1.08; color: #1a2a40; margin-bottom: 16px; }
+    .section-title span { color: var(--accent); }
+    .section-desc { font-size: 17px; color: #556a82; line-height: 1.65; max-width: 600px; }
+    .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 36px; }
+    .stat-box { background: #fff; border: 1px solid #e4edf8; border-radius: 18px; padding: 20px 16px; text-align: center; box-shadow: 0 6px 16px rgba(20,50,100,0.06); transition: 0.2s ease; }
+    .stat-box:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(20,50,100,0.1); }
+    .stat-big { font-size: 36px; font-weight: 800; color: var(--accent); line-height: 1; }
+    .stat-lbl { font-size: 13px; color: #556a82; font-weight: 500; margin-top: 6px; }
+    .collage { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .col-img { border-radius: 20px; overflow: hidden; min-height: 160px; box-shadow: 0 12px 24px rgba(20,50,100,0.12); }
+    .col-img-tall { min-height: 240px; }
+    .col-a { background: linear-gradient(140deg, #7ed0ff 0%, #2f7fbe 50%, #183f74 100%); }
+    .col-b { background: linear-gradient(140deg, #ffd97a 0%, #f4a033 50%, #a85c1a 100%); }
+    .col-c { background: linear-gradient(140deg, #79e5c0 0%, #28a08a 50%, #0e5c50 100%); }
+    .col-d { background: linear-gradient(140deg, #b0c8f4 0%, #5d7ebe 50%, #2c4280 100%); }
+
+    /* ─── VISION, WHY US & SERVICES ─── */
+    .vm-section { padding-top: 72px; }
+    .vm-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 18px; }
+    .vm-card {
+      background: #fff;
+      border: 1.5px solid #dee8f5;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 10px 24px rgba(20,50,100,0.08);
+      transition: 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .vm-card::before {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 3px;
+      background: linear-gradient(90deg, #3a9eff, #66c6ff);
+      opacity: 0.9;
+    }
+    .vm-card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(20,50,100,0.13); }
+    .vm-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .vm-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      color: #fff;
+      background: linear-gradient(130deg, #3a9eff, #1e76d8);
+      box-shadow: 0 8px 18px rgba(58,158,255,0.3);
+      flex-shrink: 0;
+    }
+    .vm-card h3 { font-size: 22px; color: #1a2a40; font-weight: 800; }
+    .vm-card p { font-size: 14.5px; color: #5a6f87; line-height: 1.7; }
+    .vm-list { list-style: none; display: grid; gap: 10px; margin-top: 8px; }
+    .vm-list li {
+      font-size: 14px;
+      color: #4f637a;
+      line-height: 1.55;
+      background: #f7fbff;
+      border: 1px solid #e2edf9;
+      border-radius: 12px;
+      padding: 10px 12px 10px 38px;
+      position: relative;
+    }
+    .vm-list li::before {
+      content: ">";
+      position: absolute;
+      left: 12px;
+      top: 10px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(58,158,255,0.16);
+      color: #1e76d8;
+      font-size: 12px;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+    }
+
+    .why-choose-section { padding-top: 72px; }
+    .wc-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 18px;
+      max-width: 980px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 6px 0;
+    }
+    .wc-grid::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 6px;
+      bottom: 6px;
+      width: 3px;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, #8cc4ff 0%, #4fa2ef 45%, #8cc4ff 100%);
+      border-radius: 99px;
+      opacity: 0.85;
+    }
+    .wc-card {
+      background: #ffffff;
+      border: 1.5px solid #e2ebf8;
+      border-radius: 20px;
+      padding: 20px 18px;
+      box-shadow: 0 8px 18px rgba(20,50,100,0.07);
+      transition: 0.24s ease;
+      min-height: 188px;
+      display: flex;
+      flex-direction: column;
+      width: calc(50% - 30px);
+      position: relative;
+    }
+    .wc-card:nth-child(odd) { justify-self: start; }
+    .wc-card:nth-child(even) { justify-self: end; }
+    .wc-card::before {
+      content: "";
+      position: absolute;
+      top: 26px;
+      width: 22px;
+      height: 2px;
+      background: #91c8ff;
+    }
+    .wc-card:nth-child(odd)::before { right: -22px; }
+    .wc-card:nth-child(even)::before { left: -22px; }
+    .wc-card::after {
+      content: "";
+      position: absolute;
+      top: 20px;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 3px solid #4fa2ef;
+      box-shadow: 0 0 0 4px rgba(79,162,239,0.13);
+    }
+    .wc-card:nth-child(odd)::after { right: -36px; }
+    .wc-card:nth-child(even)::after { left: -36px; }
+    .wc-card:hover { transform: translateY(-4px); border-color: #c8dbf2; box-shadow: 0 14px 28px rgba(20,50,100,0.12); }
+    .wc-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      margin-bottom: 12px;
+      background: linear-gradient(130deg, #f3f9ff, #e5f1ff);
+      border: 1px solid #d6e6f8;
+    }
+    .wc-card h4 { font-size: 17px; line-height: 1.3; color: #1a2a40; margin-bottom: 8px; font-weight: 700; }
+    .wc-card p { font-size: 13.5px; color: #5c7087; line-height: 1.6; }
+
+    .services-section { padding-top: 72px; }
+    .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+    .svc-card {
+      background: #1a2a40;
+      border: 1.5px solid #cfe0f5;
+      border-radius: 20px;
+      padding: 20px 18px;
+      box-shadow: 0 8px 20px rgba(20,50,100,0.08);
+      transition: 0.24s ease;
+      min-height: 210px;
+      position: relative;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+    }
+    .svc-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(8,22,48,0.82), rgba(8,22,48,0.32) 55%);
+      pointer-events: none;
+    }
+    .svc-card:hover { transform: translateY(-4px); border-color: #c6dcf5; box-shadow: 0 15px 30px rgba(20,50,100,0.14); }
+    .svc-ico {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: #fff;
+      background: linear-gradient(130deg, #3a9eff, #1e76d8);
+      box-shadow: 0 8px 18px rgba(58,158,255,0.3);
+      position: relative;
+      z-index: 1;
+    }
+    .svc-card h4 { font-size: 17px; line-height: 1.35; color: #ffffff; margin-bottom: 8px; font-weight: 700; position: relative; z-index: 1; }
+    .svc-card p { font-size: 13.5px; color: rgba(228,241,255,0.92); line-height: 1.6; position: relative; z-index: 1; }
+    .svc-airport { background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&q=80'); }
+    .svc-corporate { background-image: url('https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?w=1400&q=80'); }
+    .svc-mice { background-image: url('https://images.unsplash.com/photo-1511578314322-379afb476865?w=1400&q=80'); }
+    .svc-hotel { background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1400&q=80'); }
+    .svc-tour { background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1400&q=80'); }
+    .svc-langkawi { background-image: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1400&q=80'); }
+    .svc-ticketing { background-image: url('https://images.unsplash.com/photo-1489515217757-5fd1be406fef?w=1400&q=80'); }
+    .svc-media { background-image: url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1400&q=80'); }
+    .svc-event { background-image: url('https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1400&q=80'); }
+
+    /* ─── PACKAGES ─── */
+    .packages-section { padding-top: 72px; }
+    .packages-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 28px; }
+    .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .ftab { border: 1.5px solid #d8e4f2; background: #fff; color: #2a3a52; border-radius: 99px; padding: 9px 20px; font-size: 13.5px; font-weight: 500; transition: 0.2s ease; }
+    .ftab.active, .ftab:hover { background: #1a2a40; border-color: #1a2a40; color: #fff; }
+    .pkg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .pkg-card {
+      background: #fff; border: 1.5px solid #e4edf8; border-radius: 22px; overflow: hidden;
+      box-shadow: 0 8px 20px rgba(20,50,100,0.07); transition: 0.28s ease; cursor: pointer;
+    }
+    .pkg-card:hover { transform: translateY(-6px); box-shadow: 0 16px 32px rgba(20,50,100,0.13); border-color: #c8daf2; }
+    .pkg-img {
+      height: 185px; position: relative; overflow: hidden;
+    }
+    .pkg-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,22,48,0.58), transparent 55%); }
+    .pi-skybridge { background: linear-gradient(135deg, #5abf55, #9fd850 48%, #2a6e1f); }
+    .pi-mangrove { background: linear-gradient(135deg, #3158a8, #318fd3 50%, #213666); }
+    .pi-beach { background: linear-gradient(135deg, #68a65e, #78b26d 46%, #5c6852); }
+    .pi-cable { background: linear-gradient(135deg, #6e6b5c, #a88f70 46%, #5c4f3b); }
+    .pi-islandhop { background: linear-gradient(135deg, #72a5e5, #6ec4f0 46%, #6976cc); }
+    .pi-sunset { background: linear-gradient(135deg, #a2b8d2, #f4be6a 52%, #6e8da6); }
+    .pkg-badges { position: absolute; bottom: 10px; left: 10px; z-index: 2; display: flex; gap: 6px; flex-wrap: wrap; }
+    .pkg-badge { background: rgba(12,30,58,0.6); color: #f0f8ff; border: 1px solid rgba(255,255,255,0.2); border-radius: 99px; padding: 5px 10px; font-size: 12px; backdrop-filter: blur(4px); }
+    .pkg-fav { position: absolute; top: 10px; right: 10px; z-index: 2; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.9); display: grid; place-items: center; font-size: 16px; cursor: pointer; transition: 0.2s ease; border: none; }
+    .pkg-fav:hover { transform: scale(1.15); }
+    .pkg-fav.liked { color: #1e76d8; }
+    .pkg-body { padding: 16px; }
+    .pkg-title { font-size: 19px; font-weight: 700; color: #1a2a40; margin-bottom: 6px; }
+    .pkg-desc { font-size: 13.5px; color: #6a7a8e; line-height: 1.5; margin-bottom: 14px; }
+    .pkg-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .pkg-price strong { font-size: 24px; font-weight: 800; color: #1a2a40; }
+    .pkg-price span { font-size: 12px; color: #8fa3bf; }
+    .pkg-rating { font-size: 12px; color: #556a82; display: flex; align-items: center; gap: 4px; }
+    .pkg-rating .stars-gold { color: #f4b837; letter-spacing: 1px; }
+    .btn-book-sm {
+      background: linear-gradient(110deg, #3a9eff, #1e76d8); color: #fff; border-radius: 10px;
+      padding: 9px 18px; font-size: 13px; font-weight: 600; transition: 0.2s ease;
+      box-shadow: 0 4px 12px rgba(58,158,255,0.3);
+    }
+    .btn-book-sm:hover { transform: scale(1.04); box-shadow: 0 6px 16px rgba(58,158,255,0.4); }
+
+    /* ─── GALLERY CAROUSEL ─── */
+    .gallery-section { padding-top: 72px; position: relative; }
+    .gallery-wrap {
+      position: relative;
+      border-radius: 26px;
+      padding: 24px 24px 18px;
+      background: linear-gradient(150deg, #f4f9ff 0%, #eaf3ff 100%);
+      border: 1.5px solid #d8e6f7;
+      overflow: hidden;
+      box-shadow: 0 14px 28px rgba(20,50,100,0.08);
+    }
+    .gallery-wrap::before,
+    .gallery-wrap::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .gallery-wrap::before {
+      width: 210px;
+      height: 210px;
+      right: -60px;
+      top: -72px;
+      background: radial-gradient(circle, rgba(58,158,255,0.22), rgba(58,158,255,0));
+    }
+    .gallery-wrap::after {
+      width: 170px;
+      height: 170px;
+      left: -40px;
+      bottom: -60px;
+      background: radial-gradient(circle, rgba(255,190,58,0.2), rgba(255,190,58,0));
+    }
+    .gallery-stage {
+      position: relative;
+      height: 430px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      overflow: hidden;
+      perspective: 1000px;
+    }
+    .gallery-card {
+      position: absolute;
+      width: min(300px, 44vw);
+      height: 400px;
+      border-radius: 20px;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.55s ease, opacity 0.55s ease, filter 0.55s ease;
+      box-shadow: 0 20px 30px rgba(10,26,56,0.18);
+    }
+    .gallery-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(8,22,48,0.68), rgba(8,22,48,0.12) 55%);
+    }
+    .gallery-card.gc-1 { background-image: url('https://images.unsplash.com/photo-1504274066651-8d31a536b11a?w=1600&q=80'); }
+    .gallery-card.gc-2 { background-image: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1600&q=80'); }
+    .gallery-card.gc-3 { background-image: url('https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?w=1600&q=80'); }
+    .gallery-card.gc-4 { background-image: url('https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=1600&q=80'); }
+    .gallery-meta {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 14px;
+      z-index: 2;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 10px;
+    }
+    .gallery-caption {
+      max-width: 74%;
+    }
+    .gallery-caption strong { display: block; font-size: 32px; line-height: 1; font-weight: 800; margin-bottom: 6px; text-shadow: 0 6px 15px rgba(0,0,0,0.35); }
+    .gallery-caption span { font-size: 13px; color: rgba(222,237,255,0.9); line-height: 1.4; }
+    .gallery-view {
+      border: 1px solid rgba(255,255,255,0.65);
+      border-radius: 999px;
+      background: rgba(8,24,52,0.42);
+      color: #fff;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      backdrop-filter: blur(4px);
+    }
+    .gallery-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.6);
+      background: rgba(7,20,52,0.45);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      backdrop-filter: blur(6px);
+      z-index: 3;
+      transition: 0.2s ease;
+    }
+    .gallery-nav:hover { background: rgba(7,20,52,0.7); transform: translateY(-50%) scale(1.06); }
+    .gallery-prev { left: 14px; }
+    .gallery-next { right: 14px; }
+    .gallery-dots { display: flex; justify-content: center; gap: 8px; margin-top: 14px; }
+    .gallery-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #afc3de;
+      transition: 0.2s ease;
+    }
+    .gallery-dot.active { width: 24px; border-radius: 99px; background: var(--accent); }
+
+    /* ─── REVIEWS ─── */
+    .reviews-section { padding-top: 72px; }
+    .review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
+    .rv-card { background: #fff; border: 1px solid #e4edf8; border-radius: 20px; overflow: hidden; box-shadow: 0 6px 16px rgba(20,50,100,0.07); }
+    .rv-photo { min-height: 200px; }
+    .rv-photo.rp1 { background: linear-gradient(135deg, #f0bf99, #d68b60 42%, #8f6046); }
+    .rv-photo.rp2 { background: linear-gradient(135deg, #9ed4d3, #5ba6b3 46%, #3f6f8a); }
+    .rv-photo.rp3 { background: linear-gradient(135deg, #d8c39e, #a6b7b2 46%, #5c7e8d); }
+    .rv-body { padding: 18px 16px; text-align: center; }
+    .rv-avatar { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; font-size: 26px; margin: 0 auto 10px; }
+    .av-a { background: #ede8ff; } .av-b { background: #ffeecf; } .av-c { background: #d8f2d4; }
+    .rv-name { font-size: 15px; font-weight: 700; color: #1a2a40; margin-bottom: 4px; }
+    .rv-stars { color: #3a9eff; font-size: 13px; margin-bottom: 8px; font-weight: 600; }
+    .rv-text { font-size: 13.5px; color: #556a82; line-height: 1.55; }
+
+    /* ─── CAR RENTAL ─── */
+    .cars-section { padding-top: 72px; }
+    .cars-filter-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px; border-bottom: 1px solid #e3eaf4; padding-bottom: 10px; }
+    .car-tabs { display: flex; gap: 28px; }
+    .car-tab { border: 0; background: transparent; color: #7a8da5; border-radius: 0; padding: 4px 0 10px; font-size: 14px; font-weight: 500; transition: 0.2s ease; border-bottom: 2px solid transparent; }
+    .car-tab.active { color: #1a2a40; border-bottom-color: #f3a531; }
+    .car-tab:hover:not(.active) { color: #2f4665; }
+    .sort-row { display: flex; gap: 8px; }
+    .sort-dd {
+      border: 1.5px solid #d8e4f2; background: #fff; border-radius: 10px; padding: 9px 16px;
+      font-size: 13px; color: #556a82; cursor: pointer; min-width: 148px; text-align: center;
+      transition: 0.2s ease;
+    }
+    .sort-dd:hover { border-color: var(--accent); color: var(--accent); }
+    .car-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px 18px; margin-top: 12px; }
+    .car-card {
+      background: #f3f5f9;
+      border: 1px solid #e3e8f1;
+      border-radius: 8px;
+      padding: 78px 14px 14px;
+      box-shadow: 0 6px 14px rgba(20,50,100,0.06);
+      transition: 0.28s ease;
+      position: relative;
+      overflow: visible;
+    }
+    .car-card:hover { transform: translateY(-6px); box-shadow: 0 14px 28px rgba(20,50,100,0.12); }
+    .car-card[data-hidden="true"] { display: none; }
+    .car-top {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin: 0;
+      position: absolute;
+      right: 14px;
+      top: 84px;
+      z-index: 5;
+    }
+    .car-badge { font-size: 11px; font-weight: 700; border-radius: 2px; padding: 6px 10px; color: #fff; }
+    .cb-new { background: #ff4d45; }
+    .cb-pop { background: #1f2d50; }
+    .car-fav { display: none; }
+    .car-img {
+      height: 130px;
+      width: calc(100% - 12px);
+      border-radius: 6px;
+      margin: 0;
+      background-color: transparent;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      position: absolute;
+      left: 6px;
+      top: -34px;
+      z-index: 4;
+      filter: drop-shadow(0 14px 12px rgba(10,26,56,0.18));
+    }
+    .ci-bezza { background-image: url('/Users/fatinshamirah/.cursor/projects/Users-fatinshamirah-website-sml/assets/image-removebg-preview-6-6b6c5680-96aa-4c81-a323-597c2396cc2d.png'); }
+    .ci-scooter { background-image: url('https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=900&q=80'); }
+    .ci-brv { background-image: url('https://images.unsplash.com/photo-1493238792000-8113da705763?w=900&q=80'); }
+    .ci-vios { background-image: url('https://images.unsplash.com/photo-1550355291-bbee04a92027?w=900&q=80'); }
+    .ci-serena { background-image: url('/Users/fatinshamirah/.cursor/projects/Users-fatinshamirah-website-sml/assets/image-removebg-preview-7bc23404-9f28-48cc-89fd-97705629db7f.png'); }
+    .ci-hiace { background-image: url('https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=900&q=80'); }
+    .car-stars-row { color: #f3a531; font-size: 12px; margin-bottom: 6px; margin-top: 8px; }
+    .car-name { font-size: 23px; font-weight: 800; color: #0f2140; margin-bottom: 8px; min-height: auto; line-height: 1.05; text-transform: uppercase; }
+    .car-specs-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; margin-bottom: 12px; }
+    .car-spec { font-size: 11px; color: #6b798c; text-align: left; background: #f7f9fd; border-radius: 6px; padding: 6px 8px; }
+    .car-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
+    .car-price { font-size: 46px; font-weight: 800; color: #0f2140; line-height: 1; }
+    .car-price small { font-size: 18px; color: #8fa3bf; font-weight: 500; margin-left: 4px; }
+    .btn-rent { background: transparent; color: #f3a531; border-radius: 0; padding: 0; font-size: 26px; font-weight: 700; transition: 0.2s ease; }
+    .btn-rent:hover { color: #de8b08; }
+
+    /* ─── WHY SECTION ─── */
+    .why-section {
+      margin-top: 72px; background: linear-gradient(120deg, #0c1e4a 0%, #091840 100%);
+      border-radius: 28px; padding: 50px 44px; color: #ecf1fb; position: relative; overflow: hidden;
+      box-shadow: 0 20px 40px rgba(6,14,40,0.22); border: 1px solid rgba(255,255,255,0.06);
+    }
+    .why-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 18% 14%, rgba(96,200,255,0.1), transparent 34%), radial-gradient(circle at 80% 78%, rgba(58,158,255,0.12), transparent 30%); pointer-events: none; }
+    .why-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .why-visual { display: flex; flex-direction: column; gap: 12px; }
+    .why-vid-pill { background: #fff; color: #1a2a40; border-radius: 12px; padding: 12px 18px; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; width: fit-content; transition: 0.2s ease; }
+    .why-vid-pill:hover { transform: scale(1.03); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+    .why-vid-icon { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-size: 12px; }
+    .why-imgs { display: grid; grid-template-columns: 1fr 0.65fr; gap: 12px; align-items: start; }
+    .why-img { border-radius: 18px; border: 3px solid rgba(220,240,255,0.8); min-height: 200px; box-shadow: 0 12px 24px rgba(0,0,0,0.28); }
+    .wi-a { background: linear-gradient(135deg, #76c9f8, #3f9fdb 56%, #27679a); }
+    .wi-b { background: linear-gradient(135deg, #9adfff, #5bb8ef 56%, #2f7ebd); min-height: 140px !important; margin-top: 24px; }
+    .partner-pill { background: #fff; color: #1a2a40; border-radius: 12px; padding: 10px 14px; width: fit-content; font-size: 13px; font-weight: 700; }
+    .partner-pill span { color: var(--accent); }
+    .why-title { font-size: clamp(30px,3.8vw,56px); font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.05; color: #fff; margin-bottom: 14px; }
+    .why-desc { font-size: 16px; color: #c6d0dd; line-height: 1.65; margin-bottom: 26px; max-width: 520px; }
+    .why-list { display: grid; gap: 16px; }
+    .why-item { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start; }
+    .why-icon { width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(58,158,255,0.4); background: rgba(58,158,255,0.1); color: var(--accent); display: grid; place-items: center; font-size: 20px; }
+    .why-item h4 { font-size: 16px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .why-item p { font-size: 14px; color: #c4cfdb; line-height: 1.55; }
+
+    /* ─── CONTACT + FOOTER ─── */
+    .contact-section {
+      padding: 72px 52px 60px;
+      background: linear-gradient(145deg, #f6faff 0%, #edf4ff 100%);
+      color: #1a2a40;
+    }
+    .contact-head { margin-bottom: 22px; }
+    .contact-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 20px; }
+    .contact-card {
+      background: #fff;
+      border: 1.5px solid #dfebfa;
+      border-radius: 22px;
+      box-shadow: 0 10px 24px rgba(20,50,100,0.08);
+      padding: 22px;
+    }
+    .contact-list { display: grid; gap: 12px; margin-top: 8px; }
+    .contact-item {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 12px;
+      align-items: start;
+      background: #f7fbff;
+      border: 1px solid #e4eefb;
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+    .contact-ico {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      background: linear-gradient(130deg, #3a9eff, #1e76d8);
+      color: #fff;
+    }
+    .contact-item strong { display: block; font-size: 14px; color: #1a2a40; margin-bottom: 3px; }
+    .contact-item span { font-size: 13.5px; color: #5c7087; line-height: 1.5; }
+    .contact-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+    .contact-btn {
+      border-radius: 10px; padding: 10px 16px; font-size: 13px; font-weight: 600; transition: 0.2s ease;
+    }
+    .contact-btn.primary { background: linear-gradient(110deg, #3a9eff, #1e76d8); color: #fff; }
+    .contact-btn.secondary { background: #f3f8ff; border: 1.5px solid #d5e5f8; color: #2a3a52; }
+    .contact-btn:hover { transform: translateY(-2px); }
+    .contact-mini-title { font-size: 15px; font-weight: 700; color: #1a2a40; margin-bottom: 10px; }
+    .contact-mini-list { display: grid; gap: 8px; }
+    .contact-mini-list a {
+      display: block; font-size: 13.5px; color: #56708c; background: #f7fbff; border: 1px solid #e4eefb;
+      border-radius: 10px; padding: 10px 12px; transition: 0.15s ease;
+    }
+    .contact-mini-list a:hover { border-color: #c6dcf5; color: #1e76d8; }
+
+    .site-footer {
+      background: #f7f9fc;
+      border-top: 1px solid #e2e9f3;
+      padding: 44px 52px 20px;
+      color: #1a2a40;
+    }
+    .footer-main {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 34px;
+      margin-bottom: 20px;
+    }
+    .footer-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #1a2a40;
+    }
+    .footer-text {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #5f7087;
+    }
+    .footer-col-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #1a2a40;
+    }
+    .footer-link-list { display: grid; gap: 8px; }
+    .footer-link-list a {
+      color: #5f7087;
+      font-size: 14px;
+      transition: 0.18s ease;
+    }
+    .footer-link-list a:hover { color: #1e76d8; }
+    .social-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+    .social-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1.5px solid #d8e4f3;
+      background: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      color: #3b526f;
+      transition: 0.2s ease;
+    }
+    .social-btn svg { width: 18px; height: 18px; fill: currentColor; }
+    .social-btn:hover {
+      transform: translateY(-2px);
+      border-color: #bdd4ef;
+      color: #1e76d8;
+      box-shadow: 0 8px 16px rgba(20,50,100,0.12);
+    }
+    .footer-bottom {
+      border-top: 1px solid #e2e9f3;
+      padding-top: 14px;
+      font-size: 12.5px;
+      color: #7a8ea8;
+      text-align: center;
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(22px) scale(0.985); transition: opacity 0.65s ease, transform 0.65s ease; transition-delay: var(--d, 0ms); will-change: transform, opacity; }
+    .reveal.show { opacity: 1; transform: translateY(0) scale(1); }
+    .page-section { display: none; }
+    .page-section.active { display: block; }
+
+    /* ─── MODAL OVERLAY ─── */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(4,12,34,0.7); backdrop-filter: blur(6px);
+      z-index: 5000; display: grid; place-items: center; padding: 20px;
+      opacity: 0; visibility: hidden; transition: 0.3s ease;
+    }
+    .modal-overlay.open { opacity: 1; visibility: visible; }
+    .modal-box {
+      background: #fff; border-radius: 28px; width: min(580px,100%); max-height: 88vh;
+      overflow-y: auto; color: #1a2a40; box-shadow: 0 28px 60px rgba(4,12,34,0.4);
+      transform: scale(0.92) translateY(16px); transition: 0.3s cubic-bezier(.32,.72,0,1);
+    }
+    .modal-overlay.open .modal-box { transform: scale(1) translateY(0); }
+    .modal-header { padding: 24px 28px 0; display: flex; justify-content: space-between; align-items: flex-start; }
+    .modal-title { font-size: 22px; font-weight: 800; color: #1a2a40; }
+    .modal-sub { font-size: 13.5px; color: #8fa3bf; margin-top: 4px; }
+    .modal-close { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #dde7f5; background: #f5f8ff; font-size: 18px; color: #556a82; display: grid; place-items: center; cursor: pointer; flex-shrink: 0; transition: 0.15s ease; }
+    .modal-close:hover { background: #fee; border-color: #f4a0a0; color: #e33; }
+    .modal-img { height: 180px; margin: 16px 28px 0; border-radius: 16px; }
+    .modal-body { padding: 20px 28px; }
+    .modal-steps { display: flex; gap: 6px; margin-bottom: 24px; }
+    .m-step { flex: 1; height: 4px; border-radius: 99px; background: #e8eef8; transition: 0.3s ease; }
+    .m-step.done { background: var(--accent); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .form-row.full { grid-template-columns: 1fr; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 12px; font-weight: 700; color: #2a3a52; text-transform: uppercase; letter-spacing: 0.6px; }
+    .form-group input, .form-group select, .form-group textarea {
+      border: 1.5px solid #dde7f5; border-radius: 10px; padding: 10px 12px; font-size: 14px;
+      color: #1a2a40; background: #f8fbff; outline: none; transition: 0.15s ease; font-family: inherit;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); background: #fff; }
+    .form-group textarea { resize: none; min-height: 80px; }
+    .qty-row { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .qty-label { flex: 1; font-size: 14px; font-weight: 600; color: #2a3a52; }
+    .qty-btns { display: flex; align-items: center; gap: 10px; }
+    .qty-btn { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid #ccd8ec; font-size: 18px; font-weight: 600; color: #2a3a52; display: grid; place-items: center; cursor: pointer; background: #fff; transition: 0.15s ease; }
+    .qty-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .qty-val { font-size: 18px; font-weight: 700; color: #1a2a40; min-width: 24px; text-align: center; }
+    .price-summary { background: #f2f7ff; border-radius: 14px; padding: 16px; margin-bottom: 20px; }
+    .ps-row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; padding: 4px 0; color: #556a82; }
+    .ps-row.total { font-size: 18px; font-weight: 800; color: #1a2a40; padding-top: 10px; margin-top: 6px; border-top: 1px solid #dde7f5; }
+    .modal-footer { padding: 0 28px 28px; display: flex; gap: 10px; }
+    .btn-modal-back { flex: 1; border: 1.5px solid #dde7f5; color: #556a82; border-radius: 12px; padding: 13px; font-size: 14px; font-weight: 600; transition: 0.15s ease; background: #fff; }
+    .btn-modal-back:hover { border-color: #b0c0d8; }
+    .btn-modal-next { flex: 2; background: linear-gradient(110deg, #3a9eff, #1e76d8); color: #fff; border-radius: 12px; padding: 13px; font-size: 14px; font-weight: 700; box-shadow: 0 6px 18px rgba(58,158,255,0.35); transition: 0.2s ease; }
+    .btn-modal-next:hover { transform: scale(1.02); box-shadow: 0 8px 22px rgba(58,158,255,0.44); }
+    /* Payment card input style */
+    .card-icons { display: flex; gap: 6px; margin-top: 6px; }
+    .card-icon { font-size: 20px; opacity: 0.5; transition: 0.15s ease; }
+    .card-icon.highlight { opacity: 1; }
+    /* Success screen */
+    .success-screen { display: none; flex-direction: column; align-items: center; text-align: center; padding: 28px 28px 36px; }
+    .success-screen.show { display: flex; }
+    .success-icon { font-size: 64px; animation: popIn 0.5s cubic-bezier(.32,.72,0,1) both; }
+    @keyframes popIn { from{transform:scale(0.4);opacity:0} to{transform:scale(1);opacity:1} }
+    .success-screen h2 { font-size: 26px; font-weight: 800; color: #1a2a40; margin-top: 16px; }
+    .success-screen p { font-size: 15px; color: #556a82; margin-top: 8px; max-width: 360px; line-height: 1.6; }
+    .booking-ref { background: #f2f7ff; border-radius: 12px; padding: 12px 24px; margin-top: 18px; font-size: 15px; font-weight: 700; color: var(--accent); letter-spacing: 1px; }
+
+    /* ─── TRIP PLANNER MODAL ─── */
+    .planner-box { background: #fff; border-radius: 28px; width: min(640px,100%); max-height: 88vh; overflow-y: auto; color: #1a2a40; box-shadow: 0 28px 60px rgba(4,12,34,0.4); transform: scale(0.92) translateY(16px); transition: 0.3s cubic-bezier(.32,.72,0,1); }
+    .modal-overlay.open .planner-box { transform: scale(1) translateY(0); }
+    .planner-hero { background: linear-gradient(120deg, #0d1e4a, #1a3a7a); border-radius: 22px 22px 0 0; padding: 28px; color: #fff; }
+    .planner-hero h2 { font-size: 22px; font-weight: 800; }
+    .planner-hero p { font-size: 14px; color: rgba(200,224,255,0.75); margin-top: 6px; }
+    .planner-body { padding: 24px 28px; }
+    .planner-grid { display: grid; gap: 16px; }
+    .day-card { background: #f5f8ff; border: 1px solid #e4edf8; border-radius: 16px; padding: 16px; }
+    .day-card h4 { font-size: 14px; font-weight: 700; color: #1a2a40; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .day-num { background: var(--accent); color: #fff; border-radius: 6px; padding: 2px 8px; font-size: 12px; }
+    .day-slots { display: flex; flex-direction: column; gap: 6px; }
+    .day-slot { background: #fff; border: 1px solid #e4edf8; border-radius: 10px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #2a3a52; }
+    .day-slot-add { border: 1.5px dashed #c8d8ee; border-radius: 10px; padding: 10px; text-align: center; font-size: 13px; color: #8fa3bf; cursor: pointer; transition: 0.2s ease; }
+    .day-slot-add:hover { border-color: var(--accent); color: var(--accent); background: #f0f8ff; }
+    .planner-footer { padding: 0 28px 28px; }
+
+    /* ─── CART DRAWER ─── */
+    .cart-drawer {
+      position: fixed; top: 0; right: 0; width: min(400px,100vw); height: 100vh;
+      background: #fff; z-index: 6000; box-shadow: -8px 0 40px rgba(4,12,34,0.18);
+      transform: translateX(100%); transition: 0.35s cubic-bezier(.32,.72,0,1);
+      display: flex; flex-direction: column; color: #1a2a40;
+    }
+    .cart-drawer.open { transform: translateX(0); }
+    .cart-header { padding: 22px 20px; border-bottom: 1px solid #edf2fb; display: flex; justify-content: space-between; align-items: center; }
+    .cart-header h3 { font-size: 18px; font-weight: 800; }
+    .cart-close { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid #dde7f5; background: #f5f8ff; font-size: 18px; color: #556a82; display: grid; place-items: center; cursor: pointer; }
+    .cart-items { flex: 1; overflow-y: auto; padding: 16px 20px; }
+    .cart-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 200px; color: #8fa3bf; }
+    .cart-empty span { font-size: 40px; margin-bottom: 10px; }
+    .cart-item { background: #f8fbff; border: 1px solid #e8eef8; border-radius: 14px; padding: 14px; margin-bottom: 10px; position: relative; }
+    .cart-item-name { font-size: 14px; font-weight: 700; color: #1a2a40; margin-bottom: 4px; }
+    .cart-item-details { font-size: 12px; color: #8fa3bf; }
+    .cart-item-price { font-size: 16px; font-weight: 800; color: var(--accent); margin-top: 8px; }
+    .cart-item-remove { position: absolute; top: 10px; right: 10px; font-size: 16px; color: #c0cad8; cursor: pointer; transition: 0.15s ease; background: none; border: none; }
+    .cart-item-remove:hover { color: #e33; }
+    .cart-footer { padding: 16px 20px; border-top: 1px solid #edf2fb; }
+    .cart-total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .cart-total-label { font-size: 14px; color: #556a82; }
+    .cart-total-amount { font-size: 22px; font-weight: 800; color: #1a2a40; }
+    .btn-checkout { width: 100%; background: linear-gradient(110deg, #3a9eff, #1e76d8); color: #fff; border-radius: 14px; padding: 15px; font-size: 15px; font-weight: 700; box-shadow: 0 6px 18px rgba(58,158,255,0.35); transition: 0.2s ease; }
+    .btn-checkout:hover { transform: scale(1.02); }
+
+    /* ─── VIDEO MODAL ─── */
+    .video-box { background: #0c1e4a; border-radius: 24px; width: min(640px,100%); overflow: hidden; box-shadow: 0 28px 60px rgba(4,12,34,0.5); transform: scale(0.9); transition: 0.3s cubic-bezier(.32,.72,0,1); }
+    .modal-overlay.open .video-box { transform: scale(1); }
+    .video-placeholder { height: 380px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #0d2a6a 0%, #1a4a9a 50%, #0a1e52 100%); }
+    .video-play-btn { width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,0.15); border: 3px solid rgba(255,255,255,0.5); display: grid; place-items: center; font-size: 28px; margin-bottom: 16px; cursor: pointer; transition: 0.2s ease; }
+    .video-play-btn:hover { background: rgba(255,255,255,0.25); transform: scale(1.08); }
+    .video-placeholder p { font-size: 16px; color: rgba(200,224,255,0.75); }
+    .video-meta { padding: 18px 22px; color: #ecf1fb; }
+    .video-meta h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .video-meta p { font-size: 13px; color: rgba(200,224,255,0.65); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1100px) {
+      .topbar { padding: 12px 28px; }
+      .company-logo { height: 56px; }
+      .sky-wrap, .search-section, .light-wrap { padding-left: 28px; padding-right: 28px; }
+      .pkg-grid, .car-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-stage { height: 360px; }
+      .gallery-card { width: 260px; height: 330px; }
+      .vm-grid { grid-template-columns: 1fr; }
+      .svc-grid { grid-template-columns: repeat(2, 1fr); }
+      .search-card { grid-template-columns: 1fr 1fr 1fr 120px; }
+      .s-chip:nth-child(4), .s-chip:nth-child(5) { display: none; }
+      .review-grid { grid-template-columns: 1fr 1fr; }
+      .contact-section { padding: 52px 28px 44px; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .site-footer { padding: 32px 28px 16px; }
+      .footer-main { grid-template-columns: 1fr 1fr; gap: 24px; }
+      body.inner-page .light-wrap { padding-top: 20px; }
+    }
+    @media (max-width: 768px) {
+      .topbar { padding: 10px 18px; }
+      .company-logo { height: 46px; }
+      .sky-wrap, .search-section, .light-wrap { padding-left: 18px; padding-right: 18px; }
+      .hero-title { font-size: clamp(62px,18vw,120px); }
+      .pkg-grid, .car-grid, .review-grid, .svc-grid { grid-template-columns: 1fr; }
+      .wc-grid::before { left: 16px; transform: none; }
+      .wc-card {
+        width: calc(100% - 30px);
+        justify-self: end !important;
+      }
+      .wc-card::before { left: -22px !important; right: auto !important; }
+      .wc-card::after { left: -36px !important; right: auto !important; }
+      .gallery-wrap { padding: 14px 10px; }
+      .gallery-stage { height: 300px; }
+      .gallery-card { width: 210px; height: 270px; }
+      .gallery-caption { max-width: 80%; }
+      .gallery-caption strong { font-size: 24px; }
+      .gallery-caption span { font-size: 12px; }
+      .gallery-nav { width: 36px; height: 36px; }
+      .search-card { grid-template-columns: 1fr 1fr 100px; }
+      .s-chip:nth-child(3), .s-chip:nth-child(4), .s-chip:nth-child(5) { display: none; }
+      .about-grid, .why-grid { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: repeat(2,1fr); }
+      .contact-section { padding: 44px 18px 36px; }
+      .contact-actions { flex-direction: column; }
+      .site-footer { padding: 28px 18px 14px; }
+      .footer-main { grid-template-columns: 1fr; gap: 20px; }
+      body.inner-page .light-wrap { padding-top: 16px; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero-stats { gap: 24px; }
+      .hero-actions { flex-direction: column; align-items: center; }
+      .nav-pill { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body class="loading">
+
+<!-- PAGE LOADER -->
+<div class="page-loader" id="pageLoader">
+  <div class="loader-inner">
+    <div class="loader-island"></div>
+    <p class="loader-title">Langkawi Escape</p>
+    <p class="loader-sub">Loading beaches, tours & island adventures…</p>
+    <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
+    <p class="loader-pct" id="loaderPct">0%</p>
+  </div>
+</div>
+
+<!-- TOASTS -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- CART DRAWER -->
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3>Your Bookings</h3>
+    <button class="cart-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty"><span>—</span><p>No bookings yet</p></div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total-row">
+      <span class="cart-total-label">Total</span>
+      <span class="cart-total-amount" id="cartTotal">RM 0</span>
+    </div>
+    <button class="btn-checkout" onclick="checkout()">Proceed to Checkout →</button>
+  </div>
+</div>
+
+<!-- GLOBAL NAV -->
+<header class="topbar">
+  <div class="logo">
+    <img class="company-logo" src="/Users/fatinshamirah/.cursor/projects/Users-fatinshamirah-website-sml/assets/image-removebg-preview-5-fbb8a78b-2d0b-40c0-b212-57c6fc98386a.png" alt="SM Leisure Travel & Tours logo" />
+  </div>
+  <nav class="nav-pill" id="mainNav">
+    <a href="#" class="active" data-section="hero">Home</a>
+    <a href="#about" data-section="about">About</a>
+    <a href="#services" data-section="services">Services</a>
+    <a href="#packages" data-section="packages">Packages</a>
+    <a href="#transport" data-section="transport">Transport</a>
+    <a href="#contact" data-section="contact">Contact</a>
+  </nav>
+  <div class="nav-right"></div>
+</header>
+
+<!-- ─── SKY HERO ─── -->
+<div class="sky-wrap page-section active" data-page="home">
+  <!-- SLIDESHOW -->
+  <div class="hero-slideshow" id="heroSlideshow">
+    <div class="hero-slide hs1 active"></div>
+    <div class="hero-slide hs2"></div>
+    <div class="hero-slide hs3"></div>
+    <div class="hero-slide hs4"></div>
+    <div class="hero-slide hs5"></div>
+  </div>
+  <div class="moon"></div>
+  <div class="aurora"></div>
+  <div class="shoot"></div>
+  <span class="twinkle tw1"></span><span class="twinkle tw2"></span><span class="twinkle tw3"></span>
+  <span class="twinkle tw4"></span><span class="twinkle tw5"></span><span class="twinkle tw6"></span>
+  <div class="palms"></div>
+  <div class="palms palms-r"></div>
+  <div class="island-silhouette"></div>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <p class="hero-eyebrow">Discover Malaysia's Island Gem</p>
+    <h1 class="hero-title">LANGKAWI<em>Island Escape</em></h1>
+    <p class="hero-subtitle">Discover beaches, cable car views, mangrove adventures, and unforgettable island experiences in Langkawi.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="scrollTo('services')">Our Services</button>
+      <button class="btn-outline" onclick="openVideo()">Watch Company Profile</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>5k+</strong><span>Clients Served</span></div>
+      <div class="hero-stat"><strong>120+</strong><span>Local Experiences</span></div>
+      <div class="hero-stat"><strong>4.9/5</strong><span>Average Rating</span></div>
+      <div class="hero-stat"><strong>24/7</strong><span>Support Team</span></div>
+    </div>
+    <div class="hero-scroll"><span class="scroll-arrow">↓</span>Scroll to explore</div>
+    <div class="plane-deco"></div>
+  </section>
+  <div class="slideshow-dots" id="slideshowDots">
+    <button class="ss-dot active" onclick="goSlide(0)"></button>
+    <button class="ss-dot" onclick="goSlide(1)"></button>
+    <button class="ss-dot" onclick="goSlide(2)"></button>
+    <button class="ss-dot" onclick="goSlide(3)"></button>
+    <button class="ss-dot" onclick="goSlide(4)"></button>
+  </div>
+</div>
+
+<!-- SEARCH BAR -->
+<div class="search-section page-section active" data-page="home">
+  <div class="search-card">
+    <div class="s-chip" id="chipDest" onclick="toggleDrop('dropDest')">
+      <label>Destination</label>
+      <span class="chip-val" id="valDest">Langkawi Island</span>
+      <div class="chip-dropdown" id="dropDest">
+        <p class="dropdown-title">Popular Destinations</p>
+        <div class="dropdown-options">
+          <button class="dropdown-option selected" onclick="setChip('valDest','Langkawi Island',this)">Langkawi Island</button>
+          <button class="dropdown-option" onclick="setChip('valDest','Pantai Cenang',this)">Pantai Cenang</button>
+          <button class="dropdown-option" onclick="setChip('valDest','Kilim Geopark',this)">Kilim Geopark</button>
+          <button class="dropdown-option" onclick="setChip('valDest','Datai Bay',this)">Datai Bay</button>
+          <button class="dropdown-option" onclick="setChip('valDest','Kuah Town',this)">Kuah Town</button>
+        </div>
+      </div>
+    </div>
+    <div class="s-chip" id="chipCheckin" onclick="toggleDrop('dropCheckin')">
+      <label>Check-in</label>
+      <span class="chip-val" id="valCheckin">12 Jun 2026</span>
+      <div class="chip-dropdown" id="dropCheckin">
+        <p class="dropdown-title">Select Check-in Date</p>
+        <input type="date" style="width:100%;padding:8px;border:1.5px solid #dde7f5;border-radius:10px;font-size:14px;color:#1a2a40;" id="dateCheckin" onchange="setDateChip('valCheckin',this)" min="2026-01-01" value="2026-06-12">
+      </div>
+    </div>
+    <div class="s-chip" id="chipCheckout" onclick="toggleDrop('dropCheckout')">
+      <label>Check-out</label>
+      <span class="chip-val" id="valCheckout">15 Jun 2026</span>
+      <div class="chip-dropdown" id="dropCheckout">
+        <p class="dropdown-title">Select Check-out Date</p>
+        <input type="date" style="width:100%;padding:8px;border:1.5px solid #dde7f5;border-radius:10px;font-size:14px;color:#1a2a40;" id="dateCheckout" onchange="setDateChip('valCheckout',this)" min="2026-01-02" value="2026-06-15">
+      </div>
+    </div>
+    <div class="s-chip" id="chipGuests" onclick="toggleDrop('dropGuests')">
+      <label>Travellers</label>
+      <span class="chip-val" id="valGuests">2 Adults</span>
+      <div class="chip-dropdown" id="dropGuests" style="min-width:260px;">
+        <p class="dropdown-title">Select Travellers</p>
+        <div class="guest-counter" style="margin-bottom:10px;">
+          <div class="guest-type">Adults <small>Age 13+</small></div>
+          <div class="counter-btns">
+            <button class="cnt-btn" onclick="changeGuest('adults',-1,event)">-</button>
+            <span class="cnt-val" id="gAdults">2</span>
+            <button class="cnt-btn" onclick="changeGuest('adults',1,event)">+</button>
+          </div>
+        </div>
+        <div class="guest-counter" style="margin-bottom:10px;">
+          <div class="guest-type">Children <small>Age 2–12</small></div>
+          <div class="counter-btns">
+            <button class="cnt-btn" onclick="changeGuest('children',-1,event)">-</button>
+            <span class="cnt-val" id="gChildren">0</span>
+            <button class="cnt-btn" onclick="changeGuest('children',1,event)">+</button>
+          </div>
+        </div>
+        <div class="guest-counter">
+          <div class="guest-type">Infants <small>Under 2</small></div>
+          <div class="counter-btns">
+            <button class="cnt-btn" onclick="changeGuest('infants',-1,event)">-</button>
+            <span class="cnt-val" id="gInfants">0</span>
+            <button class="cnt-btn" onclick="changeGuest('infants',1,event)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="s-chip" id="chipBudget" onclick="toggleDrop('dropBudget')">
+      <label>Budget</label>
+      <span class="chip-val" id="valBudget">Any Budget</span>
+      <div class="chip-dropdown" id="dropBudget">
+        <p class="dropdown-title">Max Budget per Person</p>
+        <div class="dropdown-options">
+          <button class="dropdown-option" onclick="setChip('valBudget','Under RM 200',this)">Under RM 200</button>
+          <button class="dropdown-option" onclick="setChip('valBudget','RM 200–500',this)">RM 200–500</button>
+          <button class="dropdown-option" onclick="setChip('valBudget','RM 500–1000',this)">RM 500–1000</button>
+          <button class="dropdown-option selected" onclick="setChip('valBudget','Any Budget',this)">Any Budget</button>
+        </div>
+      </div>
+    </div>
+    <button class="search-go" onclick="doSearch()">Search</button>
+  </div>
+</div>
+
+<!-- LIGHT CONTENT -->
+<div class="light-wrap">
+
+  <!-- GALLERY CAROUSEL -->
+  <section class="gallery-section reveal page-section active" data-page="home" style="--d:0ms;">
+    <p class="section-eyebrow">Visual Journey</p>
+    <h2 class="section-title">Langkawi Photo <span>Carousel</span></h2>
+    <div class="gallery-wrap">
+      <button class="gallery-nav gallery-prev" onclick="moveGallery(-1)">‹</button>
+      <button class="gallery-nav gallery-next" onclick="moveGallery(1)">›</button>
+      <div class="gallery-stage" id="galleryStage">
+        <article class="gallery-card gc-1">
+          <div class="gallery-meta">
+            <div class="gallery-caption">
+              <strong>Eagle Square</strong>
+              <span>15 listings</span>
+            </div>
+            <button class="gallery-view">View All →</button>
+          </div>
+        </article>
+        <article class="gallery-card gc-2">
+          <div class="gallery-meta">
+            <div class="gallery-caption">
+              <strong>Kilim Geoforest</strong>
+              <span>12 listings</span>
+            </div>
+            <button class="gallery-view">View All →</button>
+          </div>
+        </article>
+        <article class="gallery-card gc-3">
+          <div class="gallery-meta">
+            <div class="gallery-caption">
+              <strong>Cable Car</strong>
+              <span>22 listings</span>
+            </div>
+            <button class="gallery-view">View All →</button>
+          </div>
+        </article>
+        <article class="gallery-card gc-4">
+          <div class="gallery-meta">
+            <div class="gallery-caption">
+              <strong>Pulau Payar</strong>
+              <span>9 listings</span>
+            </div>
+            <button class="gallery-view">View All →</button>
+          </div>
+        </article>
+      </div>
+      <div class="gallery-dots" id="galleryDots">
+        <button class="gallery-dot active" onclick="goGallery(0)"></button>
+        <button class="gallery-dot" onclick="goGallery(1)"></button>
+        <button class="gallery-dot" onclick="goGallery(2)"></button>
+        <button class="gallery-dot" onclick="goGallery(3)"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about-section reveal page-section" data-page="about" id="about" style="--d:0ms;">
+    <div class="about-grid">
+      <div>
+        <p class="section-eyebrow">About SM Leisure</p>
+        <h2 class="section-title">Your Trusted <span>Ground Handling</span> Partner</h2>
+        <p class="section-desc">SM Leisure Travel & Tours Sdn Bhd is a Malaysia-based travel and destination management company specializing in premium ground handling, corporate travel support, VIP hospitality, and customized travel experiences.</p>
+        <p class="section-desc" style="margin-top:14px;">With extensive experience handling international business groups, exhibitions, corporate delegations, and private travelers, we provide seamless end-to-end services tailored to every client's requirements. Beyond corporate and VIP arrangements, we specialize in leisure experiences and activity bookings across Malaysia — particularly in Langkawi.</p>
+        <p class="section-desc" style="margin-top:14px;font-style:italic;color:var(--accent);font-weight:600;">Your Journey, Our Commitment.</p>
+        <div class="stats-row">
+          <div class="stat-box reveal" style="--d:0ms;"><div class="stat-big">5k+</div><div class="stat-lbl">Clients Served</div></div>
+          <div class="stat-box reveal" style="--d:100ms;"><div class="stat-big">120+</div><div class="stat-lbl">Local Experiences</div></div>
+          <div class="stat-box reveal" style="--d:200ms;"><div class="stat-big">24/7</div><div class="stat-lbl">Support Team</div></div>
+          <div class="stat-box reveal" style="--d:300ms;"><div class="stat-big">100%</div><div class="stat-lbl">Local Specialists</div></div>
+        </div>
+      </div>
+      <div class="collage reveal" style="--d:100ms;">
+        <div class="col-img col-img-tall col-a"></div>
+        <div><div class="col-img col-b" style="margin-bottom:12px;"></div><div class="col-img col-c"></div></div>
+        <div class="col-img col-img-tall col-d" style="margin-top:-60px;"></div>
+        <div class="col-img col-a" style="margin-top:-40px;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISION & MISSION -->
+  <section class="vm-section reveal page-section" data-page="about" id="vision" style="--d:0ms;">
+    <p class="section-eyebrow">Our Direction</p>
+    <h2 class="section-title">Vision & <span>Mission</span></h2>
+    <div class="vm-grid">
+      <div class="vm-card vm-vision reveal" style="--d:0ms;">
+        <div class="vm-head">
+          <div class="vm-icon">🔭</div>
+          <h3>Our Vision</h3>
+        </div>
+        <p>To become one of Malaysia's trusted and leading destination management and ground handling companies, recognized for professionalism, reliability, and exceptional service standards.</p>
+      </div>
+      <div class="vm-card vm-mission reveal" style="--d:120ms;">
+        <div class="vm-head">
+          <div class="vm-icon">🎯</div>
+          <h3>Our Mission</h3>
+        </div>
+        <ul class="vm-list">
+          <li>To provide seamless and high-quality travel and ground handling experiences.</li>
+          <li>To deliver professional, efficient, and personalized services for every client.</li>
+          <li>To continuously improve service standards and operational excellence.</li>
+          <li>To build long-term partnerships through trust, consistency, and hospitality.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE US -->
+  <section class="why-choose-section reveal page-section" data-page="about" id="whychoose" style="--d:0ms;">
+    <p class="section-eyebrow">Why Us</p>
+    <h2 class="section-title">Why Choose <span>SM Leisure?</span></h2>
+    <div class="wc-grid">
+      <div class="wc-card reveal" style="--d:0ms;">
+        <div class="wc-icon">👔</div>
+        <h4>Professional & Reliable Team</h4>
+        <p>Experienced in handling corporate groups, VIP clients, and international travelers.</p>
+      </div>
+      <div class="wc-card reveal" style="--d:80ms;">
+        <div class="wc-icon">🔗</div>
+        <h4>One-Stop Ground Handling Solution</h4>
+        <p>From transportation and accommodation to event coordination and media support.</p>
+      </div>
+      <div class="wc-card reveal" style="--d:160ms;">
+        <div class="wc-icon">LX</div>
+        <h4>Strong Local Expertise</h4>
+        <p>Extensive local network and operational knowledge across Malaysia.</p>
+      </div>
+      <div class="wc-card reveal" style="--d:0ms;">
+        <div class="wc-icon">✏️</div>
+        <h4>Flexible & Customized Services</h4>
+        <p>Every itinerary and arrangement is tailored according to client needs and expectations.</p>
+      </div>
+      <div class="wc-card reveal" style="--d:80ms;">
+        <div class="wc-icon">🎯</div>
+        <h4>Attention to Detail</h4>
+        <p>We prioritize smooth coordination, punctuality, comfort, and service quality in every project.</p>
+      </div>
+      <div class="wc-card reveal" style="--d:160ms;">
+        <div class="wc-icon">TR</div>
+        <h4>Trusted by Business & Leisure Clients</h4>
+        <p>Committed to building long-term partnerships through professionalism and consistency.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUR SERVICES -->
+  <section class="services-section reveal page-section" data-page="services" id="services" style="--d:0ms;">
+    <p class="section-eyebrow">What We Offer</p>
+    <h2 class="section-title">Our <span>Services</span></h2>
+    <div class="svc-grid">
+      <div class="svc-card svc-airport reveal" style="--d:0ms;">
+        <div class="svc-ico">AT</div>
+        <h4>Airport Transfers & VIP Meet-and-Greet</h4>
+        <p>Professional airport pickup, drop-off, VIP fast-track assistance, and personalized arrival services.</p>
+      </div>
+      <div class="svc-card svc-corporate reveal" style="--d:60ms;">
+        <div class="svc-ico">CT</div>
+        <h4>Corporate Transportation</h4>
+        <p>Executive transport for meetings, conferences, exhibitions, and business delegations.</p>
+      </div>
+      <div class="svc-card svc-mice reveal" style="--d:120ms;">
+        <div class="svc-ico">MX</div>
+        <h4>MICE & Exhibition Support</h4>
+        <p>Complete ground handling support for meetings, incentives, conferences, exhibitions, and corporate events.</p>
+      </div>
+      <div class="svc-card svc-hotel reveal" style="--d:0ms;">
+        <div class="svc-ico">HC</div>
+        <h4>Hotel & Travel Coordination</h4>
+        <p>Accommodation arrangements, itinerary planning, and travel management solutions.</p>
+      </div>
+      <div class="svc-card svc-tour reveal" style="--d:60ms;">
+        <div class="svc-ico">TB</div>
+        <h4>Activity & Tour Bookings</h4>
+        <p>Arrangement of popular local experiences and leisure activities across Malaysia, especially in Langkawi.</p>
+      </div>
+      <div class="svc-card svc-langkawi reveal" style="--d:120ms;">
+        <div class="svc-ico">LE</div>
+        <h4>Langkawi Experiences</h4>
+        <p>Mangrove Tours, Island Hopping, Sunset Dinner Cruises, Private Yacht Charters, Water Activities & more.</p>
+      </div>
+      <div class="svc-card svc-ticketing reveal" style="--d:0ms;">
+        <div class="svc-ico">TK</div>
+        <h4>Ticketing Services</h4>
+        <p>Ferry tickets, attraction tickets, theme park tickets, event tickets, and travel-related reservations.</p>
+      </div>
+      <div class="svc-card svc-media reveal" style="--d:60ms;">
+        <div class="svc-ico">MV</div>
+        <h4>Photography & Videography</h4>
+        <p>Professional media support for events, corporate activities, exhibitions, and travel experiences.</p>
+      </div>
+      <div class="svc-card svc-event reveal" style="--d:120ms;">
+        <div class="svc-ico">OG</div>
+        <h4>Event & On-Ground Assistance</h4>
+        <p>On-site coordination, guest assistance, registration support, and logistics management.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PACKAGES -->
+  <section class="packages-section reveal page-section" data-page="packages" id="packages" style="--d:0ms;">
+    <div class="packages-head">
+      <div>
+        <p class="section-eyebrow">Top Experiences</p>
+        <h2 class="section-title">Top Langkawi <span>Highlights</span></h2>
+      </div>
+      <div class="filter-row" id="pkgFilterRow">
+        <button class="ftab active" onclick="filterPkgs('all',this)">All</button>
+        <button class="ftab" onclick="filterPkgs('nature',this)">Nature</button>
+        <button class="ftab" onclick="filterPkgs('beach',this)">Beach</button>
+        <button class="ftab" onclick="filterPkgs('tour',this)">Tour</button>
+        <button class="ftab" onclick="filterPkgs('evening',this)">Evening</button>
+      </div>
+    </div>
+    <div class="pkg-grid" id="pkgGrid">
+
+      <!-- Card 1 -->
+      <article class="pkg-card reveal" style="--d:0ms;" data-cat="nature">
+        <div class="pkg-img pi-skybridge">
+          <div class="pkg-badges"><span class="pkg-badge">Nature</span><span class="pkg-badge">Half day</span></div>
+          <button class="pkg-fav" onclick="toggleFav(this)">+</button>
+        </div>
+        <div class="pkg-body">
+          <h3 class="pkg-title">SkyBridge Adventure</h3>
+          <p class="pkg-desc">Ride the cable car and walk above rainforest peaks with panoramic sea views.</p>
+          <div class="pkg-footer">
+            <div class="pkg-price"><strong>RM 180</strong><span>/pax</span></div>
+            <div class="pkg-rating">Rating 4.9</div>
+            <button class="btn-book-sm" onclick="openBooking('SkyBridge Adventure','RM 180',180,'nature')">Book Now</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="pkg-card reveal" style="--d:80ms;" data-cat="tour">
+        <div class="pkg-img pi-mangrove">
+          <div class="pkg-badges"><span class="pkg-badge">Popular</span><span class="pkg-badge">Half day</span></div>
+          <button class="pkg-fav" onclick="toggleFav(this)">+</button>
+        </div>
+        <div class="pkg-body">
+          <h3 class="pkg-title">Kilim Mangrove Tour</h3>
+          <p class="pkg-desc">Cruise through mangrove forests, spot eagles, and visit hidden limestone caves.</p>
+          <div class="pkg-footer">
+            <div class="pkg-price"><strong>RM 220</strong><span>/pax</span></div>
+            <div class="pkg-rating">Rating 4.8</div>
+            <button class="btn-book-sm" onclick="openBooking('Kilim Mangrove Tour','RM 220',220,'tour')">Book Now</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="pkg-card reveal" style="--d:160ms;" data-cat="beach">
+        <div class="pkg-img pi-beach">
+          <div class="pkg-badges"><span class="pkg-badge">Beach</span><span class="pkg-badge">Full day</span></div>
+          <button class="pkg-fav" onclick="toggleFav(this)">+</button>
+        </div>
+        <div class="pkg-body">
+          <h3 class="pkg-title">Pantai Cenang Chill Day</h3>
+          <p class="pkg-desc">Relax by clear waters, try water sports, and enjoy local cafes by the beach.</p>
+          <div class="pkg-footer">
+            <div class="pkg-price"><strong>RM 150</strong><span>/pax</span></div>
+            <div class="pkg-rating">Rating 4.7</div>
+            <button class="btn-book-sm" onclick="openBooking('Pantai Cenang Chill Day','RM 150',150,'beach')">Book Now</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="pkg-card reveal" style="--d:0ms;" data-cat="nature">
+        <div class="pkg-img pi-cable">
+          <div class="pkg-badges"><span class="pkg-badge">Must Try</span><span class="pkg-badge">3 hours</span></div>
+          <button class="pkg-fav" onclick="toggleFav(this)">+</button>
+        </div>
+        <div class="pkg-body">
+          <h3 class="pkg-title">Machinchang Sunset Ride</h3>
+          <p class="pkg-desc">Golden hour cable car ride with dramatic mountain silhouettes and sea horizon.</p>
+          <div class="pkg-footer">
+            <div class="pkg-price"><strong>RM 130</strong><span>/pax</span></div>
+            <div class="pkg-rating">Rating 4.9</div>
+            <button class="btn-book-sm" onclick="openBooking('Machinchang Sunset Ride','RM 130',130,'evening')">Book Now</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 5 -->
+      <article class="pkg-card reveal" style="--d:80ms;" data-cat="tour">
+        <div class="pkg-img pi-islandhop">
+          <div class="pkg-badges"><span class="pkg-badge">Tour</span><span class="pkg-badge">Full day</span></div>
+          <button class="pkg-fav" onclick="toggleFav(this)">+</button>
+        </div>
+        <div class="pkg-body">
+          <h3 class="pkg-title">Island Hopping Combo</h3>
+          <p class="pkg-desc">Visit Dayang Bunting Lake, Beras Basah Island, and eagle feeding spots.</p>
+          <div class="pkg-footer">
+            <div class="pkg-price"><strong>RM 240</strong><span>/pax</span></div>
+            <div class="pkg-rating">Rating 4.8</div>
+            <button class="btn-book-sm" onclick="openBooking('Island Hopping Combo','RM 240',240,'tour')">Book Now</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 6 -->
+      <article class="pkg-card reveal" style="--d:160ms;" data-cat="evening">
+        <div class="pkg-img pi-sunset">
+          <div class="pkg-badges"><span class="pkg-badge">New</span><span class="pkg-badge">Evening</span></div>
+          <button class="pkg-fav" onclick="toggleFav(this)">+</button>
+        </div>
+        <div class="pkg-body">
+          <h3 class="pkg-title">Sunset Cruise Experience</h3>
+          <p class="pkg-desc">Sail around Langkawi waters with dinner, music, and a stunning sunset backdrop.</p>
+          <div class="pkg-footer">
+            <div class="pkg-price"><strong>RM 290</strong><span>/pax</span></div>
+            <div class="pkg-rating">Rating 5.0</div>
+            <button class="btn-book-sm" onclick="openBooking('Sunset Cruise Experience','RM 290',290,'evening')">Book Now</button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="reviews-section reveal page-section" data-page="packages" style="--d:0ms;">
+    <p class="section-eyebrow">Testimonials</p>
+    <h2 class="section-title">More than a booking site — <span>your local partner</span></h2>
+    <div class="review-grid">
+      <div class="rv-card"><div class="rv-photo rp1"></div></div>
+      <div class="rv-card">
+        <div class="rv-body">
+          <div class="rv-avatar av-a">AR</div>
+          <p class="rv-name">Aina Rahman</p>
+          <p class="rv-stars">5.0 rating</p>
+          <p class="rv-text">Everything was smooth from airport pickup to island hopping. Perfect for first-time visitors.</p>
+        </div>
+      </div>
+      <div class="rv-card"><div class="rv-photo rp2"></div></div>
+      <div class="rv-card">
+        <div class="rv-body">
+          <div class="rv-avatar av-b">DW</div>
+          <p class="rv-name">Daniel Wong</p>
+          <p class="rv-stars">5.0 rating</p>
+          <p class="rv-text">Great recommendations and quick response from the team. We saw all key spots in two days.</p>
+        </div>
+      </div>
+      <div class="rv-card"><div class="rv-photo rp3"></div></div>
+      <div class="rv-card">
+        <div class="rv-body">
+          <div class="rv-avatar av-c">NI</div>
+          <p class="rv-name">Nurul Izzati</p>
+          <p class="rv-stars">5.0 rating</p>
+          <p class="rv-text">The itinerary was balanced and not rushed. Highly recommended for a stress-free trip.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAR RENTAL -->
+  <section class="cars-section reveal page-section" data-page="transport" id="transport" style="--d:0ms;">
+    <p class="section-eyebrow">Transport</p>
+    <h2 class="section-title">Book Your <span>Island Ride</span></h2>
+    <div class="cars-filter-row">
+      <div class="car-tabs">
+        <button class="car-tab active" onclick="filterCars('family',this)">Family</button>
+        <button class="car-tab" onclick="filterCars('sport',this)">Sport</button>
+        <button class="car-tab" onclick="filterCars('sedan',this)">Sedan</button>
+        <button class="car-tab" onclick="filterCars('jeep',this)">Jeep</button>
+      </div>
+      <div class="sort-row">
+        <select class="sort-dd" onchange="sortCars(this.value)" style="outline:none;appearance:none;padding-right:28px;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 10 6%22><path d=%22M0 0l5 6 5-6z%22 fill=%22%23556a82%22/></svg>');background-repeat:no-repeat;background-position:right 10px center;background-size:10px;">
+          <option value="default">Select transport</option>
+          <option value="car">Car</option>
+          <option value="scooter">Scooter</option>
+          <option value="van">Van</option>
+        </select>
+        <select class="sort-dd" onchange="sortCarsBy(this.value)" style="outline:none;appearance:none;padding-right:28px;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 10 6%22><path d=%22M0 0l5 6 5-6z%22 fill=%22%23556a82%22/></svg>');background-repeat:no-repeat;background-position:right 10px center;background-size:10px;">
+          <option value="default">Best value</option>
+          <option value="price-asc">Price: Low → High</option>
+          <option value="price-desc">Price: High → Low</option>
+        </select>
+      </div>
+    </div>
+    <div class="car-grid" id="carGrid">
+
+      <div class="car-card reveal" style="--d:0ms;" data-cat="sedan family" data-price="95" data-type="car">
+        <div class="car-top"><span class="car-badge cb-new">15% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
+        <div class="car-img ci-bezza"></div>
+        <p class="car-stars-row">5.0 rating</p>
+        <h3 class="car-name">Perodua Bezza</h3>
+        <div class="car-specs-row"><span class="car-spec">Diesel</span><span class="car-spec">Family</span><span class="car-spec">4,000 Miles</span><span class="car-spec">5 Seats</span><span class="car-spec">Automatic</span><span class="car-spec">Sedan</span></div>
+        <div class="car-footer"><div class="car-price">RM 95<small>/Day</small></div><button class="btn-rent" onclick="openCarBooking('Perodua Bezza',95)">Book Now</button></div>
+      </div>
+
+      <div class="car-card reveal" style="--d:80ms;" data-cat="sport" data-price="60" data-type="scooter">
+        <div class="car-top"><span class="car-badge cb-pop">10% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
+        <div class="car-img ci-scooter"></div>
+        <p class="car-stars-row">5.0 rating</p>
+        <h3 class="car-name">Scooter 150cc</h3>
+        <div class="car-specs-row"><span class="car-spec">Petrol</span><span class="car-spec">Sport</span><span class="car-spec">3,000 Miles</span><span class="car-spec">2 Seats</span><span class="car-spec">Automatic</span><span class="car-spec">Compact</span></div>
+        <div class="car-footer"><div class="car-price">RM 60<small>/Day</small></div><button class="btn-rent" onclick="openCarBooking('Scooter 150cc',60)">Book Now</button></div>
+      </div>
+
+      <div class="car-card reveal" style="--d:160ms;" data-cat="jeep family" data-price="180" data-type="car">
+        <div class="car-top"><span class="car-badge cb-new">15% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
+        <div class="car-img ci-brv"></div>
+        <p class="car-stars-row">5.0 rating</p>
+        <h3 class="car-name">Honda BR-V</h3>
+        <div class="car-specs-row"><span class="car-spec">Diesel</span><span class="car-spec">Jeep</span><span class="car-spec">5,000 Miles</span><span class="car-spec">7 Seats</span><span class="car-spec">Automatic</span><span class="car-spec">SUV</span></div>
+        <div class="car-footer"><div class="car-price">RM 180<small>/Day</small></div><button class="btn-rent" onclick="openCarBooking('Honda BR-V',180)">Book Now</button></div>
+      </div>
+
+      <div class="car-card reveal" style="--d:0ms;" data-cat="sedan" data-price="140" data-type="car">
+        <div class="car-top"><span class="car-badge cb-pop">15% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
+        <div class="car-img ci-vios"></div>
+        <p class="car-stars-row">5.0 rating</p>
+        <h3 class="car-name">Toyota Vios</h3>
+        <div class="car-specs-row"><span class="car-spec">Diesel</span><span class="car-spec">Sedan</span><span class="car-spec">7,000 Miles</span><span class="car-spec">4 Seats</span><span class="car-spec">Automatic</span><span class="car-spec">Urban</span></div>
+        <div class="car-footer"><div class="car-price">RM 140<small>/Day</small></div><button class="btn-rent" onclick="openCarBooking('Toyota Vios',140)">Book Now</button></div>
+      </div>
+
+      <div class="car-card reveal" style="--d:80ms;" data-cat="family sport" data-price="240" data-type="van">
+        <div class="car-top"><span class="car-badge cb-new">12% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
+        <div class="car-img ci-serena"></div>
+        <p class="car-stars-row">5.0 rating</p>
+        <h3 class="car-name">Nissan Serena</h3>
+        <div class="car-specs-row"><span class="car-spec">Diesel</span><span class="car-spec">Family</span><span class="car-spec">7,000 Miles</span><span class="car-spec">8 Seats</span><span class="car-spec">Automatic</span><span class="car-spec">MPV</span></div>
+        <div class="car-footer"><div class="car-price">RM 240<small>/Day</small></div><button class="btn-rent" onclick="openCarBooking('Nissan Serena',240)">Book Now</button></div>
+      </div>
+
+      <div class="car-card reveal" style="--d:160ms;" data-cat="jeep family" data-price="320" data-type="van">
+        <div class="car-top"><span class="car-badge cb-pop">15% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
+        <div class="car-img ci-hiace"></div>
+        <p class="car-stars-row">5.0 rating</p>
+        <h3 class="car-name">Toyota Hiace</h3>
+        <div class="car-specs-row"><span class="car-spec">Diesel</span><span class="car-spec">Jeep</span><span class="car-spec">7,000 Miles</span><span class="car-spec">10 Seats</span><span class="car-spec">Manual</span><span class="car-spec">Van</span></div>
+        <div class="car-footer"><div class="car-price">RM 320<small>/Day</small></div><button class="btn-rent" onclick="openCarBooking('Toyota Hiace',320)">Book Now</button></div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="why-section reveal page-section" data-page="about" style="--d:0ms;">
+    <div class="why-grid">
+      <div class="why-visual">
+        <button class="why-vid-pill" onclick="openVideo()">
+          <div class="why-vid-icon">Play</div>
+          Watch Our Company Profile
+        </button>
+        <div class="why-imgs">
+          <div class="why-img wi-a"></div>
+          <div class="why-img wi-b"></div>
+        </div>
+        <div class="partner-pill">250+ Trusted <span>Local Partners</span></div>
+      </div>
+      <div class="why-content">
+        <h2 class="why-title">Ground Handling Excellence</h2>
+        <p class="why-desc">SM Leisure provides seamless, end-to-end travel and ground handling services. Whether for business delegations or leisure travelers, we coordinate everything so you can focus on what matters.</p>
+        <div class="why-list">
+          <article class="why-item">
+            <div class="why-icon">01</div>
+            <div><h4>Punctuality & Reliability</h4><p>We ensure on-time pickups, smooth transitions, and consistent service throughout every engagement.</p></div>
+          </article>
+          <article class="why-item">
+            <div class="why-icon">02</div>
+            <div><h4>VIP & Corporate Expertise</h4><p>Trusted by international delegations, MICE organizers, and high-profile visitors across Malaysia.</p></div>
+          </article>
+          <article class="why-item">
+            <div class="why-icon">03</div>
+            <div><h4>Flexible Transport Support</h4><p>Car, van, or executive fleet — we tailor every arrangement to your schedule and preferences.</p></div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /light-wrap -->
+
+<!-- CONTACT -->
+<section class="contact-section page-section" data-page="contact" id="contact">
+  <div class="contact-head">
+    <p class="section-eyebrow">Get In Touch</p>
+    <h2 class="section-title">Contact <span>SM Leisure</span></h2>
+    <p class="section-desc">Need ground handling, VIP assistance, or corporate travel support? Our team is ready to help with fast and reliable arrangements.</p>
+  </div>
+  <div class="contact-grid">
+    <article class="contact-card">
+      <h3 class="contact-mini-title">Direct Contact</h3>
+      <div class="contact-list">
+        <div class="contact-item">
+          <div class="contact-ico">EM</div>
+          <div><strong>Email</strong><span>smleisuretravel@gmail.com</span></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-ico">PH</div>
+          <div><strong>Phone / WhatsApp</strong><span>+60 17-508 6608 · +60 4-499 5295</span></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-ico">AD</div>
+          <div><strong>Office Address</strong><span>Lot 116, Pusat Perniagaan Kelana Mas, Kuah 07000, Langkawi, Kedah.</span></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-ico">MD</div>
+          <div><strong>Managing Director</strong><span>Raymond Lau</span></div>
+        </div>
+      </div>
+      <div class="contact-actions">
+        <button class="contact-btn primary" onclick="toast('WhatsApp: +60 17-508 6608','info')">WhatsApp Us</button>
+        <button class="contact-btn secondary" onclick="toast('Email: smleisuretravel@gmail.com','info')">Send Email</button>
+      </div>
+    </article>
+    <article class="contact-card">
+      <h3 class="contact-mini-title">Quick Links</h3>
+      <div class="contact-mini-list">
+        <a href="#services" onclick="scrollTo('services')">Our Services</a>
+        <a href="#packages" onclick="scrollTo('packages')">Top Experiences</a>
+        <a href="#transport" onclick="scrollTo('transport')">Transport Booking</a>
+        <a href="#about" onclick="scrollTo('about')">About SM Leisure</a>
+        <a href="#contact" onclick="scrollTo('contact')">Contact Us</a>
+      </div>
+    </article>
+  </div>
+</section>
+<div class="site-footer">
+  <div class="footer-main">
+    <div>
+      <h4 class="footer-col-title">Contact Info</h4>
+      <div class="footer-link-list">
+        <a href="tel:+60175086608">📞 +60 17-508 6608</a>
+        <a href="tel:+6044995295">+60 4-499 5295</a>
+        <a href="mailto:smleisuretravel@gmail.com">✉ smleisuretravel@gmail.com</a>
+        <a href="#">24 Hours Front Desk Service</a>
+        <a href="#">Lot 116, Pusat Perniagaan Kelana Mas, Kuah 07000 Langkawi, Kedah.</a>
+      </div>
+    </div>
+    <div>
+      <h4 class="footer-col-title">Explore</h4>
+      <div class="footer-link-list">
+        <a href="#" onclick="scrollTo('hero')">Home</a>
+        <a href="#about" onclick="scrollTo('about')">About</a>
+        <a href="#services" onclick="scrollTo('services')">Services</a>
+        <a href="#packages" onclick="scrollTo('packages')">Packages</a>
+        <a href="#transport" onclick="scrollTo('transport')">Transport</a>
+        <a href="#contact" onclick="scrollTo('contact')">Contact</a>
+      </div>
+    </div>
+    <div>
+      <h4 class="footer-col-title">Follow Us</h4>
+      <p class="footer-text">Social Media Channel</p>
+      <div class="social-row">
+        <a class="social-btn" href="https://wa.me/60175086608" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.79 11.79 0 0 0 12.12 0C5.67 0 .42 5.24.42 11.7c0 2.06.54 4.08 1.56 5.85L0 24l6.62-1.92a11.67 11.67 0 0 0 5.5 1.4h.01c6.45 0 11.7-5.25 11.7-11.7 0-3.12-1.21-6.05-3.31-8.3Zm-8.4 18.02h-.01a9.75 9.75 0 0 1-4.98-1.37l-.36-.21-3.93 1.14 1.18-3.83-.24-.39a9.75 9.75 0 0 1-1.5-5.16c0-5.38 4.38-9.76 9.76-9.76a9.7 9.7 0 0 1 6.9 2.86 9.69 9.69 0 0 1 2.86 6.9c0 5.38-4.38 9.76-9.76 9.76Zm5.35-7.33c-.29-.15-1.72-.85-1.98-.95-.26-.1-.45-.15-.64.14s-.73.95-.89 1.14c-.16.19-.33.21-.62.07-.29-.15-1.22-.45-2.32-1.42-.86-.77-1.44-1.72-1.61-2.01-.16-.29-.02-.45.12-.59.13-.13.29-.33.43-.5.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.07-.15-.64-1.54-.88-2.11-.23-.56-.47-.49-.64-.49h-.55c-.19 0-.5.07-.76.36-.26.29-1 1-1 2.43s1.02 2.81 1.16 3c.14.19 2 3.05 4.84 4.27.68.29 1.22.47 1.63.6.68.22 1.3.19 1.79.12.55-.08 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.19-.55-.33Z"/></svg>
+        </a>
+        <a class="social-btn" href="https://www.facebook.com/SMLeisureTravel" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z"/></svg>
+        </a>
+        <a class="social-btn" href="https://www.instagram.com/smleisuremy" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm8.38 1.75H7.87a4.12 4.12 0 0 0-4.12 4.12v8.26a4.12 4.12 0 0 0 4.12 4.12h8.26a4.12 4.12 0 0 0 4.12-4.12V7.87a4.12 4.12 0 0 0-4.12-4.12ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.75a3.25 3.25 0 1 0 0 6.5 3.25 3.25 0 0 0 0-6.5Zm5.25-2a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg>
+        </a>
+        <a class="social-btn" href="https://www.tiktok.com/@smleisuremy" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 2h2.29a4.72 4.72 0 0 0 3.21 3.21V7.5a7.2 7.2 0 0 1-3.25-.78v7.05A6.77 6.77 0 1 1 12 7v2.33a4.44 4.44 0 1 0 4.5 4.44V2Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 SM Leisure Travel & Tours Sdn Bhd. All Rights Reserved.</div>
+</div>
+
+<!-- ─── BOOKING MODAL ─── -->
+<div class="modal-overlay" id="bookingModal" onclick="handleModalClick(event,'bookingModal')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div><p class="modal-title" id="bkgTitle">Book Tour</p><p class="modal-sub" id="bkgSub">Complete your booking in 2 easy steps</p></div>
+      <button class="modal-close" onclick="closeModal('bookingModal')">✕</button>
+    </div>
+    <div class="modal-img" id="bkgImg"></div>
+    <div class="modal-body">
+      <div class="modal-steps" id="bkgSteps">
+        <div class="m-step done" id="step1"></div>
+        <div class="m-step" id="step2"></div>
+        <div class="m-step" id="step3"></div>
+      </div>
+
+      <!-- Step 1: Details -->
+      <div id="bkgStep1">
+        <div class="form-row">
+          <div class="form-group"><label>Tour Date</label><input type="date" id="bkgDate" min="2026-01-01" value="2026-06-12"></div>
+          <div class="form-group"><label>Tour Time</label>
+            <select id="bkgTime"><option>08:00 AM</option><option>09:00 AM</option><option>10:00 AM</option><option>02:00 PM</option><option>04:00 PM</option></select>
+          </div>
+        </div>
+        <div class="qty-row">
+          <div class="qty-label">Number of Pax<br><small style="color:#8fa3bf;font-size:12px;font-weight:400;">Adults & Children</small></div>
+          <div class="qty-btns">
+            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+            <span class="qty-val" id="bkgQty">2</span>
+            <button class="qty-btn" onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+        <div class="price-summary">
+          <div class="ps-row"><span id="bkgPriceLabel">RM 180 × 2 pax</span><span id="bkgSubtotal">RM 360</span></div>
+          <div class="ps-row"><span>Service fee (5%)</span><span id="bkgFee">RM 18</span></div>
+          <div class="ps-row total"><span>Total</span><span id="bkgTotal">RM 378</span></div>
+        </div>
+      </div>
+
+      <!-- Step 2: Personal Info -->
+      <div id="bkgStep2" style="display:none;">
+        <div class="form-row">
+          <div class="form-group"><label>Full Name</label><input type="text" id="bkgName" placeholder="Your full name"></div>
+          <div class="form-group"><label>Email</label><input type="email" id="bkgEmail" placeholder="your@email.com"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Phone</label><input type="tel" id="bkgPhone" placeholder="+60 12 345 6789"></div>
+          <div class="form-group"><label>Nationality</label>
+            <select id="bkgNat"><option>Malaysian</option><option>Singaporean</option><option>Indonesian</option><option>Thai</option><option>Other</option></select>
+          </div>
+        </div>
+        <div class="form-row full">
+          <div class="form-group"><label>Special Requests (optional)</label><textarea id="bkgNote" placeholder="Dietary needs, accessibility requirements…"></textarea></div>
+        </div>
+      </div>
+
+      <!-- Step 3: Payment -->
+      <div id="bkgStep3" style="display:none;">
+        <div class="form-row full">
+          <div class="form-group">
+            <label>Cardholder Name</label>
+            <input type="text" id="bkgCardName" placeholder="Name on card">
+          </div>
+        </div>
+        <div class="form-row full">
+          <div class="form-group">
+            <label>Card Number</label>
+            <input type="text" id="bkgCardNum" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)">
+            <div class="card-icons">
+              <span class="card-icon" id="ci-visa">Visa</span>
+              <span class="card-icon" id="ci-mc">Mastercard</span>
+              <span class="card-icon" id="ci-amex">Amex</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Expiry Date</label><input type="text" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)"></div>
+          <div class="form-group"><label>CVV</label><input type="password" placeholder="···" maxlength="4"></div>
+        </div>
+        <div class="price-summary" style="margin-top:4px;">
+          <div class="ps-row"><span id="bkgPriceLabel2"></span><span id="bkgSubtotal2"></span></div>
+          <div class="ps-row"><span>Service fee (5%)</span><span id="bkgFee2"></span></div>
+          <div class="ps-row total"><span>Charge total</span><span id="bkgTotal2" style="color:var(--accent);"></span></div>
+        </div>
+      </div>
+
+      <!-- Success screen -->
+      <div class="success-screen" id="bkgSuccess">
+        <div class="success-icon">🎉</div>
+        <h2>Booking Confirmed!</h2>
+        <p>Your tour has been successfully booked. Check your email for the booking confirmation.</p>
+        <div class="booking-ref" id="bkgRef">Booking #LKW-XXXXX</div>
+        <button class="btn-primary" style="margin-top:20px;" onclick="closeModal('bookingModal')">Back to Home</button>
+      </div>
+
+    </div>
+    <div class="modal-footer" id="bkgFooter">
+      <button class="btn-modal-back" id="bkgBack" onclick="bkgPrev()" style="display:none;">← Back</button>
+      <button class="btn-modal-next" id="bkgNext" onclick="bkgNext()">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CAR BOOKING MODAL ─── -->
+<div class="modal-overlay" id="carModal" onclick="handleModalClick(event,'carModal')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div><p class="modal-title" id="carTitle">Rent a Vehicle</p><p class="modal-sub">Choose your rental period</p></div>
+      <button class="modal-close" onclick="closeModal('carModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label>Pick-up Date</label><input type="date" id="carPickup" value="2026-06-12" min="2026-01-01"></div>
+        <div class="form-group"><label>Return Date</label><input type="date" id="carReturn" value="2026-06-15" min="2026-01-02"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Pick-up Location</label>
+          <select id="carPickupLoc"><option>Langkawi Airport</option><option>Kuah Jetty</option><option>Pantai Cenang</option><option>Your Hotel</option></select>
+        </div>
+        <div class="form-group"><label>Drop-off Location</label>
+          <select id="carDropLoc"><option>Langkawi Airport</option><option>Kuah Jetty</option><option>Pantai Cenang</option><option>Your Hotel</option></select>
+        </div>
+      </div>
+      <div class="price-summary" style="margin-top:4px;">
+        <div class="ps-row"><span id="carPriceLabel">RM 95 × 3 days</span><span id="carSubtotal">RM 285</span></div>
+        <div class="ps-row"><span>Insurance & service</span><span id="carFee">RM 28</span></div>
+        <div class="ps-row total"><span>Total</span><span id="carTotal">RM 313</span></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Driver Name</label><input type="text" id="carName" placeholder="Full name on IC/Passport"></div>
+        <div class="form-group"><label>Phone</label><input type="tel" id="carPhone" placeholder="+60 12 345 6789"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-modal-back" onclick="closeModal('carModal')">Cancel</button>
+      <button class="btn-modal-next" onclick="confirmCarBooking()">Confirm Rental →</button>
+    </div>
+    <div class="success-screen" id="carSuccess">
+      <div class="success-icon">Booking</div>
+      <h2>Rental Confirmed!</h2>
+      <p>Your vehicle has been booked. Our team will contact you with pick-up details.</p>
+      <div class="booking-ref" id="carRef">Booking #CAR-XXXXX</div>
+      <button class="btn-primary" style="margin-top:20px;" onclick="closeModal('carModal')">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── TRIP PLANNER MODAL ─── -->
+<div class="modal-overlay" id="plannerModal" onclick="handleModalClick(event,'plannerModal')">
+  <div class="planner-box" onclick="event.stopPropagation()">
+    <div class="planner-hero">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <h2>Build Your Langkawi Itinerary</h2>
+          <p>Drag and drop activities to plan your perfect island trip</p>
+        </div>
+        <button class="modal-close" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.3);color:#fff;" onclick="closeModal('plannerModal')">✕</button>
+      </div>
+      <div style="display:flex;gap:20px;margin-top:18px;">
+        <div style="flex:1;"><label style="font-size:11px;font-weight:700;letter-spacing:0.8px;opacity:0.7;text-transform:uppercase;">Trip Start</label><input type="date" value="2026-06-12" style="width:100%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:8px 10px;color:#fff;margin-top:4px;font-family:Poppins,sans-serif;font-size:14px;outline:none;"></div>
+        <div style="flex:1;"><label style="font-size:11px;font-weight:700;letter-spacing:0.8px;opacity:0.7;text-transform:uppercase;">Trip End</label><input type="date" value="2026-06-15" style="width:100%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:8px 10px;color:#fff;margin-top:4px;font-family:Poppins,sans-serif;font-size:14px;outline:none;"></div>
+        <div style="flex:1;"><label style="font-size:11px;font-weight:700;letter-spacing:0.8px;opacity:0.7;text-transform:uppercase;">Travellers</label><input type="number" value="2" min="1" style="width:100%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:8px 10px;color:#fff;margin-top:4px;font-family:Poppins,sans-serif;font-size:14px;outline:none;"></div>
+      </div>
+    </div>
+    <div class="planner-body">
+      <div class="planner-grid" id="plannerGrid">
+        <div class="day-card">
+          <h4><span class="day-num">Day 1</span> Jun 12, 2026 — Arrival Day</h4>
+          <div class="day-slots">
+            <div class="day-slot"><span>🛬 Airport Arrival & Check-in</span><span style="color:#8fa3bf;font-size:12px;">10:00 AM</span></div>
+            <div class="day-slot"><span>Sunset at Pantai Cenang</span><span style="color:#8fa3bf;font-size:12px;">06:00 PM</span></div>
+            <div class="day-slot-add" onclick="addSlot(this)">+ Add Activity</div>
+          </div>
+        </div>
+        <div class="day-card">
+          <h4><span class="day-num">Day 2</span> Jun 13, 2026</h4>
+          <div class="day-slots">
+            <div class="day-slot"><span>🦅 Kilim Mangrove Tour</span><span style="color:#8fa3bf;font-size:12px;">09:00 AM</span></div>
+            <div class="day-slot-add" onclick="addSlot(this)">+ Add Activity</div>
+          </div>
+        </div>
+        <div class="day-card">
+          <h4><span class="day-num">Day 3</span> Jun 14, 2026</h4>
+          <div class="day-slots">
+            <div class="day-slot"><span>🚡 SkyBridge Cable Car</span><span style="color:#8fa3bf;font-size:12px;">08:30 AM</span></div>
+            <div class="day-slot"><span>Island Hopping</span><span style="color:#8fa3bf;font-size:12px;">01:00 PM</span></div>
+            <div class="day-slot-add" onclick="addSlot(this)">+ Add Activity</div>
+          </div>
+        </div>
+        <div class="day-card">
+          <h4><span class="day-num">Day 4</span> Jun 15, 2026 — Departure</h4>
+          <div class="day-slots">
+            <div class="day-slot"><span>Sunrise walk</span><span style="color:#8fa3bf;font-size:12px;">06:30 AM</span></div>
+            <div class="day-slot"><span>🛫 Departure</span><span style="color:#8fa3bf;font-size:12px;">12:00 PM</span></div>
+            <div class="day-slot-add" onclick="addSlot(this)">+ Add Activity</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="planner-footer">
+      <button class="btn-modal-next" style="width:100%;" onclick="savePlanner()">Save My Itinerary</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── VIDEO MODAL ─── -->
+<div class="modal-overlay" id="videoModal" onclick="handleModalClick(event,'videoModal')">
+  <div class="video-box" onclick="event.stopPropagation()">
+    <div class="video-placeholder">
+      <div class="video-play-btn" onclick="toast('Video would play here in the full version.','info')">Play</div>
+      <p>Langkawi Island Guide — Official Video</p>
+    </div>
+    <div class="video-meta" style="display:flex;justify-content:space-between;align-items:center;">
+      <div><h3>Explore Langkawi — Complete Travel Guide</h3><p>4K | 12 min | Updated 2026</p></div>
+      <button class="modal-close" style="background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2);color:#ecf1fb;" onclick="closeModal('videoModal')">✕</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCRIPTS ─── -->
+<script>
+  /* ── LOADER ── */
+  var loaderBar = document.getElementById('loaderBar');
+  var loaderPct = document.getElementById('loaderPct');
+  var pv = 0, loaderStart = Date.now(), minLoad = 2800;
+  var lt = setInterval(function(){
+    if(pv >= 90) return;
+    pv += Math.floor(Math.random()*9)+3;
+    if(pv>90) pv=90;
+    loaderBar.style.width = pv+'%';
+    loaderPct.textContent = pv+'%';
+  }, 110);
+  window.addEventListener('load', function(){
+    document.body.classList.remove('loading');
+    clearInterval(lt);
+    loaderBar.style.width='100%'; loaderPct.textContent='100%';
+    var extra = Math.max(0, minLoad-(Date.now()-loaderStart));
+    setTimeout(function(){
+      document.getElementById('pageLoader').classList.add('hide');
+      setTimeout(function(){ document.getElementById('pageLoader').remove(); },700);
+    }, extra+150);
+  });
+
+  /* ── SCROLL REVEAL ── */
+  var revEls = document.querySelectorAll('.reveal');
+  var ro = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('show'); ro.unobserve(e.target); }});
+  },{threshold:0.12});
+  revEls.forEach(function(el){ ro.observe(el); });
+
+  /* ── PAGE NAV (single HTML, multi-page feel) ── */
+  function pageById(id){
+    var map = {
+      hero:'home',
+      about:'about',
+      vision:'about',
+      whychoose:'about',
+      services:'services',
+      packages:'packages',
+      transport:'transport',
+      contact:'contact'
+    };
+    return map[id] || 'home';
+  }
+  function setActiveNav(sectionId){
+    document.querySelectorAll('.nav-pill a').forEach(function(a){
+      a.classList.toggle('active', a.dataset.section === sectionId);
+    });
+  }
+  function showPage(page, sectionId){
+    document.querySelectorAll('.page-section').forEach(function(el){
+      el.classList.toggle('active', el.dataset.page === page);
+    });
+    document.body.classList.toggle('inner-page', page !== 'home');
+    setActiveNav(sectionId || page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.querySelectorAll('.page-section.active .reveal').forEach(function(el){
+      el.classList.add('show');
+    });
+  }
+  function scrollTo(id){
+    var target = document.getElementById(id);
+    if(!target) return;
+    var page = pageById(id);
+    showPage(page, page === 'home' ? 'hero' : page);
+    setTimeout(function(){
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 120);
+  }
+  document.querySelectorAll('.nav-pill a').forEach(function(link){
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      var sectionId = link.dataset.section;
+      scrollTo(sectionId);
+    });
+  });
+  var hashId = (window.location.hash || '').replace('#','');
+  if(hashId){
+    scrollTo(hashId);
+  } else {
+    showPage('home', 'hero');
+  }
+
+  /* ── HERO SLIDESHOW ── */
+  var heroIndex = 0;
+  var heroSlides = Array.from(document.querySelectorAll('#heroSlideshow .hero-slide'));
+  var heroDots = Array.from(document.querySelectorAll('#slideshowDots .ss-dot'));
+  function goSlide(idx){
+    if(!heroSlides.length) return;
+    heroIndex = (idx + heroSlides.length) % heroSlides.length;
+    heroSlides.forEach(function(slide, i){ slide.classList.toggle('active', i === heroIndex); });
+    heroDots.forEach(function(dot, i){ dot.classList.toggle('active', i === heroIndex); });
+  }
+  setInterval(function(){ goSlide(heroIndex + 1); }, 5200);
+
+  /* ── PACKAGE GALLERY CAROUSEL ── */
+  var galleryIndex = 0;
+  var galleryCards = Array.from(document.querySelectorAll('#galleryStage .gallery-card'));
+  var galleryDots = Array.from(document.querySelectorAll('#galleryDots .gallery-dot'));
+  var galleryAutoTimer = null;
+  function renderGallery(){
+    if(!galleryCards.length) return;
+    var total = galleryCards.length;
+    var near = window.innerWidth < 768 ? 120 : 190;
+    var far = window.innerWidth < 768 ? 200 : 320;
+    galleryCards.forEach(function(card, i){
+      var offset = i - galleryIndex;
+      if(offset > total / 2) offset -= total;
+      if(offset < -total / 2) offset += total;
+      var x = 0, rotate = 0, scale = 1, opacity = 1, blur = 0, z = 5;
+      if(offset === 0){
+        x = 0; rotate = 0; scale = 1; opacity = 1; blur = 0; z = 6;
+      } else if(offset === 1){
+        x = near; rotate = 8; scale = 0.9; opacity = 0.88; blur = 0.5; z = 5;
+      } else if(offset === -1){
+        x = -near; rotate = -8; scale = 0.9; opacity = 0.88; blur = 0.5; z = 5;
+      } else if(offset === 2 || offset === -2){
+        x = (offset > 0 ? far : -far); rotate = offset > 0 ? 14 : -14; scale = 0.78; opacity = 0.5; blur = 1.5; z = 4;
+      } else {
+        x = offset > 0 ? far + 100 : -far - 100; rotate = offset > 0 ? 18 : -18; scale = 0.65; opacity = 0; blur = 2.2; z = 1;
+      }
+      card.style.transform = 'translateX(' + x + 'px) rotate(' + rotate + 'deg) scale(' + scale + ')';
+      card.style.opacity = String(opacity);
+      card.style.filter = 'blur(' + blur + 'px)';
+      card.style.zIndex = String(z);
+      card.style.pointerEvents = offset === 0 ? 'auto' : 'none';
+    });
+    galleryDots.forEach(function(dot, i){ dot.classList.toggle('active', i === galleryIndex); });
+  }
+  function goGallery(idx){
+    if(!galleryDots.length) return;
+    galleryIndex = (idx + galleryDots.length) % galleryDots.length;
+    renderGallery();
+  }
+  function moveGallery(step){
+    goGallery(galleryIndex + step);
+  }
+  function startGalleryAuto(){
+    if(galleryAutoTimer) clearInterval(galleryAutoTimer);
+    galleryAutoTimer = setInterval(function(){ goGallery(galleryIndex + 1); }, 3200);
+  }
+  startGalleryAuto();
+  window.addEventListener('resize', renderGallery);
+  renderGallery();
+
+  /* ── TOAST ── */
+  function toast(msg, type){
+    var icons = {success:'OK',info:'Info',warning:'Alert',heart:'Note'};
+    var t = document.createElement('div');
+    t.className = 'toast'; t.innerHTML = '<span class="toast-icon">'+(icons[type]||'Info')+'</span>'+msg;
+    document.getElementById('toastWrap').appendChild(t);
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ t.classList.add('show'); }); });
+    setTimeout(function(){ t.classList.remove('show'); setTimeout(function(){ t.remove(); },400); },3000);
+  }
+
+  /* ── SEARCH BAR ── */
+  var guests = {adults:2, children:0, infants:0};
+  function toggleDrop(id){
+    document.querySelectorAll('.chip-dropdown').forEach(function(d){ if(d.id!==id) d.classList.remove('open'); });
+    document.getElementById(id).classList.toggle('open');
+    event.stopPropagation();
+  }
+  document.addEventListener('click', function(){ document.querySelectorAll('.chip-dropdown').forEach(function(d){ d.classList.remove('open'); }); });
+  function setChip(valId, val, btn){
+    document.getElementById(valId).textContent = val;
+    btn.closest('.chip-dropdown').querySelectorAll('.dropdown-option').forEach(function(b){ b.classList.remove('selected'); });
+    btn.classList.add('selected');
+    btn.closest('.chip-dropdown').classList.remove('open');
+    event.stopPropagation();
+  }
+  function setDateChip(valId, input){
+    var d = new Date(input.value);
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    document.getElementById(valId).textContent = d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear();
+    input.closest('.chip-dropdown').classList.remove('open');
+  }
+  function changeGuest(type, delta, ev){
+    ev.stopPropagation();
+    guests[type] = Math.max(0, guests[type]+delta);
+    if(type==='adults') guests.adults = Math.max(1, guests.adults);
+    document.getElementById('g'+type.charAt(0).toUpperCase()+type.slice(1)).textContent = guests[type];
+    var parts = [];
+    if(guests.adults) parts.push(guests.adults+' Adult'+(guests.adults>1?'s':''));
+    if(guests.children) parts.push(guests.children+' Child'+(guests.children>1?'ren':''));
+    if(guests.infants) parts.push(guests.infants+' Infant'+(guests.infants>1?'s':''));
+    document.getElementById('valGuests').textContent = parts.join(', ');
+  }
+  function doSearch(){
+    var dest = document.getElementById('valDest').textContent;
+    var ci = document.getElementById('valCheckin').textContent;
+    var co = document.getElementById('valCheckout').textContent;
+    var gst = document.getElementById('valGuests').textContent;
+    toast('Searching for tours in '+dest+' · '+ci+' to '+co+' · '+gst+'...','info');
+    setTimeout(function(){ scrollTo('packages'); }, 800);
+  }
+
+  /* ── PACKAGE FILTER ── */
+  function filterPkgs(cat, btn){
+    document.querySelectorAll('#pkgFilterRow .ftab').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    document.querySelectorAll('#pkgGrid .pkg-card').forEach(function(c){
+      var show = cat==='all' || c.dataset.cat===cat;
+      c.style.display = show ? '' : 'none';
+    });
+    var visible = document.querySelectorAll('#pkgGrid .pkg-card:not([style*="none"])').length;
+    toast('Showing '+visible+' '+(cat==='all'?'packages':cat+' experiences'),'info');
+  }
+
+  /* ── FAVOURITES ── */
+  function toggleFav(btn){
+    btn.classList.toggle('liked');
+    btn.textContent = btn.classList.contains('liked') ? 'Added' : '+';
+    toast(btn.classList.contains('liked') ? 'Added to shortlist.' : 'Removed from shortlist.','heart');
+    event.stopPropagation();
+  }
+  function toggleCarFav(btn){
+    btn.classList.toggle('liked');
+    btn.textContent = btn.classList.contains('liked') ? 'Added' : '+';
+    toast(btn.classList.contains('liked') ? 'Added to shortlist.' : 'Removed from shortlist.','heart');
+  }
+
+  /* ── CAR FILTER & SORT ── */
+  function filterCars(cat, btn){
+    document.querySelectorAll('.car-tab').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    document.querySelectorAll('#carGrid .car-card').forEach(function(c){
+      var show = cat==='all' || c.dataset.cat.includes(cat);
+      c.style.display = show?'':'none';
+    });
+  }
+  function sortCars(type){
+    if(type==='default') { document.querySelectorAll('#carGrid .car-card').forEach(function(c){ c.style.display=''; }); return; }
+    document.querySelectorAll('#carGrid .car-card').forEach(function(c){
+      c.style.display = c.dataset.type===type ? '' : 'none';
+    });
+  }
+  function sortCarsBy(val){
+    var grid = document.getElementById('carGrid');
+    var cards = Array.from(grid.querySelectorAll('.car-card'));
+    cards.sort(function(a,b){
+      var pa = parseInt(a.dataset.price), pb = parseInt(b.dataset.price);
+      if(val==='price-asc') return pa-pb;
+      if(val==='price-desc') return pb-pa;
+      return 0;
+    });
+    cards.forEach(function(c){ grid.appendChild(c); });
+    if(val!=='default') toast('📊 Sorted by '+val.replace('-',' '),'info');
+  }
+
+  /* ── CART ── */
+  var cartItems = [];
+  function openCart(){ document.getElementById('cartDrawer').classList.add('open'); }
+  function closeCart(){ document.getElementById('cartDrawer').classList.remove('open'); }
+  function addToCart(name, details, price){
+    var id = Date.now();
+    cartItems.push({id:id, name:name, details:details, price:price});
+    renderCart();
+    toast('Added to cart: '+name,'success');
+  }
+  function removeFromCart(id){
+    cartItems = cartItems.filter(function(i){ return i.id!==id; });
+    renderCart();
+  }
+  function renderCart(){
+    var wrap = document.getElementById('cartItems');
+    var cnt = document.getElementById('cartCount');
+    var total = 0;
+    if(cartItems.length===0){
+      wrap.innerHTML = '<div class="cart-empty"><span>—</span><p>No bookings yet</p></div>';
+      cnt.classList.remove('show');
+    } else {
+      wrap.innerHTML = '';
+      cartItems.forEach(function(item){
+        total += item.price;
+        wrap.innerHTML += '<div class="cart-item"><button class="cart-item-remove" onclick="removeFromCart('+item.id+')">✕</button><div class="cart-item-name">'+item.name+'</div><div class="cart-item-details">'+item.details+'</div><div class="cart-item-price">RM '+item.price+'</div></div>';
+      });
+      cnt.textContent = cartItems.length;
+      cnt.classList.add('show');
+    }
+    document.getElementById('cartTotal').textContent = 'RM '+total;
+  }
+  function checkout(){
+    if(cartItems.length===0){ toast('Your cart is empty.','warning'); return; }
+    toast('Proceeding to checkout — RM '+cartItems.reduce(function(a,i){ return a+i.price; },0),'success');
+    setTimeout(function(){ toast('Booking confirmed. Check your email.','success'); cartItems=[]; renderCart(); closeCart(); },2000);
+  }
+
+  /* ── BOOKING MODAL ── */
+  var bkgStep=1, bkgBasePrice=0, bkgQtyVal=2, currentBookingName='';
+  function openBooking(name, priceStr, price, cat){
+    currentBookingName = name;
+    bkgBasePrice = price; bkgQtyVal = 2; bkgStep=1;
+    document.getElementById('bkgTitle').textContent = name;
+    document.getElementById('bkgSub').textContent = 'Select your date and number of guests';
+    document.getElementById('bkgImg').className = 'modal-img pi-'+catToClass(cat);
+    document.getElementById('bkgImg').style.display='block';
+    document.getElementById('bkgSuccess').style.display='none'; document.getElementById('bkgSuccess').classList.remove('show');
+    document.getElementById('bkgFooter').style.display='flex';
+    showBkgStep(1);
+    updateBkgPrice();
+    openModal('bookingModal');
+  }
+  function catToClass(cat){ return {nature:'skybridge',beach:'beach',tour:'mangrove',evening:'sunset'}[cat]||'skybridge'; }
+  function showBkgStep(n){
+    bkgStep = n;
+    [1,2].forEach(function(i){
+      document.getElementById('bkgStep'+i).style.display = (i===n)?'':'none';
+      document.getElementById('step'+i).classList.toggle('done', i<=n);
+    });
+    document.getElementById('bkgBack').style.display = n>1?'':'none';
+    document.getElementById('bkgNext').textContent = n===2 ? 'Confirm Booking' : 'Continue';
+    var subs = ['Select your date and number of guests','Enter your personal details'];
+    document.getElementById('bkgSub').textContent = subs[n-1];
+  }
+  function changeQty(delta){
+    bkgQtyVal = Math.max(1, bkgQtyVal+delta);
+    document.getElementById('bkgQty').textContent = bkgQtyVal;
+    updateBkgPrice();
+  }
+  function updateBkgPrice(){
+    var sub = bkgBasePrice*bkgQtyVal, fee = Math.round(sub*0.05), total = sub+fee;
+    document.getElementById('bkgPriceLabel').textContent = 'RM '+bkgBasePrice+' × '+bkgQtyVal+' pax';
+    document.getElementById('bkgSubtotal').textContent = 'RM '+sub;
+    document.getElementById('bkgFee').textContent = 'RM '+fee;
+    document.getElementById('bkgTotal').textContent = 'RM '+total;
+    document.getElementById('bkgPriceLabel2').textContent = 'RM '+bkgBasePrice+' × '+bkgQtyVal+' pax';
+    document.getElementById('bkgSubtotal2').textContent = 'RM '+sub;
+    document.getElementById('bkgFee2').textContent = 'RM '+fee;
+    document.getElementById('bkgTotal2').textContent = 'RM '+total;
+  }
+  function bkgNext(){
+    if(bkgStep===1){
+      showBkgStep(2);
+    } else if(bkgStep===2){
+      var name = document.getElementById('bkgName').value;
+      var email = document.getElementById('bkgEmail').value;
+      if(!name.trim()){ toast('Please enter your full name.','warning'); return; }
+      if(!email.trim()||!email.includes('@')){ toast('Please enter a valid email.','warning'); return; }
+      processPayment();
+    }
+  }
+  function bkgPrev(){
+    if(bkgStep>1) showBkgStep(bkgStep-1);
+  }
+  function processPayment(){
+    document.getElementById('bkgNext').textContent='Processing…';
+    document.getElementById('bkgNext').disabled=true;
+    setTimeout(function(){
+      var ref = 'LKW-'+Math.floor(10000+Math.random()*90000);
+      document.getElementById('bkgRef').textContent = 'Booking #'+ref;
+      [1,2,3].forEach(function(i){ document.getElementById('bkgStep'+i).style.display='none'; });
+      document.getElementById('bkgImg').style.display='none';
+      document.getElementById('bkgFooter').style.display='none';
+      var s = document.getElementById('bkgSuccess');
+      s.style.display='flex'; s.classList.add('show');
+      [1,2,3].forEach(function(i){ document.getElementById('step'+i).classList.add('done'); });
+      var sub = bkgBasePrice*bkgQtyVal, fee = Math.round(sub*0.05), total = sub+fee;
+      addToCart(currentBookingName, document.getElementById('bkgDate').value+' · '+bkgQtyVal+' pax', total);
+      document.getElementById('bkgNext').disabled=false;
+    },1800);
+  }
+  function formatCard(input){
+    var v = input.value.replace(/\D/g,'');
+    input.value = v.replace(/(.{4})/g,'$1 ').trim().substring(0,19);
+    var ci=['ci-visa','ci-mc','ci-amex'];
+    ci.forEach(function(id){ document.getElementById(id).classList.remove('highlight'); });
+    if(v[0]==='4') document.getElementById('ci-visa').classList.add('highlight');
+    else if(v[0]==='5') document.getElementById('ci-mc').classList.add('highlight');
+    else if(v[0]==='3') document.getElementById('ci-amex').classList.add('highlight');
+  }
+  function formatExpiry(input){
+    var v = input.value.replace(/\D/g,'');
+    if(v.length>=2) v = v.substring(0,2)+' / '+v.substring(2);
+    input.value = v.substring(0,7);
+  }
+
+  /* ── CAR BOOKING ── */
+  var carBasePrice=0;
+  function openCarBooking(name, price){
+    carBasePrice = price;
+    document.getElementById('carTitle').textContent = 'Rent: '+name;
+    document.getElementById('carSuccess').style.display='none'; document.getElementById('carSuccess').classList.remove('show');
+    updateCarPrice();
+    openModal('carModal');
+  }
+  function updateCarPrice(){
+    var days=3, sub=carBasePrice*days, ins=Math.round(sub*0.1), total=sub+ins;
+    document.getElementById('carPriceLabel').textContent='RM '+carBasePrice+' × '+days+' days';
+    document.getElementById('carSubtotal').textContent='RM '+sub;
+    document.getElementById('carFee').textContent='RM '+ins;
+    document.getElementById('carTotal').textContent='RM '+total;
+  }
+  function confirmCarBooking(){
+    var name = document.getElementById('carName').value;
+    if(!name.trim()){ toast('Please enter the driver name.','warning'); return; }
+    var ref = 'CAR-'+Math.floor(10000+Math.random()*90000);
+    document.getElementById('carRef').textContent = 'Booking #'+ref;
+    document.querySelector('#carModal .modal-body').style.display='none';
+    document.querySelector('#carModal .modal-footer').style.display='none';
+    var s=document.getElementById('carSuccess');
+    s.style.display='flex'; s.classList.add('show');
+    var days=3, sub=carBasePrice*days, ins=Math.round(sub*0.1), total=sub+ins;
+    addToCart(document.getElementById('carTitle').textContent.replace('Rent: ',''), '3 days rental', total);
+  }
+
+  /* ── PLANNER ── */
+  function openPlanner(){ openModal('plannerModal'); }
+  function addSlot(btn){
+    var activities = ['Snorkelling at Pulau Payar','Local Food Trail','Wildlife Sanctuary','Scooter Island Tour','Sunrise Walk','Coral Reef Diving','Durian Farm Visit','Fishing Trip'];
+    var act = activities[Math.floor(Math.random()*activities.length)];
+    var times = ['08:00 AM','10:30 AM','01:00 PM','03:00 PM','05:00 PM'];
+    var time = times[Math.floor(Math.random()*times.length)];
+    var slot = document.createElement('div');
+    slot.className='day-slot';
+    slot.innerHTML='<span>'+act+'</span><span style="color:#8fa3bf;font-size:12px;">'+time+'</span>';
+    btn.parentNode.insertBefore(slot, btn);
+    toast('Added: '+act,'success');
+  }
+  function savePlanner(){ toast('Itinerary saved. Check your email for the plan.','success'); closeModal('plannerModal'); }
+
+  /* ── VIDEO ── */
+  function openVideo(){ openModal('videoModal'); }
+
+  /* ── MODAL HELPERS ── */
+  function openModal(id){ document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeModal(id){
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow='';
+    if(id==='carModal'){ document.querySelector('#carModal .modal-body').style.display=''; document.querySelector('#carModal .modal-footer').style.display=''; }
+  }
+  function handleModalClick(e, id){ if(e.target===document.getElementById(id)) closeModal(id); }
+</script>
+</body>
+</html>
