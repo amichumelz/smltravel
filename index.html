@@ -127,16 +127,6 @@
     .sky-wrap::before { display: none; }
     @keyframes starDrift { from{transform:translateX(0)} to{transform:translateX(-20px)} }
 
-    /* Moon */
-    .moon {
-      position: absolute; right: 8%; top: 8%; width: 220px; height: 220px;
-      border-radius: 50%; z-index: 1; pointer-events: none;
-      background: radial-gradient(circle at 36% 36%, #fffffc, #e6f3ff 54%, #8ec8ff 100%);
-      box-shadow: 0 0 60px rgba(160,220,255,0.55), 0 0 120px rgba(120,190,255,0.25);
-      animation: moonGlow 6s ease-in-out infinite;
-    }
-    @keyframes moonGlow { 0%,100%{box-shadow:0 0 60px rgba(160,220,255,0.55),0 0 120px rgba(120,190,255,0.25)} 50%{box-shadow:0 0 90px rgba(180,235,255,0.7),0 0 160px rgba(140,205,255,0.35)} }
-
     /* Aurora */
     .aurora {
       position: absolute; left: -8%; top: 14%; width: 60vw; max-width: 760px;
@@ -147,10 +137,6 @@
       animation: auroraDrift 12s ease-in-out infinite;
     }
     @keyframes auroraDrift { 0%,100%{transform:translateX(0) translateY(0) rotate(-3deg)} 50%{transform:translateX(52px) translateY(-12px) rotate(3deg)} }
-
-    /* Shooting star */
-    .shoot { position: absolute; right: 25%; top: 18%; width: 160px; height: 2px; border-radius: 99px; background: linear-gradient(90deg, transparent, rgba(210,240,255,0.95)); transform: rotate(-18deg); opacity: 0; z-index: 1; pointer-events: none; animation: shoot 5.5s ease-in-out infinite; }
-    @keyframes shoot { 0%{opacity:0;transform:translate(0,0)rotate(-18deg)} 10%{opacity:1} 45%{opacity:0.9;transform:translate(200px,78px)rotate(-18deg)} 55%,100%{opacity:0;transform:translate(240px,94px)rotate(-18deg)} }
 
     /* Island silhouette */
     .island-silhouette {
@@ -304,6 +290,18 @@
     .s-chip input::placeholder { color: #8fa3bf; font-weight: 400; }
     .s-chip .chip-val { font-size: 14px; font-weight: 600; color: #1a2a40; padding-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .s-chip .chip-sub { font-size: 11px; color: #8fa3bf; }
+    .search-smart-input {
+      border: none;
+      outline: none;
+      width: 100%;
+      background: transparent;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a2a40;
+      padding-top: 4px;
+      cursor: text;
+    }
+    .search-smart-input::placeholder { color: #8fa3bf; font-weight: 500; }
     .search-go {
       margin: 6px; background: linear-gradient(110deg, #3a9eff, #1e76d8); border-radius: 14px;
       color: #fff; font-size: 15px; font-weight: 700; display: flex; align-items: center;
@@ -549,20 +547,80 @@
     .wc-card h4 { font-size: 17px; line-height: 1.3; color: #1a2a40; margin-bottom: 8px; font-weight: 700; }
     .wc-card p { font-size: 13.5px; color: #5c7087; line-height: 1.6; }
 
-    .services-section { padding-top: 72px; }
-    .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+    .services-section { padding-top: 72px; overflow: hidden; }
+    .svc-carousel {
+      margin-top: 16px;
+      overflow: visible;
+      position: relative;
+      border-radius: 26px;
+      padding: 30px 22px 36px;
+    }
+    .svc-carousel::before,
+    .svc-carousel::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 72px;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .svc-carousel::before { left: 0; background: linear-gradient(90deg, #f2f7fd 20%, rgba(242,247,253,0)); }
+    .svc-carousel::after { right: 0; background: linear-gradient(270deg, #f2f7fd 20%, rgba(242,247,253,0)); }
+    .svc-grid {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 18px;
+      width: max-content;
+      align-items: center;
+      margin-top: 0;
+      padding: 6px 2px;
+      will-change: transform;
+    }
+    .services-section.active .svc-grid.is-looping { animation: servicesCarouselLoop 34s linear infinite; }
+    .services-section:hover .svc-grid.is-looping { animation-play-state: paused; }
+    @keyframes servicesCarouselLoop {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    @keyframes servicesWave {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    @keyframes orbitSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
     .svc-card {
       background: #1a2a40;
-      border: 1.5px solid #cfe0f5;
-      border-radius: 20px;
-      padding: 20px 18px;
-      box-shadow: 0 8px 20px rgba(20,50,100,0.08);
+      border: none;
+      border-radius: 50%;
+      padding: 22px 18px;
+      box-shadow: 0 16px 30px rgba(8,22,52,0.34), 0 30px 46px rgba(8,22,52,0.22), inset 0 1px 10px rgba(255,255,255,0.12);
       transition: 0.24s ease;
-      min-height: 210px;
+      width: 250px;
+      min-width: 250px;
+      aspect-ratio: 1 / 1;
+      min-height: auto;
       position: relative;
       overflow: hidden;
       background-size: cover;
       background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .svc-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: none;
+      pointer-events: none;
+      z-index: 1;
+      box-shadow: inset 0 0 24px rgba(88, 164, 244, 0.18), inset 0 -8px 18px rgba(8,22,52,0.34);
     }
     .svc-card::after {
       content: "";
@@ -571,7 +629,11 @@
       background: linear-gradient(to top, rgba(8,22,48,0.82), rgba(8,22,48,0.32) 55%);
       pointer-events: none;
     }
-    .svc-card:hover { transform: translateY(-4px); border-color: #c6dcf5; box-shadow: 0 15px 30px rgba(20,50,100,0.14); }
+    .services-section .svc-card {
+      animation: servicesWave 4.2s ease-in-out infinite;
+      animation-delay: calc(var(--svc-i, 0) * 0.12s);
+    }
+    .svc-card:hover { transform: translateY(-4px) scale(1.02); border-color: #c6dcf5; box-shadow: 0 15px 30px rgba(20,50,100,0.14); }
     .svc-ico {
       width: 44px;
       height: 44px;
@@ -586,8 +648,21 @@
       position: relative;
       z-index: 1;
     }
-    .svc-card h4 { font-size: 17px; line-height: 1.35; color: #ffffff; margin-bottom: 8px; font-weight: 700; position: relative; z-index: 1; }
-    .svc-card p { font-size: 13.5px; color: rgba(228,241,255,0.92); line-height: 1.6; position: relative; z-index: 1; }
+    .services-section .svc-ico { display: none; }
+    .svc-card h4 { font-size: 15px; line-height: 1.3; color: #ffffff; margin-bottom: 8px; font-weight: 700; position: relative; z-index: 1; max-width: 88%; }
+    .svc-card p {
+      font-size: 12.5px;
+      color: rgba(228,241,255,0.92);
+      line-height: 1.45;
+      position: relative;
+      z-index: 1;
+      max-width: 88%;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
     .svc-airport { background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&q=80'); }
     .svc-corporate { background-image: url('https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?w=1400&q=80'); }
     .svc-mice { background-image: url('https://images.unsplash.com/photo-1511578314322-379afb476865?w=1400&q=80'); }
@@ -1263,7 +1338,7 @@
       .gallery-stage { height: 360px; }
       .gallery-card { width: 260px; height: 330px; }
       .vm-grid { grid-template-columns: 1fr; }
-      .svc-grid { grid-template-columns: repeat(2, 1fr); }
+      .svc-card { width: 220px; min-width: 220px; }
       .search-card { grid-template-columns: 1fr 1fr 1fr 120px; }
       .s-chip:nth-child(4), .s-chip:nth-child(5) { display: none; }
       .review-grid { grid-template-columns: 1fr 1fr; }
@@ -1283,7 +1358,12 @@
       .hero { padding: 52px 0 120px; }
       .hero-title { font-size: clamp(52px,17vw,120px); letter-spacing: 3px; line-height: 0.95; }
       .hero-subtitle { font-size: 15px; max-width: 92vw; }
-      .pkg-grid, .car-grid, .review-grid, .svc-grid { grid-template-columns: 1fr; }
+      .pkg-grid, .car-grid, .review-grid { grid-template-columns: 1fr; }
+      .svc-carousel { padding: 24px 12px 28px; }
+      .svc-carousel::before, .svc-carousel::after { width: 34px; }
+      .svc-card { width: 188px; min-width: 188px; padding: 16px 12px; }
+      .svc-card h4 { font-size: 13px; }
+      .svc-card p { font-size: 11.5px; -webkit-line-clamp: 2; line-clamp: 2; }
       .wc-grid::before { left: 16px; transform: none; }
       .wc-card {
         width: calc(100% - 30px);
@@ -1378,12 +1458,12 @@
   </div>
 </header>
 <nav class="mobile-nav" id="mobileNav">
-  <a href="#" onclick="scrollTo('hero')">Home</a>
-  <a href="#about" onclick="scrollTo('about')">About</a>
-  <a href="#services" onclick="scrollTo('services')">Services</a>
-  <a href="#packages" onclick="scrollTo('packages')">Packages</a>
-  <a href="#transport" onclick="scrollTo('transport')">Transport</a>
-  <a href="#contact" onclick="scrollTo('contact')">Contact</a>
+  <a href="#" data-section="hero">Home</a>
+  <a href="#about" data-section="about">About</a>
+  <a href="#services" data-section="services">Services</a>
+  <a href="#packages" data-section="packages">Packages</a>
+  <a href="#transport" data-section="transport">Transport</a>
+  <a href="#contact" data-section="contact">Contact</a>
 </nav>
 
 <!-- ─── SKY HERO ─── -->
@@ -1396,9 +1476,7 @@
     <div class="hero-slide hs4"></div>
     <div class="hero-slide hs5"></div>
   </div>
-  <div class="moon" data-parallax data-speed="0.18"></div>
   <div class="aurora" data-parallax data-speed="0.22"></div>
-  <div class="shoot" data-parallax data-speed="0.28"></div>
   <span class="twinkle tw1"></span><span class="twinkle tw2"></span><span class="twinkle tw3"></span>
   <span class="twinkle tw4"></span><span class="twinkle tw5"></span><span class="twinkle tw6"></span>
   <div class="palms"></div>
@@ -1411,7 +1489,7 @@
     <h1 class="hero-title">LANGKAWI<em>Island Escape</em></h1>
     <p class="hero-subtitle">Discover beaches, cable car views, mangrove adventures, and unforgettable island experiences in Langkawi.</p>
     <div class="hero-actions">
-      <button class="btn-primary" onclick="scrollTo('services')">Our Services</button>
+      <button class="btn-primary" onclick="navigateToSection('services')">Our Services</button>
       <button class="btn-outline" onclick="openVideo()">Watch Company Profile</button>
     </div>
     <div class="hero-stats">
@@ -1429,87 +1507,6 @@
     <button class="ss-dot" onclick="goSlide(2)"></button>
     <button class="ss-dot" onclick="goSlide(3)"></button>
     <button class="ss-dot" onclick="goSlide(4)"></button>
-  </div>
-</div>
-
-<!-- SEARCH BAR -->
-<div class="search-section page-section active" data-page="home">
-  <div class="search-card">
-    <div class="s-chip" id="chipDest" onclick="toggleDrop('dropDest')">
-      <label>Destination</label>
-      <span class="chip-val" id="valDest">Langkawi Island</span>
-      <div class="chip-dropdown" id="dropDest">
-        <p class="dropdown-title">Popular Destinations</p>
-        <div class="dropdown-options">
-          <button class="dropdown-option selected" onclick="setChip('valDest','Langkawi Island',this)">Langkawi Island</button>
-          <button class="dropdown-option" onclick="setChip('valDest','Pantai Cenang',this)">Pantai Cenang</button>
-          <button class="dropdown-option" onclick="setChip('valDest','Kilim Geopark',this)">Kilim Geopark</button>
-          <button class="dropdown-option" onclick="setChip('valDest','Datai Bay',this)">Datai Bay</button>
-          <button class="dropdown-option" onclick="setChip('valDest','Kuah Town',this)">Kuah Town</button>
-        </div>
-      </div>
-    </div>
-    <div class="s-chip" id="chipCheckin" onclick="toggleDrop('dropCheckin')">
-      <label>Check-in</label>
-      <span class="chip-val" id="valCheckin">12 Jun 2026</span>
-      <div class="chip-dropdown" id="dropCheckin">
-        <p class="dropdown-title">Select Check-in Date</p>
-        <input type="date" style="width:100%;padding:8px;border:1.5px solid #dde7f5;border-radius:10px;font-size:14px;color:#1a2a40;" id="dateCheckin" onchange="setDateChip('valCheckin',this)" min="2026-01-01" value="2026-06-12">
-      </div>
-    </div>
-    <div class="s-chip" id="chipCheckout" onclick="toggleDrop('dropCheckout')">
-      <label>Check-out</label>
-      <span class="chip-val" id="valCheckout">15 Jun 2026</span>
-      <div class="chip-dropdown" id="dropCheckout">
-        <p class="dropdown-title">Select Check-out Date</p>
-        <input type="date" style="width:100%;padding:8px;border:1.5px solid #dde7f5;border-radius:10px;font-size:14px;color:#1a2a40;" id="dateCheckout" onchange="setDateChip('valCheckout',this)" min="2026-01-02" value="2026-06-15">
-      </div>
-    </div>
-    <div class="s-chip" id="chipGuests" onclick="toggleDrop('dropGuests')">
-      <label>Travellers</label>
-      <span class="chip-val" id="valGuests">2 Adults</span>
-      <div class="chip-dropdown" id="dropGuests" style="min-width:260px;">
-        <p class="dropdown-title">Select Travellers</p>
-        <div class="guest-counter" style="margin-bottom:10px;">
-          <div class="guest-type">Adults <small>Age 13+</small></div>
-          <div class="counter-btns">
-            <button class="cnt-btn" onclick="changeGuest('adults',-1,event)">-</button>
-            <span class="cnt-val" id="gAdults">2</span>
-            <button class="cnt-btn" onclick="changeGuest('adults',1,event)">+</button>
-          </div>
-        </div>
-        <div class="guest-counter" style="margin-bottom:10px;">
-          <div class="guest-type">Children <small>Age 2–12</small></div>
-          <div class="counter-btns">
-            <button class="cnt-btn" onclick="changeGuest('children',-1,event)">-</button>
-            <span class="cnt-val" id="gChildren">0</span>
-            <button class="cnt-btn" onclick="changeGuest('children',1,event)">+</button>
-          </div>
-        </div>
-        <div class="guest-counter">
-          <div class="guest-type">Infants <small>Under 2</small></div>
-          <div class="counter-btns">
-            <button class="cnt-btn" onclick="changeGuest('infants',-1,event)">-</button>
-            <span class="cnt-val" id="gInfants">0</span>
-            <button class="cnt-btn" onclick="changeGuest('infants',1,event)">+</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="s-chip" id="chipBudget" onclick="toggleDrop('dropBudget')">
-      <label>Budget</label>
-      <span class="chip-val" id="valBudget">Any Budget</span>
-      <div class="chip-dropdown" id="dropBudget">
-        <p class="dropdown-title">Max Budget per Person</p>
-        <div class="dropdown-options">
-          <button class="dropdown-option" onclick="setChip('valBudget','Under RM 200',this)">Under RM 200</button>
-          <button class="dropdown-option" onclick="setChip('valBudget','RM 200–500',this)">RM 200–500</button>
-          <button class="dropdown-option" onclick="setChip('valBudget','RM 500–1000',this)">RM 500–1000</button>
-          <button class="dropdown-option selected" onclick="setChip('valBudget','Any Budget',this)">Any Budget</button>
-        </div>
-      </div>
-    </div>
-    <button class="search-go" onclick="doSearch()">Search</button>
   </div>
 </div>
 
@@ -1574,7 +1571,8 @@
   <section class="services-section reveal page-section active" data-page="home" id="services" style="--d:0ms;">
     <p class="section-eyebrow">What We Offer</p>
     <h2 class="section-title">Our <span>Services</span></h2>
-    <div class="svc-grid">
+    <div class="svc-carousel">
+    <div class="svc-grid" id="svcLoopGrid">
       <div class="svc-card svc-airport reveal" style="--d:0ms;">
         <div class="svc-ico">AT</div>
         <h4>Airport Transfers & VIP Meet-and-Greet</h4>
@@ -1620,6 +1618,7 @@
         <h4>Event & On-Ground Assistance</h4>
         <p>On-site coordination, guest assistance, registration support, and logistics management.</p>
       </div>
+    </div>
     </div>
   </section>
 
@@ -2031,11 +2030,11 @@
     <article class="contact-card">
       <h3 class="contact-mini-title">Quick Links</h3>
       <div class="contact-mini-list">
-        <a href="#services" onclick="scrollTo('services')">Our Services</a>
-        <a href="#packages" onclick="scrollTo('packages')">Top Experiences</a>
-        <a href="#transport" onclick="scrollTo('transport')">Transport Booking</a>
-        <a href="#about" onclick="scrollTo('about')">About SM Leisure</a>
-        <a href="#contact" onclick="scrollTo('contact')">Contact Us</a>
+        <a href="#services" onclick="navigateToSection('services')">Our Services</a>
+        <a href="#packages" onclick="navigateToSection('packages')">Top Experiences</a>
+        <a href="#transport" onclick="navigateToSection('transport')">Transport Booking</a>
+        <a href="#about" onclick="navigateToSection('about')">About SM Leisure</a>
+        <a href="#contact" onclick="navigateToSection('contact')">Contact Us</a>
       </div>
     </article>
   </div>
@@ -2055,12 +2054,12 @@
     <div>
       <h4 class="footer-col-title">Explore</h4>
       <div class="footer-link-list">
-        <a href="#" onclick="scrollTo('hero')">Home</a>
-        <a href="#about" onclick="scrollTo('about')">About</a>
-        <a href="#services" onclick="scrollTo('services')">Services</a>
-        <a href="#packages" onclick="scrollTo('packages')">Packages</a>
-        <a href="#transport" onclick="scrollTo('transport')">Transport</a>
-        <a href="#contact" onclick="scrollTo('contact')">Contact</a>
+        <a href="#" onclick="navigateToSection('hero')">Home</a>
+        <a href="#about" onclick="navigateToSection('about')">About</a>
+        <a href="#services" onclick="navigateToSection('services')">Services</a>
+        <a href="#packages" onclick="navigateToSection('packages')">Packages</a>
+        <a href="#transport" onclick="navigateToSection('transport')">Transport</a>
+        <a href="#contact" onclick="navigateToSection('contact')">Contact</a>
       </div>
     </div>
     <div>
@@ -2362,7 +2361,26 @@
       whyObserver.observe(card);
     });
   }
+  function initServicesLoop(){
+    var grid = document.getElementById('svcLoopGrid');
+    if(!grid || grid.dataset.looped === '1') return;
+    var originals = Array.from(grid.children);
+    originals.forEach(function(card, idx){
+      card.style.setProperty('--svc-i', String(idx));
+    });
+    originals.forEach(function(card, idx){
+      var clone = card.cloneNode(true);
+      clone.classList.remove('reveal');
+      clone.classList.add('show');
+      clone.setAttribute('aria-hidden', 'true');
+      clone.style.setProperty('--svc-i', String(idx + originals.length));
+      grid.appendChild(clone);
+    });
+    grid.dataset.looped = '1';
+    grid.classList.add('is-looping');
+  }
   armWhyCardsReveal();
+  initServicesLoop();
 
   /* ── PAGE NAV (single HTML, multi-page feel) ── */
   function pageById(id){
@@ -2413,7 +2431,7 @@
     closeMobileNav();
     updateParallax();
   }
-  function scrollTo(id){
+  function navigateToSection(id){
     var target = document.getElementById(id);
     if(!target) return;
     var page = pageById(id);
@@ -2426,7 +2444,15 @@
     link.addEventListener('click', function(e){
       e.preventDefault();
       var sectionId = link.dataset.section;
-      scrollTo(sectionId);
+      navigateToSection(sectionId);
+    });
+  });
+  document.querySelectorAll('#mobileNav a').forEach(function(link){
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      var sectionId = link.dataset.section;
+      if(!sectionId) return;
+      navigateToSection(sectionId);
     });
   });
   document.addEventListener('click', function(e){
@@ -2480,7 +2506,7 @@
   }, { passive: true });
   var hashId = (window.location.hash || '').replace('#','');
   if(hashId){
-    scrollTo(hashId);
+    navigateToSection(hashId);
   } else {
     showPage('home', 'hero');
   }
@@ -2567,6 +2593,10 @@
   document.addEventListener('click', function(){ document.querySelectorAll('.chip-dropdown').forEach(function(d){ d.classList.remove('open'); }); });
   function setChip(valId, val, btn){
     document.getElementById(valId).textContent = val;
+    if (valId === 'valDest') {
+      var searchInput = document.getElementById('smartSearchInput');
+      if (searchInput) searchInput.value = val;
+    }
     btn.closest('.chip-dropdown').querySelectorAll('.dropdown-option').forEach(function(b){ b.classList.remove('selected'); });
     btn.classList.add('selected');
     btn.closest('.chip-dropdown').classList.remove('open');
@@ -2590,12 +2620,21 @@
     document.getElementById('valGuests').textContent = parts.join(', ');
   }
   function doSearch(){
-    var dest = document.getElementById('valDest').textContent;
+    var searchInput = document.getElementById('smartSearchInput');
+    var dest = (searchInput && searchInput.value.trim()) || document.getElementById('valDest').textContent;
+    document.getElementById('valDest').textContent = dest;
     var ci = document.getElementById('valCheckin').textContent;
     var co = document.getElementById('valCheckout').textContent;
     var gst = document.getElementById('valGuests').textContent;
     toast('Searching for tours in '+dest+' · '+ci+' to '+co+' · '+gst+'...','info');
-    setTimeout(function(){ scrollTo('packages'); }, 800);
+    var q = dest.toLowerCase();
+    var target = 'packages';
+    if (/(about|vision|mission|company|team|why)/.test(q)) target = 'about';
+    else if (/(service|airport|vip|mice|hotel|booking support)/.test(q)) target = 'services';
+    else if (/(car|rental|transport|van|scooter|hiace|vios|bezza|vehicle)/.test(q)) target = 'transport';
+    else if (/(contact|phone|whatsapp|email|call|location)/.test(q)) target = 'contact';
+    else if (/(home|hero|langkawi)/.test(q)) target = 'hero';
+    setTimeout(function(){ navigateToSection(target); }, 600);
   }
 
   /* ── PACKAGE FILTER ── */
@@ -2711,6 +2750,8 @@
       document.getElementById('bkgStep'+i).style.display = (i===n)?'':'none';
       document.getElementById('step'+i).classList.toggle('done', i<=n);
     });
+    var bkgImg = document.getElementById('bkgImg');
+    if (bkgImg) bkgImg.style.display = (n===1) ? 'block' : 'none';
     document.getElementById('bkgBack').style.display = n>1?'':'none';
     document.getElementById('bkgNext').textContent = n===2 ? 'Confirm Booking' : 'Continue';
     var subs = ['Select your date and number of guests','Enter your personal details'];
