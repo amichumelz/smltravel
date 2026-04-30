@@ -383,7 +383,33 @@
     .col-d { background-image: url('https://images.unsplash.com/photo-1504274066651-8d31a536b11a?w=1200&q=80'); }
 
     /* ─── VISION, WHY US & SERVICES ─── */
-    .vm-section { padding-top: 72px; }
+    .vm-section {
+      padding: 72px 28px 34px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      isolation: isolate;
+    }
+    .vm-bg-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .vm-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(125deg, rgba(6,18,44,0.78), rgba(12,36,84,0.62));
+      pointer-events: none;
+    }
+    .vm-content { position: relative; z-index: 2; }
+    .vm-section .section-eyebrow { color: #7fc0ff; }
+    .vm-section .section-title { color: #f1f7ff; }
     .vm-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 18px; }
     .vm-card {
       background: #fff;
@@ -833,9 +859,9 @@
     .why-vid-pill:hover { transform: scale(1.03); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
     .why-vid-icon { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-size: 12px; }
     .why-imgs { display: grid; grid-template-columns: 1fr 0.65fr; gap: 12px; align-items: start; }
-    .why-img { border-radius: 18px; border: 3px solid rgba(220,240,255,0.8); min-height: 200px; box-shadow: 0 12px 24px rgba(0,0,0,0.28); }
-    .wi-a { background: linear-gradient(135deg, #76c9f8, #3f9fdb 56%, #27679a); }
-    .wi-b { background: linear-gradient(135deg, #9adfff, #5bb8ef 56%, #2f7ebd); min-height: 140px !important; margin-top: 24px; }
+    .why-img { border-radius: 18px; border: 3px solid rgba(220,240,255,0.8); min-height: 200px; box-shadow: 0 12px 24px rgba(0,0,0,0.28); background-size: cover; background-position: center; background-repeat: no-repeat; }
+    .wi-a { background-image: url('https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=1200&q=80'); }
+    .wi-b { background-image: url('https://images.unsplash.com/photo-1493238792000-8113da705763?w=1200&q=80'); min-height: 140px !important; margin-top: 24px; }
     .partner-pill { background: #fff; color: #1a2a40; border-radius: 12px; padding: 10px 14px; width: fit-content; font-size: 13px; font-weight: 700; }
     .partner-pill span { color: var(--accent); }
     .why-title { font-size: clamp(30px,3.8vw,56px); font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.05; color: #fff; margin-bottom: 14px; }
@@ -1279,6 +1305,7 @@
       .search-go { margin: 6px 0 0; min-height: 48px; width: 100%; }
       .chip-dropdown { left: 0; min-width: 0; width: min(280px, calc(100vw - 56px)); max-width: 100%; }
       .about-grid, .why-grid { grid-template-columns: 1fr; }
+      .vm-section { padding: 56px 16px 24px; }
       .stats-row { grid-template-columns: repeat(2,1fr); }
       .hero-stats { flex-wrap: wrap; justify-content: center; row-gap: 14px; }
       .hero-stat { min-width: 120px; }
@@ -1615,35 +1642,40 @@
       <div class="collage reveal" style="--d:100ms;">
         <div class="col-img col-img-tall col-a"></div>
         <div><div class="col-img col-b" style="margin-bottom:12px;"></div><div class="col-img col-c"></div></div>
-        <div class="col-img col-img-tall col-d" style="margin-top:-60px;"></div>
-        <div class="col-img col-a" style="margin-top:-40px;"></div>
+        <div class="col-img col-img-tall col-d"></div>
+        <div class="col-img col-a"></div>
       </div>
     </div>
   </section>
 
   <!-- VISION & MISSION -->
   <section class="vm-section reveal page-section" data-page="about" id="vision" style="--d:0ms;">
-    <p class="section-eyebrow">Our Direction</p>
-    <h2 class="section-title">Vision & <span>Mission</span></h2>
-    <div class="vm-grid">
-      <div class="vm-card vm-vision reveal" style="--d:0ms;">
-        <div class="vm-head">
-          <div class="vm-icon">🔭</div>
-          <h3>Our Vision</h3>
+    <video class="vm-bg-video" autoplay muted loop playsinline preload="metadata">
+      <source src="https://videos.pexels.com/video-files/2169880/2169880-hd_1920_1080_30fps.mp4" type="video/mp4">
+    </video>
+    <div class="vm-content">
+      <p class="section-eyebrow">Our Direction</p>
+      <h2 class="section-title">Vision & <span>Mission</span></h2>
+      <div class="vm-grid">
+        <div class="vm-card vm-vision reveal" style="--d:0ms;">
+          <div class="vm-head">
+            <div class="vm-icon">🔭</div>
+            <h3>Our Vision</h3>
+          </div>
+          <p>To become one of Malaysia's trusted and leading destination management and ground handling companies, recognized for professionalism, reliability, and exceptional service standards.</p>
         </div>
-        <p>To become one of Malaysia's trusted and leading destination management and ground handling companies, recognized for professionalism, reliability, and exceptional service standards.</p>
-      </div>
-      <div class="vm-card vm-mission reveal" style="--d:120ms;">
-        <div class="vm-head">
-          <div class="vm-icon">🎯</div>
-          <h3>Our Mission</h3>
+        <div class="vm-card vm-mission reveal" style="--d:120ms;">
+          <div class="vm-head">
+            <div class="vm-icon">🎯</div>
+            <h3>Our Mission</h3>
+          </div>
+          <ul class="vm-list">
+            <li>To provide seamless and high-quality travel and ground handling experiences.</li>
+            <li>To deliver professional, efficient, and personalized services for every client.</li>
+            <li>To continuously improve service standards and operational excellence.</li>
+            <li>To build long-term partnerships through trust, consistency, and hospitality.</li>
+          </ul>
         </div>
-        <ul class="vm-list">
-          <li>To provide seamless and high-quality travel and ground handling experiences.</li>
-          <li>To deliver professional, efficient, and personalized services for every client.</li>
-          <li>To continuously improve service standards and operational excellence.</li>
-          <li>To build long-term partnerships through trust, consistency, and hospitality.</li>
-        </ul>
       </div>
     </div>
   </section>
