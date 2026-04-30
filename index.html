@@ -22,11 +22,15 @@
       --section-bg: #f2f7fd;
       --radius: 20px;
       --shadow: 0 12px 28px rgba(10,28,72,0.10);
+      --gutter-desktop: 56px;
+      --gutter-tablet: 32px;
+      --gutter-mobile: 22px;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 110px; }
     body { font-family: 'Poppins', sans-serif; background: var(--blue-dark); color: #fff; overflow-x: hidden; }
     body.loading { overflow: hidden; }
+    img, video, iframe { max-width: 100%; height: auto; }
     button { cursor: pointer; font-family: inherit; border: none; background: none; }
     a { text-decoration: none; color: inherit; }
     input, select { font-family: inherit; }
@@ -38,14 +42,27 @@
       z-index: 9999; transition: opacity 0.6s ease, visibility 0.6s ease;
     }
     .page-loader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
-    .loader-inner { display: flex; flex-direction: column; align-items: center; gap: 18px; width: min(400px,86vw); text-align: center; }
+    .loader-inner { display: flex; flex-direction: column; align-items: center; gap: 18px; width: min(400px,86vw); text-align: center; animation: loaderFloat 1.8s ease-in-out infinite; }
     .loader-island { width: 52px; height: 52px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.3); border-top-color: #fff; animation: spin 1.1s linear infinite; }
-    .loader-title { font-size: 22px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #e8f4ff; }
+    .loader-title { font-size: 22px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #e8f4ff; animation: titlePulse 1.4s ease-in-out infinite; }
     .loader-sub { font-size: 13px; color: rgba(200,224,255,0.7); letter-spacing: 0.5px; }
     .loader-bar-wrap { width: 100%; height: 8px; border-radius: 99px; background: rgba(255,255,255,0.1); overflow: hidden; }
-    .loader-bar { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #3a9eff, #5dd6ff); transition: width 0.15s ease; box-shadow: 0 0 12px rgba(90,200,255,0.6); }
+    .loader-bar { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #3a9eff, #5dd6ff); transition: width 0.15s ease; box-shadow: 0 0 12px rgba(90,200,255,0.6); position: relative; overflow: hidden; }
+    .loader-bar::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -40%;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.65), transparent);
+      animation: barShimmer 1.1s linear infinite;
+    }
     .loader-pct { font-size: 13px; font-weight: 600; color: #c8e4ff; }
-    @keyframes islandBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes barShimmer { from { left: -40%; } to { left: 120%; } }
+    @keyframes titlePulse { 0%,100% { opacity: 0.75; } 50% { opacity: 1; } }
+    @keyframes loaderFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
 
     /* ─── TOAST ─── */
     .toast-wrap { position: fixed; top: 24px; right: 24px; z-index: 8000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
@@ -77,7 +94,7 @@
     /* ─── HERO SLIDESHOW ─── */
     .sky-wrap {
       min-height: 100vh; position: relative; isolation: isolate; overflow: hidden;
-      padding: 122px 52px 0;
+      padding: 122px var(--gutter-desktop) 0;
     }
     .hero-slideshow {
       position: absolute; inset: 0; z-index: 0;
@@ -157,7 +174,7 @@
     .topbar {
       position: fixed; top: 0; left: 0; right: 0; z-index: 1200;
       display: flex; align-items: center; justify-content: space-between;
-      gap: 16px; padding: calc(14px + env(safe-area-inset-top, 0px)) 52px 14px;
+      gap: 16px; padding: calc(14px + env(safe-area-inset-top, 0px)) var(--gutter-desktop) 14px;
       background: rgba(255,255,255,0.96); border-bottom: 1px solid #dbe5f2;
       backdrop-filter: blur(10px); animation: slideDown 0.8s ease both;
       box-shadow: 0 8px 18px rgba(10,28,72,0.08);
@@ -264,7 +281,7 @@
 
     /* ─── SEARCH BAR ─── */
     .search-section {
-      position: relative; z-index: 20; margin-top: -50px; padding: 0 52px 0;
+      position: relative; z-index: 20; margin-top: -50px; padding: 0 var(--gutter-desktop) 0;
     }
     .search-card {
       background: #fff; border-radius: 22px; padding: 8px;
@@ -321,6 +338,7 @@
     /* ─── LIGHT SECTIONS WRAPPER ─── */
     .light-wrap { background: var(--section-bg); color: #1a2a40; padding: 0 52px 60px; }
     body.inner-page .light-wrap { padding-top: 26px; }
+    .light-wrap .page-section + .page-section { margin-top: 28px; }
     .float-whatsapp {
       position: fixed;
       right: 16px;
@@ -357,12 +375,12 @@
     .stat-big { font-size: 36px; font-weight: 800; color: var(--accent); line-height: 1; }
     .stat-lbl { font-size: 13px; color: #556a82; font-weight: 500; margin-top: 6px; }
     .collage { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .col-img { border-radius: 20px; overflow: hidden; min-height: 160px; box-shadow: 0 12px 24px rgba(20,50,100,0.12); }
+    .col-img { border-radius: 20px; overflow: hidden; min-height: 160px; box-shadow: 0 12px 24px rgba(20,50,100,0.12); background-size: cover; background-position: center; background-repeat: no-repeat; }
     .col-img-tall { min-height: 240px; }
-    .col-a { background: linear-gradient(140deg, #7ed0ff 0%, #2f7fbe 50%, #183f74 100%); }
-    .col-b { background: linear-gradient(140deg, #ffd97a 0%, #f4a033 50%, #a85c1a 100%); }
-    .col-c { background: linear-gradient(140deg, #79e5c0 0%, #28a08a 50%, #0e5c50 100%); }
-    .col-d { background: linear-gradient(140deg, #b0c8f4 0%, #5d7ebe 50%, #2c4280 100%); }
+    .col-a { background-image: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&q=80'); }
+    .col-b { background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80'); }
+    .col-c { background-image: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1200&q=80'); }
+    .col-d { background-image: url('https://images.unsplash.com/photo-1504274066651-8d31a536b11a?w=1200&q=80'); }
 
     /* ─── VISION, WHY US & SERVICES ─── */
     .vm-section { padding-top: 72px; }
@@ -567,15 +585,15 @@
     }
     .pkg-card:hover { transform: translateY(-6px); box-shadow: 0 16px 32px rgba(20,50,100,0.13); border-color: #c8daf2; }
     .pkg-img {
-      height: 185px; position: relative; overflow: hidden;
+      height: 185px; position: relative; overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat;
     }
     .pkg-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,22,48,0.58), transparent 55%); }
-    .pi-skybridge { background: linear-gradient(135deg, #5abf55, #9fd850 48%, #2a6e1f); }
-    .pi-mangrove { background: linear-gradient(135deg, #3158a8, #318fd3 50%, #213666); }
-    .pi-beach { background: linear-gradient(135deg, #68a65e, #78b26d 46%, #5c6852); }
-    .pi-cable { background: linear-gradient(135deg, #6e6b5c, #a88f70 46%, #5c4f3b); }
-    .pi-islandhop { background: linear-gradient(135deg, #72a5e5, #6ec4f0 46%, #6976cc); }
-    .pi-sunset { background: linear-gradient(135deg, #a2b8d2, #f4be6a 52%, #6e8da6); }
+    .pi-skybridge { background-image: url('https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=1400&q=80'); }
+    .pi-mangrove { background-image: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1400&q=80'); }
+    .pi-beach { background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1400&q=80'); }
+    .pi-cable { background-image: url('https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?w=1400&q=80'); }
+    .pi-islandhop { background-image: url('https://images.unsplash.com/photo-1504274066651-8d31a536b11a?w=1400&q=80'); }
+    .pi-sunset { background-image: url('https://images.unsplash.com/photo-1493558103817-58b2924bce98?w=1400&q=80'); }
     .pkg-badges { position: absolute; bottom: 10px; left: 10px; z-index: 2; display: flex; gap: 6px; flex-wrap: wrap; }
     .pkg-badge { background: rgba(12,30,58,0.6); color: #f0f8ff; border: 1px solid rgba(255,255,255,0.2); border-radius: 99px; padding: 5px 10px; font-size: 12px; backdrop-filter: blur(4px); }
     .pkg-fav { position: absolute; top: 10px; right: 10px; z-index: 2; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.9); display: grid; place-items: center; font-size: 16px; cursor: pointer; transition: 0.2s ease; border: none; }
@@ -719,10 +737,10 @@
     .reviews-section { padding-top: 72px; }
     .review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
     .rv-card { background: #fff; border: 1px solid #e4edf8; border-radius: 20px; overflow: hidden; box-shadow: 0 6px 16px rgba(20,50,100,0.07); }
-    .rv-photo { min-height: 200px; }
-    .rv-photo.rp1 { background: linear-gradient(135deg, #f0bf99, #d68b60 42%, #8f6046); }
-    .rv-photo.rp2 { background: linear-gradient(135deg, #9ed4d3, #5ba6b3 46%, #3f6f8a); }
-    .rv-photo.rp3 { background: linear-gradient(135deg, #d8c39e, #a6b7b2 46%, #5c7e8d); }
+    .rv-photo { min-height: 200px; background-size: cover; background-position: center; background-repeat: no-repeat; }
+    .rv-photo.rp1 { background-image: url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&q=80'); }
+    .rv-photo.rp2 { background-image: url('https://images.unsplash.com/photo-1468824357306-a439d58ccb1c?w=1200&q=80'); }
+    .rv-photo.rp3 { background-image: url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1200&q=80'); }
     .rv-body { padding: 18px 16px; text-align: center; }
     .rv-avatar { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; font-size: 26px; margin: 0 auto 10px; }
     .av-a { background: #ede8ff; } .av-b { background: #ffeecf; } .av-c { background: #d8f2d4; }
@@ -949,7 +967,60 @@
     .reveal { opacity: 0; transform: translateY(22px) scale(0.985); transition: opacity 0.65s ease, transform 0.65s ease; transition-delay: var(--d, 0ms); will-change: transform, opacity; }
     .reveal.show { opacity: 1; transform: translateY(0) scale(1); }
     .page-section { display: none; }
-    .page-section.active { display: block; }
+    .page-section.active { display: block; animation: pageFade 0.35s ease both; }
+    @keyframes pageFade {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .page-section .section-eyebrow,
+    .page-section .section-title,
+    .page-section .section-desc,
+    .page-section .gallery-wrap,
+    .page-section .about-grid,
+    .page-section .vm-grid,
+    .page-section .wc-grid,
+    .page-section .svc-grid,
+    .page-section .packages-head,
+    .page-section .pkg-grid,
+    .page-section .review-grid,
+    .page-section .car-grid,
+    .page-section .why-grid,
+    .page-section .contact-grid {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .page-section.active .section-eyebrow,
+    .page-section.active .section-title,
+    .page-section.active .section-desc,
+    .page-section.active .gallery-wrap,
+    .page-section.active .about-grid,
+    .page-section.active .vm-grid,
+    .page-section.active .wc-grid,
+    .page-section.active .svc-grid,
+    .page-section.active .packages-head,
+    .page-section.active .pkg-grid,
+    .page-section.active .review-grid,
+    .page-section.active .car-grid,
+    .page-section.active .why-grid,
+    .page-section.active .contact-grid {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .page-section.active .section-eyebrow { transition-delay: 40ms; }
+    .page-section.active .section-title { transition-delay: 110ms; }
+    .page-section.active .section-desc { transition-delay: 170ms; }
+    .page-section.active .gallery-wrap,
+    .page-section.active .about-grid,
+    .page-section.active .vm-grid,
+    .page-section.active .wc-grid,
+    .page-section.active .svc-grid,
+    .page-section.active .packages-head,
+    .page-section.active .pkg-grid,
+    .page-section.active .review-grid,
+    .page-section.active .car-grid,
+    .page-section.active .why-grid,
+    .page-section.active .contact-grid { transition-delay: 210ms; }
     [data-parallax] {
       will-change: transform;
       transform: translate3d(0, 0, 0);
@@ -984,6 +1055,63 @@
       35% { transform: translateY(-6px) scale(1.01); }
       100% { transform: translateY(0) scale(1); }
     }
+    @keyframes sectionGlow {
+      0%, 100% { box-shadow: 0 0 0 rgba(58,158,255,0); }
+      50% { box-shadow: 0 0 28px rgba(58,158,255,0.09); }
+    }
+    @keyframes textBreath {
+      0%, 100% { letter-spacing: 0; transform: translateY(0); }
+      50% { letter-spacing: 0.35px; transform: translateY(-1px); }
+    }
+    @keyframes iconWiggle {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(-4deg) scale(1.03); }
+      75% { transform: rotate(4deg) scale(1.03); }
+    }
+    @keyframes softTilt {
+      0%, 100% { transform: perspective(600px) rotateX(0deg) rotateY(0deg); }
+      50% { transform: perspective(600px) rotateX(1.1deg) rotateY(-1.1deg); }
+    }
+    @keyframes shineSweep {
+      0% { background-position: -180% 0; }
+      100% { background-position: 180% 0; }
+    }
+    .gallery-wrap,
+    .why-section,
+    .contact-card,
+    .rv-card,
+    .pkg-card,
+    .car-card,
+    .svc-card,
+    .vm-card,
+    .wc-card,
+    .stat-box { animation: cardDrift 6s ease-in-out infinite, sectionGlow 7.5s ease-in-out infinite; }
+    .gallery-wrap,
+    .why-section,
+    .contact-card { animation-duration: 7s, 9s; }
+    .section-eyebrow,
+    .section-title { animation: textBreath 5.8s ease-in-out infinite; transform-origin: left center; }
+    .section-title span { display: inline-block; background: linear-gradient(90deg, #2f88e7, #5db6ff, #2f88e7); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shineSweep 4.8s linear infinite; }
+    .wc-icon,
+    .svc-ico,
+    .vm-icon,
+    .success-icon,
+    .contact-ico { animation: iconWiggle 4.5s ease-in-out infinite; transform-origin: center; }
+    .pkg-img,
+    .rv-photo,
+    .collage .col-img { animation: softTilt 8s ease-in-out infinite; transform-origin: center center; }
+    .pkg-img::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, transparent 0%, rgba(255,255,255,0.22) 46%, transparent 62%);
+      background-size: 220% 100%;
+      animation: shineSweep 3.8s linear infinite;
+      pointer-events: none;
+      z-index: 1;
+      mix-blend-mode: screen;
+    }
+    .pkg-badges, .pkg-fav { z-index: 2; }
 
     /* ─── MODAL OVERLAY ─── */
     .modal-overlay {
@@ -1102,9 +1230,9 @@
 
     /* ─── RESPONSIVE ─── */
     @media (max-width: 1100px) {
-      .topbar { padding: calc(12px + env(safe-area-inset-top, 0px)) 28px 12px; }
+      .topbar { padding: calc(12px + env(safe-area-inset-top, 0px)) var(--gutter-tablet) 12px; }
       .company-logo { height: 56px; }
-      .sky-wrap, .search-section, .light-wrap { padding-left: 28px; padding-right: 28px; }
+      .sky-wrap, .search-section, .light-wrap { padding-left: var(--gutter-tablet); padding-right: var(--gutter-tablet); }
       .pkg-grid, .car-grid { grid-template-columns: repeat(2, 1fr); }
       .gallery-stage { height: 360px; }
       .gallery-card { width: 260px; height: 330px; }
@@ -1113,19 +1241,21 @@
       .search-card { grid-template-columns: 1fr 1fr 1fr 120px; }
       .s-chip:nth-child(4), .s-chip:nth-child(5) { display: none; }
       .review-grid { grid-template-columns: 1fr 1fr; }
-      .contact-section { padding: 52px 28px 44px; }
+      .contact-section { padding: 52px var(--gutter-tablet) 44px; }
       .contact-grid { grid-template-columns: 1fr; }
-      .site-footer { padding: 32px 28px calc(16px + env(safe-area-inset-bottom, 0px)); }
+      .site-footer { padding: 32px var(--gutter-tablet) calc(16px + env(safe-area-inset-bottom, 0px)); }
       .footer-main { grid-template-columns: 1fr 1fr; gap: 24px; }
       body.inner-page .light-wrap { padding-top: 20px; }
     }
     @media (max-width: 768px) {
-      .topbar { padding: calc(10px + env(safe-area-inset-top, 0px)) 18px 10px; }
+      html { scroll-padding-top: 96px; }
+      .topbar { padding: calc(10px + env(safe-area-inset-top, 0px)) var(--gutter-mobile) 10px; }
       .company-logo { height: 46px; }
-      .sky-wrap, .search-section, .light-wrap { padding-left: 18px; padding-right: 18px; }
+      .sky-wrap, .search-section, .light-wrap { padding-left: var(--gutter-mobile); padding-right: var(--gutter-mobile); }
+      .light-wrap .page-section + .page-section { margin-top: 22px; }
       .sky-wrap { padding-top: calc(92px + env(safe-area-inset-top, 0px)); }
       .hero { padding: 52px 0 120px; }
-      .hero-title { font-size: clamp(62px,18vw,120px); }
+      .hero-title { font-size: clamp(52px,17vw,120px); letter-spacing: 3px; line-height: 0.95; }
       .hero-subtitle { font-size: 15px; max-width: 92vw; }
       .pkg-grid, .car-grid, .review-grid, .svc-grid { grid-template-columns: 1fr; }
       .wc-grid::before { left: 16px; transform: none; }
@@ -1142,15 +1272,19 @@
       .gallery-caption strong { font-size: 24px; }
       .gallery-caption span { font-size: 12px; }
       .gallery-nav { width: 36px; height: 36px; }
-      .search-card { grid-template-columns: 1fr 1fr 100px; }
+      .search-card { grid-template-columns: 1fr; border-radius: 14px; padding: 10px; gap: 6px; }
+      .s-chip { border-right: none; border-bottom: 1px solid #edf2fb; padding: 12px 10px; }
+      .s-chip:last-of-type { border-bottom: none; }
       .s-chip:nth-child(3), .s-chip:nth-child(4), .s-chip:nth-child(5) { display: none; }
+      .search-go { margin: 6px 0 0; min-height: 48px; width: 100%; }
+      .chip-dropdown { left: 0; min-width: 0; width: min(280px, calc(100vw - 56px)); max-width: 100%; }
       .about-grid, .why-grid { grid-template-columns: 1fr; }
       .stats-row { grid-template-columns: repeat(2,1fr); }
       .hero-stats { flex-wrap: wrap; justify-content: center; row-gap: 14px; }
       .hero-stat { min-width: 120px; }
-      .contact-section { padding: 44px 18px 36px; }
+      .contact-section { padding: 44px var(--gutter-mobile) 36px; }
       .contact-actions { flex-direction: column; }
-      .site-footer { padding: 28px 18px calc(14px + env(safe-area-inset-bottom, 0px)); }
+      .site-footer { padding: 28px var(--gutter-mobile) calc(14px + env(safe-area-inset-bottom, 0px)); }
       .footer-main { grid-template-columns: 1fr; gap: 20px; }
       body.inner-page .light-wrap { padding-top: 16px; }
       .form-row { grid-template-columns: 1fr; }
@@ -1159,8 +1293,8 @@
       .nav-pill { display: none; }
       .mobile-menu-btn { display: grid; place-items: center; }
       .search-section { margin-top: -26px; }
-      .search-card { border-radius: 14px; }
-      .float-whatsapp { width: 52px; height: 52px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+      .mobile-nav { right: var(--gutter-mobile); left: var(--gutter-mobile); }
+      .float-whatsapp { width: 52px; height: 52px; right: var(--gutter-mobile); bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
     }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
   </style>
@@ -1409,6 +1543,59 @@
     </div>
   </section>
 
+  <!-- OUR SERVICES -->
+  <section class="services-section reveal page-section active" data-page="home" id="services" style="--d:0ms;">
+    <p class="section-eyebrow">What We Offer</p>
+    <h2 class="section-title">Our <span>Services</span></h2>
+    <div class="svc-grid">
+      <div class="svc-card svc-airport reveal" style="--d:0ms;">
+        <div class="svc-ico">AT</div>
+        <h4>Airport Transfers & VIP Meet-and-Greet</h4>
+        <p>Professional airport pickup, drop-off, VIP fast-track assistance, and personalized arrival services.</p>
+      </div>
+      <div class="svc-card svc-corporate reveal" style="--d:60ms;">
+        <div class="svc-ico">CT</div>
+        <h4>Corporate Transportation</h4>
+        <p>Executive transport for meetings, conferences, exhibitions, and business delegations.</p>
+      </div>
+      <div class="svc-card svc-mice reveal" style="--d:120ms;">
+        <div class="svc-ico">MX</div>
+        <h4>MICE & Exhibition Support</h4>
+        <p>Complete ground handling support for meetings, incentives, conferences, exhibitions, and corporate events.</p>
+      </div>
+      <div class="svc-card svc-hotel reveal" style="--d:0ms;">
+        <div class="svc-ico">HC</div>
+        <h4>Hotel & Travel Coordination</h4>
+        <p>Accommodation arrangements, itinerary planning, and travel management solutions.</p>
+      </div>
+      <div class="svc-card svc-tour reveal" style="--d:60ms;">
+        <div class="svc-ico">TB</div>
+        <h4>Activity & Tour Bookings</h4>
+        <p>Arrangement of popular local experiences and leisure activities across Malaysia, especially in Langkawi.</p>
+      </div>
+      <div class="svc-card svc-langkawi reveal" style="--d:120ms;">
+        <div class="svc-ico">LE</div>
+        <h4>Langkawi Experiences</h4>
+        <p>Mangrove Tours, Island Hopping, Sunset Dinner Cruises, Private Yacht Charters, Water Activities & more.</p>
+      </div>
+      <div class="svc-card svc-ticketing reveal" style="--d:0ms;">
+        <div class="svc-ico">TK</div>
+        <h4>Ticketing Services</h4>
+        <p>Ferry tickets, attraction tickets, theme park tickets, event tickets, and travel-related reservations.</p>
+      </div>
+      <div class="svc-card svc-media reveal" style="--d:60ms;">
+        <div class="svc-ico">MV</div>
+        <h4>Photography & Videography</h4>
+        <p>Professional media support for events, corporate activities, exhibitions, and travel experiences.</p>
+      </div>
+      <div class="svc-card svc-event reveal" style="--d:120ms;">
+        <div class="svc-ico">OG</div>
+        <h4>Event & On-Ground Assistance</h4>
+        <p>On-site coordination, guest assistance, registration support, and logistics management.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- ABOUT -->
   <section class="about-section reveal page-section" data-page="about" id="about" style="--d:0ms;">
     <div class="about-grid">
@@ -1495,59 +1682,6 @@
         <div class="wc-icon">TR</div>
         <h4>Trusted by Business & Leisure Clients</h4>
         <p>Committed to building long-term partnerships through professionalism and consistency.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- OUR SERVICES -->
-  <section class="services-section reveal page-section" data-page="services" id="services" style="--d:0ms;">
-    <p class="section-eyebrow">What We Offer</p>
-    <h2 class="section-title">Our <span>Services</span></h2>
-    <div class="svc-grid">
-      <div class="svc-card svc-airport reveal" style="--d:0ms;">
-        <div class="svc-ico">AT</div>
-        <h4>Airport Transfers & VIP Meet-and-Greet</h4>
-        <p>Professional airport pickup, drop-off, VIP fast-track assistance, and personalized arrival services.</p>
-      </div>
-      <div class="svc-card svc-corporate reveal" style="--d:60ms;">
-        <div class="svc-ico">CT</div>
-        <h4>Corporate Transportation</h4>
-        <p>Executive transport for meetings, conferences, exhibitions, and business delegations.</p>
-      </div>
-      <div class="svc-card svc-mice reveal" style="--d:120ms;">
-        <div class="svc-ico">MX</div>
-        <h4>MICE & Exhibition Support</h4>
-        <p>Complete ground handling support for meetings, incentives, conferences, exhibitions, and corporate events.</p>
-      </div>
-      <div class="svc-card svc-hotel reveal" style="--d:0ms;">
-        <div class="svc-ico">HC</div>
-        <h4>Hotel & Travel Coordination</h4>
-        <p>Accommodation arrangements, itinerary planning, and travel management solutions.</p>
-      </div>
-      <div class="svc-card svc-tour reveal" style="--d:60ms;">
-        <div class="svc-ico">TB</div>
-        <h4>Activity & Tour Bookings</h4>
-        <p>Arrangement of popular local experiences and leisure activities across Malaysia, especially in Langkawi.</p>
-      </div>
-      <div class="svc-card svc-langkawi reveal" style="--d:120ms;">
-        <div class="svc-ico">LE</div>
-        <h4>Langkawi Experiences</h4>
-        <p>Mangrove Tours, Island Hopping, Sunset Dinner Cruises, Private Yacht Charters, Water Activities & more.</p>
-      </div>
-      <div class="svc-card svc-ticketing reveal" style="--d:0ms;">
-        <div class="svc-ico">TK</div>
-        <h4>Ticketing Services</h4>
-        <p>Ferry tickets, attraction tickets, theme park tickets, event tickets, and travel-related reservations.</p>
-      </div>
-      <div class="svc-card svc-media reveal" style="--d:60ms;">
-        <div class="svc-ico">MV</div>
-        <h4>Photography & Videography</h4>
-        <p>Professional media support for events, corporate activities, exhibitions, and travel experiences.</p>
-      </div>
-      <div class="svc-card svc-event reveal" style="--d:120ms;">
-        <div class="svc-ico">OG</div>
-        <h4>Event & On-Ground Assistance</h4>
-        <p>On-site coordination, guest assistance, registration support, and logistics management.</p>
       </div>
     </div>
   </section>
@@ -1904,14 +2038,17 @@
         <a class="social-btn" href="https://wa.me/60175086608" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.79 11.79 0 0 0 12.12 0C5.67 0 .42 5.24.42 11.7c0 2.06.54 4.08 1.56 5.85L0 24l6.62-1.92a11.67 11.67 0 0 0 5.5 1.4h.01c6.45 0 11.7-5.25 11.7-11.7 0-3.12-1.21-6.05-3.31-8.3Zm-8.4 18.02h-.01a9.75 9.75 0 0 1-4.98-1.37l-.36-.21-3.93 1.14 1.18-3.83-.24-.39a9.75 9.75 0 0 1-1.5-5.16c0-5.38 4.38-9.76 9.76-9.76a9.7 9.7 0 0 1 6.9 2.86 9.69 9.69 0 0 1 2.86 6.9c0 5.38-4.38 9.76-9.76 9.76Zm5.35-7.33c-.29-.15-1.72-.85-1.98-.95-.26-.1-.45-.15-.64.14s-.73.95-.89 1.14c-.16.19-.33.21-.62.07-.29-.15-1.22-.45-2.32-1.42-.86-.77-1.44-1.72-1.61-2.01-.16-.29-.02-.45.12-.59.13-.13.29-.33.43-.5.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.07-.15-.64-1.54-.88-2.11-.23-.56-.47-.49-.64-.49h-.55c-.19 0-.5.07-.76.36-.26.29-1 1-1 2.43s1.02 2.81 1.16 3c.14.19 2 3.05 4.84 4.27.68.29 1.22.47 1.63.6.68.22 1.3.19 1.79.12.55-.08 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.19-.55-.33Z"/></svg>
         </a>
-        <a class="social-btn" href="https://www.facebook.com/SMLeisureTravel" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+        <a class="social-btn" href="https://www.facebook.com/smleisuretravel" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z"/></svg>
         </a>
-        <a class="social-btn" href="https://www.instagram.com/smleisuremy" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <a class="social-btn" href="https://www.instagram.com/sm_leisure/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm8.38 1.75H7.87a4.12 4.12 0 0 0-4.12 4.12v8.26a4.12 4.12 0 0 0 4.12 4.12h8.26a4.12 4.12 0 0 0 4.12-4.12V7.87a4.12 4.12 0 0 0-4.12-4.12ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.75a3.25 3.25 0 1 0 0 6.5 3.25 3.25 0 0 0 0-6.5Zm5.25-2a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg>
         </a>
-        <a class="social-btn" href="https://www.tiktok.com/@smleisuremy" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+        <a class="social-btn" href="https://www.tiktok.com/@smleisuretravel" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 2h2.29a4.72 4.72 0 0 0 3.21 3.21V7.5a7.2 7.2 0 0 1-3.25-.78v7.05A6.77 6.77 0 1 1 12 7v2.33a4.44 4.44 0 1 0 4.5 4.44V2Z"/></svg>
+        </a>
+        <a class="social-btn" href="https://www.xiaohongshu.com/user/profile/42153895034" target="_blank" rel="noopener noreferrer" aria-label="Rednote">
+          <span aria-hidden="true" style="font-weight:800;font-size:13px;letter-spacing:0.3px;">R</span>
         </a>
       </div>
     </div>
@@ -1964,7 +2101,6 @@
       <div id="bkgStep2" style="display:none;">
         <div class="form-row">
           <div class="form-group"><label>Full Name</label><input type="text" id="bkgName" placeholder="Your full name"></div>
-          <div class="form-group"><label>Email</label><input type="email" id="bkgEmail" placeholder="your@email.com"></div>
         </div>
         <div class="form-row">
           <div class="form-group"><label>Phone</label><input type="tel" id="bkgPhone" placeholder="+60 12 345 6789"></div>
@@ -2011,7 +2147,7 @@
       <div class="success-screen" id="bkgSuccess">
         <div class="success-icon">🎉</div>
         <h2>Booking Confirmed!</h2>
-        <p>Your tour has been successfully booked. Check your email for the booking confirmation.</p>
+        <p>Your tour details have been sent to WhatsApp for confirmation.</p>
         <div class="booking-ref" id="bkgRef">Booking #LKW-XXXXX</div>
         <button class="btn-primary" style="margin-top:20px;" onclick="closeModal('bookingModal')">Back to Home</button>
       </div>
@@ -2142,26 +2278,34 @@
 
 <!-- ─── SCRIPTS ─── -->
 <script>
-  /* ── LOADER ── */
+  /* ── INITIAL LOAD ── */
+  var bootStartAt = Date.now();
   var loaderBar = document.getElementById('loaderBar');
   var loaderPct = document.getElementById('loaderPct');
-  var pv = 0, loaderStart = Date.now(), minLoad = 2800;
-  var lt = setInterval(function(){
-    if(pv >= 90) return;
-    pv += Math.floor(Math.random()*9)+3;
-    if(pv>90) pv=90;
-    loaderBar.style.width = pv+'%';
-    loaderPct.textContent = pv+'%';
-  }, 110);
+  var loaderProgress = 0;
+  var loaderTick = setInterval(function(){
+    if (!loaderBar || !loaderPct) return;
+    if (loaderProgress >= 92) return;
+    loaderProgress += Math.floor(Math.random() * 7) + 2;
+    if (loaderProgress > 92) loaderProgress = 92;
+    loaderBar.style.width = loaderProgress + '%';
+    loaderPct.textContent = loaderProgress + '%';
+  }, 120);
   window.addEventListener('load', function(){
-    document.body.classList.remove('loading');
-    clearInterval(lt);
-    loaderBar.style.width='100%'; loaderPct.textContent='100%';
-    var extra = Math.max(0, minLoad-(Date.now()-loaderStart));
+    var loader = document.getElementById('pageLoader');
+    var minLoaderMs = 2600;
+    var waitMs = Math.max(0, minLoaderMs - (Date.now() - bootStartAt));
     setTimeout(function(){
-      document.getElementById('pageLoader').classList.add('hide');
-      setTimeout(function(){ document.getElementById('pageLoader').remove(); },700);
-    }, extra+150);
+      document.body.classList.remove('loading');
+      if (!loader) return;
+      if (loaderBar && loaderPct) {
+        clearInterval(loaderTick);
+        loaderBar.style.width = '100%';
+        loaderPct.textContent = '100%';
+      }
+      loader.classList.add('hide');
+      setTimeout(function(){ loader.remove(); }, 650);
+    }, waitMs);
   });
 
   /* ── SCROLL REVEAL ── */
@@ -2170,6 +2314,23 @@
     entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('show'); ro.unobserve(e.target); }});
   },{threshold:0.12});
   revEls.forEach(function(el){ ro.observe(el); });
+  var whyCards = Array.from(document.querySelectorAll('#whychoose .wc-card.reveal'));
+  var whyObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var idx = parseInt(e.target.getAttribute('data-wc-idx') || '0', 10);
+      setTimeout(function(){ e.target.classList.add('show'); }, idx * 120);
+      whyObserver.unobserve(e.target);
+    });
+  }, { threshold: 0.24 });
+  function armWhyCardsReveal(){
+    whyCards.forEach(function(card, idx){
+      card.setAttribute('data-wc-idx', String(idx));
+      card.classList.remove('show');
+      whyObserver.observe(card);
+    });
+  }
+  armWhyCardsReveal();
 
   /* ── PAGE NAV (single HTML, multi-page feel) ── */
   function pageById(id){
@@ -2178,7 +2339,7 @@
       about:'about',
       vision:'about',
       whychoose:'about',
-      services:'services',
+      services:'home',
       packages:'packages',
       transport:'transport',
       contact:'contact'
@@ -2211,9 +2372,12 @@
     document.body.classList.toggle('inner-page', page !== 'home');
     setActiveNav(sectionId || page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    document.querySelectorAll('.page-section.active .reveal').forEach(function(el){
+    document.querySelectorAll('.page-section.active .reveal:not(.wc-card)').forEach(function(el){
       el.classList.add('show');
     });
+    if(page === 'about'){
+      armWhyCardsReveal();
+    }
     closeMobileNav();
     updateParallax();
   }
@@ -2541,9 +2705,9 @@
       showBkgStep(2);
     } else if(bkgStep===2){
       var name = document.getElementById('bkgName').value;
-      var email = document.getElementById('bkgEmail').value;
+      var phone = document.getElementById('bkgPhone').value;
       if(!name.trim()){ toast('Please enter your full name.','warning'); return; }
-      if(!email.trim()||!email.includes('@')){ toast('Please enter a valid email.','warning'); return; }
+      if(!phone.trim()){ toast('Please enter your phone number.','warning'); return; }
       processPayment();
     }
   }
@@ -2564,6 +2728,30 @@
       [1,2,3].forEach(function(i){ document.getElementById('step'+i).classList.add('done'); });
       var sub = bkgBasePrice*bkgQtyVal, fee = Math.round(sub*0.05), total = sub+fee;
       addToCart(currentBookingName, document.getElementById('bkgDate').value+' · '+bkgQtyVal+' pax', total);
+      var bookingDate = document.getElementById('bkgDate').value;
+      var bookingTime = document.getElementById('bkgTime').value;
+      var fullName = document.getElementById('bkgName').value.trim();
+      var phone = document.getElementById('bkgPhone').value.trim();
+      var nationality = document.getElementById('bkgNat').value;
+      var note = document.getElementById('bkgNote').value.trim();
+      var waMsg = [
+        'Hi SM Leisure, saya nak confirm booking.',
+        '',
+        'Booking Number: '+ref,
+        'Package: '+currentBookingName,
+        'Date: '+bookingDate,
+        'Time: '+bookingTime,
+        'Pax: '+bkgQtyVal,
+        'Subtotal: RM '+sub,
+        'Service Fee: RM '+fee,
+        'Total: RM '+total,
+        '',
+        'Customer Name: '+fullName,
+        'Phone: '+phone,
+        'Nationality: '+nationality,
+        'Special Request: '+(note || '-')
+      ].join('\n');
+      window.open('https://wa.me/60175086608?text='+encodeURIComponent(waMsg), '_blank');
       document.getElementById('bkgNext').disabled=false;
     },1800);
   }
