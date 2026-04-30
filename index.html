@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Langkawi Escape — Island Adventures & Booking</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -157,7 +157,7 @@
     .topbar {
       position: fixed; top: 0; left: 0; right: 0; z-index: 1200;
       display: flex; align-items: center; justify-content: space-between;
-      gap: 16px; padding: 14px 52px;
+      gap: 16px; padding: calc(14px + env(safe-area-inset-top, 0px)) 52px 14px;
       background: rgba(255,255,255,0.96); border-bottom: 1px solid #dbe5f2;
       backdrop-filter: blur(10px); animation: slideDown 0.8s ease both;
       box-shadow: 0 8px 18px rgba(10,28,72,0.08);
@@ -181,6 +181,41 @@
     }
     .nav-pill a:hover, .nav-pill a.active { background: #ffffff; color: #1e76d8; }
     .nav-right { display: flex; align-items: center; gap: 10px; }
+    .mobile-menu-btn {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border: 1px solid #d7e2f0;
+      border-radius: 10px;
+      background: #fff;
+      color: #2a3a52;
+      font-size: 20px;
+      line-height: 1;
+      box-shadow: 0 6px 14px rgba(10,28,72,0.08);
+    }
+    .mobile-nav {
+      position: fixed;
+      top: calc(82px + env(safe-area-inset-top, 0px));
+      right: 14px;
+      left: 14px;
+      z-index: 1199;
+      background: #ffffff;
+      border: 1px solid #dbe5f2;
+      border-radius: 14px;
+      box-shadow: 0 20px 30px rgba(10,28,72,0.16);
+      padding: 10px;
+      display: none;
+    }
+    .mobile-nav.open { display: grid; animation: mobileMenuIn 0.22s ease; }
+    .mobile-nav a {
+      padding: 11px 12px;
+      border-radius: 10px;
+      color: #2a3a52;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .mobile-nav a:hover { background: #f4f9ff; color: #1e76d8; }
+    @keyframes mobileMenuIn { from { opacity: 0; transform: translateY(-8px);} to { opacity: 1; transform: translateY(0);} }
     .btn-plan {
       border: 1px solid #d2e1f3; background: #ffffff;
       color: #2a3a52; border-radius: 12px; padding: 10px 18px; font-size: 13.5px; font-weight: 600;
@@ -286,6 +321,28 @@
     /* ─── LIGHT SECTIONS WRAPPER ─── */
     .light-wrap { background: var(--section-bg); color: #1a2a40; padding: 0 52px 60px; }
     body.inner-page .light-wrap { padding-top: 26px; }
+    .float-whatsapp {
+      position: fixed;
+      right: 16px;
+      bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: linear-gradient(130deg, #28c76f, #1fa65a);
+      color: #fff;
+      box-shadow: 0 10px 22px rgba(26, 146, 81, 0.45);
+      z-index: 1200;
+      display: grid;
+      place-items: center;
+      transition: transform 0.2s ease;
+      animation: wsPulse 2.1s ease-in-out infinite;
+    }
+    .float-whatsapp svg { width: 24px; height: 24px; fill: currentColor; }
+    .float-whatsapp:hover { transform: translateY(-2px) scale(1.03); }
+    @keyframes wsPulse {
+      0%,100% { box-shadow: 0 10px 22px rgba(26, 146, 81, 0.45), 0 0 0 0 rgba(40,199,111,0.35); }
+      50% { box-shadow: 0 12px 24px rgba(26, 146, 81, 0.5), 0 0 0 12px rgba(40,199,111,0); }
+    }
 
     /* ─── ABOUT SECTION ─── */
     .about-section { padding-top: 72px; }
@@ -827,7 +884,7 @@
     .site-footer {
       background: #f7f9fc;
       border-top: 1px solid #e2e9f3;
-      padding: 44px 52px 20px;
+      padding: 44px 52px calc(20px + env(safe-area-inset-bottom, 0px));
       color: #1a2a40;
     }
     .footer-main {
@@ -893,6 +950,40 @@
     .reveal.show { opacity: 1; transform: translateY(0) scale(1); }
     .page-section { display: none; }
     .page-section.active { display: block; }
+    [data-parallax] {
+      will-change: transform;
+      transform: translate3d(0, 0, 0);
+    }
+    .hero-stat { animation: softFloat 4.2s ease-in-out infinite; }
+    .hero-stat:nth-child(2) { animation-delay: 0.25s; }
+    .hero-stat:nth-child(3) { animation-delay: 0.5s; }
+    .hero-stat:nth-child(4) { animation-delay: 0.75s; }
+    .btn-primary, .btn-outline, .search-go, .btn-book-sm, .btn-rent { animation: btnPulse 3.8s ease-in-out infinite; }
+    .wc-card, .svc-card, .pkg-card, .car-card, .contact-card, .stat-box { animation: cardDrift 6s ease-in-out infinite; }
+    .wc-card:nth-child(even), .svc-card:nth-child(even), .pkg-card:nth-child(even), .car-card:nth-child(even), .contact-card:nth-child(even), .stat-box:nth-child(even) { animation-delay: 0.45s; }
+    .img-badge, .car-badge { animation: badgePulse 2.8s ease-in-out infinite; }
+    .looping { animation: scrollBounce 0.9s ease-in-out 1 !important; }
+    @keyframes softFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    @keyframes btnPulse {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-2px) scale(1.01); }
+    }
+    @keyframes cardDrift {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+    @keyframes badgePulse {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.1); }
+    }
+    @keyframes scrollBounce {
+      0% { transform: translateY(0) scale(1); }
+      35% { transform: translateY(-6px) scale(1.01); }
+      100% { transform: translateY(0) scale(1); }
+    }
 
     /* ─── MODAL OVERLAY ─── */
     .modal-overlay {
@@ -1011,7 +1102,7 @@
 
     /* ─── RESPONSIVE ─── */
     @media (max-width: 1100px) {
-      .topbar { padding: 12px 28px; }
+      .topbar { padding: calc(12px + env(safe-area-inset-top, 0px)) 28px 12px; }
       .company-logo { height: 56px; }
       .sky-wrap, .search-section, .light-wrap { padding-left: 28px; padding-right: 28px; }
       .pkg-grid, .car-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1024,15 +1115,18 @@
       .review-grid { grid-template-columns: 1fr 1fr; }
       .contact-section { padding: 52px 28px 44px; }
       .contact-grid { grid-template-columns: 1fr; }
-      .site-footer { padding: 32px 28px 16px; }
+      .site-footer { padding: 32px 28px calc(16px + env(safe-area-inset-bottom, 0px)); }
       .footer-main { grid-template-columns: 1fr 1fr; gap: 24px; }
       body.inner-page .light-wrap { padding-top: 20px; }
     }
     @media (max-width: 768px) {
-      .topbar { padding: 10px 18px; }
+      .topbar { padding: calc(10px + env(safe-area-inset-top, 0px)) 18px 10px; }
       .company-logo { height: 46px; }
       .sky-wrap, .search-section, .light-wrap { padding-left: 18px; padding-right: 18px; }
+      .sky-wrap { padding-top: calc(92px + env(safe-area-inset-top, 0px)); }
+      .hero { padding: 52px 0 120px; }
       .hero-title { font-size: clamp(62px,18vw,120px); }
+      .hero-subtitle { font-size: 15px; max-width: 92vw; }
       .pkg-grid, .car-grid, .review-grid, .svc-grid { grid-template-columns: 1fr; }
       .wc-grid::before { left: 16px; transform: none; }
       .wc-card {
@@ -1052,15 +1146,21 @@
       .s-chip:nth-child(3), .s-chip:nth-child(4), .s-chip:nth-child(5) { display: none; }
       .about-grid, .why-grid { grid-template-columns: 1fr; }
       .stats-row { grid-template-columns: repeat(2,1fr); }
+      .hero-stats { flex-wrap: wrap; justify-content: center; row-gap: 14px; }
+      .hero-stat { min-width: 120px; }
       .contact-section { padding: 44px 18px 36px; }
       .contact-actions { flex-direction: column; }
-      .site-footer { padding: 28px 18px 14px; }
+      .site-footer { padding: 28px 18px calc(14px + env(safe-area-inset-bottom, 0px)); }
       .footer-main { grid-template-columns: 1fr; gap: 20px; }
       body.inner-page .light-wrap { padding-top: 16px; }
       .form-row { grid-template-columns: 1fr; }
       .hero-stats { gap: 24px; }
       .hero-actions { flex-direction: column; align-items: center; }
       .nav-pill { display: none; }
+      .mobile-menu-btn { display: grid; place-items: center; }
+      .search-section { margin-top: -26px; }
+      .search-card { border-radius: 14px; }
+      .float-whatsapp { width: 52px; height: 52px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
     }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
   </style>
@@ -1112,27 +1212,37 @@
     <a href="#transport" data-section="transport">Transport</a>
     <a href="#contact" data-section="contact">Contact</a>
   </nav>
-  <div class="nav-right"></div>
+  <div class="nav-right">
+    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileNav()" aria-label="Open menu">≡</button>
+  </div>
 </header>
+<nav class="mobile-nav" id="mobileNav">
+  <a href="#" onclick="scrollTo('hero')">Home</a>
+  <a href="#about" onclick="scrollTo('about')">About</a>
+  <a href="#services" onclick="scrollTo('services')">Services</a>
+  <a href="#packages" onclick="scrollTo('packages')">Packages</a>
+  <a href="#transport" onclick="scrollTo('transport')">Transport</a>
+  <a href="#contact" onclick="scrollTo('contact')">Contact</a>
+</nav>
 
 <!-- ─── SKY HERO ─── -->
 <div class="sky-wrap page-section active" data-page="home">
   <!-- SLIDESHOW -->
-  <div class="hero-slideshow" id="heroSlideshow">
+  <div class="hero-slideshow" id="heroSlideshow" data-parallax data-speed="0.08">
     <div class="hero-slide hs1 active"></div>
     <div class="hero-slide hs2"></div>
     <div class="hero-slide hs3"></div>
     <div class="hero-slide hs4"></div>
     <div class="hero-slide hs5"></div>
   </div>
-  <div class="moon"></div>
-  <div class="aurora"></div>
-  <div class="shoot"></div>
+  <div class="moon" data-parallax data-speed="0.18"></div>
+  <div class="aurora" data-parallax data-speed="0.22"></div>
+  <div class="shoot" data-parallax data-speed="0.28"></div>
   <span class="twinkle tw1"></span><span class="twinkle tw2"></span><span class="twinkle tw3"></span>
   <span class="twinkle tw4"></span><span class="twinkle tw5"></span><span class="twinkle tw6"></span>
   <div class="palms"></div>
   <div class="palms palms-r"></div>
-  <div class="island-silhouette"></div>
+  <div class="island-silhouette" data-parallax data-speed="-0.06"></div>
 
   <!-- HERO -->
   <section class="hero" id="hero">
@@ -1249,7 +1359,7 @@
   <section class="gallery-section reveal page-section active" data-page="home" style="--d:0ms;">
     <p class="section-eyebrow">Visual Journey</p>
     <h2 class="section-title">Langkawi Photo <span>Carousel</span></h2>
-    <div class="gallery-wrap">
+    <div class="gallery-wrap" data-parallax data-speed="0.05">
       <button class="gallery-nav gallery-prev" onclick="moveGallery(-1)">‹</button>
       <button class="gallery-nav gallery-next" onclick="moveGallery(1)">›</button>
       <div class="gallery-stage" id="galleryStage">
@@ -1808,6 +1918,9 @@
   </div>
   <div class="footer-bottom">© 2026 SM Leisure Travel & Tours Sdn Bhd. All Rights Reserved.</div>
 </div>
+<a class="float-whatsapp" href="https://wa.me/60175086608" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.79 11.79 0 0 0 12.12 0C5.67 0 .42 5.24.42 11.7c0 2.06.54 4.08 1.56 5.85L0 24l6.62-1.92a11.67 11.67 0 0 0 5.5 1.4h.01c6.45 0 11.7-5.25 11.7-11.7 0-3.12-1.21-6.05-3.31-8.3Zm-8.4 18.02h-.01a9.75 9.75 0 0 1-4.98-1.37l-.36-.21-3.93 1.14 1.18-3.83-.24-.39a9.75 9.75 0 0 1-1.5-5.16c0-5.38 4.38-9.76 9.76-9.76a9.7 9.7 0 0 1 6.9 2.86 9.69 9.69 0 0 1 2.86 6.9c0 5.38-4.38 9.76-9.76 9.76Z"/></svg>
+</a>
 
 <!-- ─── BOOKING MODAL ─── -->
 <div class="modal-overlay" id="bookingModal" onclick="handleModalClick(event,'bookingModal')">
@@ -2077,6 +2190,20 @@
       a.classList.toggle('active', a.dataset.section === sectionId);
     });
   }
+  function toggleMobileNav(){
+    var panel = document.getElementById('mobileNav');
+    var btn = document.getElementById('mobileMenuBtn');
+    if(!panel || !btn) return;
+    var isOpen = panel.classList.toggle('open');
+    btn.textContent = isOpen ? '×' : '≡';
+  }
+  function closeMobileNav(){
+    var panel = document.getElementById('mobileNav');
+    var btn = document.getElementById('mobileMenuBtn');
+    if(!panel || !btn) return;
+    panel.classList.remove('open');
+    btn.textContent = '≡';
+  }
   function showPage(page, sectionId){
     document.querySelectorAll('.page-section').forEach(function(el){
       el.classList.toggle('active', el.dataset.page === page);
@@ -2087,6 +2214,8 @@
     document.querySelectorAll('.page-section.active .reveal').forEach(function(el){
       el.classList.add('show');
     });
+    closeMobileNav();
+    updateParallax();
   }
   function scrollTo(id){
     var target = document.getElementById(id);
@@ -2104,6 +2233,55 @@
       scrollTo(sectionId);
     });
   });
+  document.addEventListener('click', function(e){
+    var panel = document.getElementById('mobileNav');
+    var btn = document.getElementById('mobileMenuBtn');
+    if(!panel || !btn) return;
+    if(!panel.classList.contains('open')) return;
+    if(panel.contains(e.target) || btn.contains(e.target)) return;
+    closeMobileNav();
+  });
+  var parallaxTicking = false;
+  function updateParallax(){
+    var scrollY = window.scrollY || window.pageYOffset || 0;
+    var layers = document.querySelectorAll('.page-section.active [data-parallax]');
+    layers.forEach(function(layer){
+      var speed = parseFloat(layer.getAttribute('data-speed') || '0.1');
+      var y = Math.round(scrollY * speed);
+      layer.style.transform = 'translate3d(0,' + y + 'px,0)';
+    });
+  }
+  window.addEventListener('scroll', function(){
+    if(parallaxTicking) return;
+    parallaxTicking = true;
+    requestAnimationFrame(function(){
+      updateParallax();
+      parallaxTicking = false;
+    });
+  }, { passive: true });
+  window.addEventListener('resize', updateParallax);
+  var scrollLoopTimer = null;
+  var scrollLoopTicking = false;
+  function triggerScrollLoops(){
+    var loopTargets = document.querySelectorAll('.page-section.active .stat-box, .page-section.active .wc-card, .page-section.active .svc-card, .page-section.active .pkg-card, .page-section.active .car-card, .page-section.active .contact-card, .page-section.active .hero-stat');
+    loopTargets.forEach(function(el){
+      el.classList.remove('looping');
+      void el.offsetWidth;
+      el.classList.add('looping');
+    });
+    if (scrollLoopTimer) clearTimeout(scrollLoopTimer);
+    scrollLoopTimer = setTimeout(function(){
+      loopTargets.forEach(function(el){ el.classList.remove('looping'); });
+    }, 950);
+  }
+  window.addEventListener('scroll', function(){
+    if(scrollLoopTicking) return;
+    scrollLoopTicking = true;
+    requestAnimationFrame(function(){
+      triggerScrollLoops();
+      scrollLoopTicking = false;
+    });
+  }, { passive: true });
   var hashId = (window.location.hash || '').replace('#','');
   if(hashId){
     scrollTo(hashId);
