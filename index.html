@@ -898,6 +898,11 @@
     .cars-section { padding-top: 72px; }
     .cars-filter-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px; border-bottom: 1px solid #e3eaf4; padding-bottom: 10px; }
     .car-tabs { display: flex; gap: 28px; }
+    .car-tabs.after-intro {
+      margin: 6px 0 14px;
+      border-bottom: 1px solid #e3eaf4;
+      padding-bottom: 10px;
+    }
     .car-tab { border: 0; background: transparent; color: #7a8da5; border-radius: 0; padding: 4px 0 10px; font-size: 14px; font-weight: 500; transition: 0.2s ease; border-bottom: 2px solid transparent; }
     .car-tab.active { color: #1a2a40; border-bottom-color: #f3a531; }
     .car-tab:hover:not(.active) { color: #2f4665; }
@@ -908,6 +913,123 @@
       transition: 0.2s ease;
     }
     .sort-dd:hover { border-color: var(--accent); color: var(--accent); }
+    .car-rental-banner {
+      margin: 4px 0 16px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #e1e6ee;
+      box-shadow: 0 8px 18px rgba(20,50,100,0.06);
+      background:
+        linear-gradient(120deg, #f1f2f4 0%, #eceff3 52%, #f5f7fa 100%);
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 12px;
+      align-items: stretch;
+      padding: 26px 30px;
+      position: relative;
+      isolation: isolate;
+      min-height: 295px;
+    }
+    .car-rental-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      width: 54%;
+      z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='360' viewBox='0 0 640 360'%3E%3Cg fill='none' stroke='%23c8ced8' stroke-width='4' stroke-linecap='round' opacity='0.9'%3E%3Cpath d='M-20 56 C 90 30, 146 108, 248 84 S 422 34, 560 84'/%3E%3Cpath d='M16 170 C 120 126, 202 202, 306 158 S 492 122, 640 170'/%3E%3Cpath d='M-30 294 C 86 232, 168 322, 292 274 S 504 248, 664 290'/%3E%3Cpath d='M116 -12 C 126 74, 84 126, 128 206 S 214 320, 238 392'/%3E%3Cpath d='M292 -24 C 274 56, 344 126, 300 196 S 232 302, 288 388'/%3E%3Cpath d='M470 -18 C 500 48, 444 122, 498 184 S 580 304, 552 380'/%3E%3C/g%3E%3Cg fill='none' stroke='%23bcc5d1' stroke-width='2' opacity='0.75'%3E%3Cpath d='M58 90 L118 126 L176 96 L238 136'/%3E%3Cpath d='M86 230 L142 268 L198 236 L266 276'/%3E%3C/g%3E%3Cg fill='%23c5ccd7' opacity='0.82'%3E%3Cpath d='M84 112 c-10 0-18 8-18 18 0 14 18 34 18 34s18-20 18-34c0-10-8-18-18-18zm0 24a6 6 0 1 1 0-12 6 6 0 0 1 0 12z'/%3E%3Cpath d='M156 278 c-10 0-18 8-18 18 0 14 18 34 18 34s18-20 18-34c0-10-8-18-18-18zm0 24a6 6 0 1 1 0-12 6 6 0 0 1 0 12z'/%3E%3Cpath d='M34 40 l22 9 -12 9 -10-18z'/%3E%3Cpath d='M14 322 l20 10 -11 8 -9-18z'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: cover;
+      background-position: left center;
+      background-repeat: no-repeat;
+      pointer-events: none;
+    }
+    .car-rental-banner::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 110px;
+      width: 220px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, var(--accent), #1e76d8);
+      box-shadow: 0 12px 24px rgba(58,158,255,0.28);
+      z-index: 0;
+      pointer-events: none;
+      transform: scaleY(1.08);
+      transform-origin: center;
+    }
+    .car-rental-intro { position: relative; z-index: 1; }
+    .car-rental-kicker {
+      font-size: 10px;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: #8e96a4;
+      font-weight: 700;
+      margin: 0 0 8px;
+    }
+    .car-rental-intro h3 {
+      margin: 0;
+      font-size: clamp(38px, 5vw, 56px);
+      line-height: 1.06;
+      color: #242b36;
+      font-weight: 800;
+      max-width: 520px;
+    }
+    .car-rental-intro-line {
+      width: 34px;
+      height: 4px;
+      border-radius: 99px;
+      background: var(--accent);
+      margin-top: 12px;
+    }
+    .car-rental-intro p {
+      margin: 12px 0 0;
+      font-size: 16px;
+      line-height: 1.58;
+      color: #626b78;
+      max-width: 470px;
+    }
+    .car-rental-intro-tags {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .car-rental-intro-tags span {
+      font-size: 12px;
+      color: #2a4465;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid #d5e4f7;
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-weight: 600;
+    }
+    .car-rental-visual {
+      border-radius: 0;
+      overflow: visible;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+      min-height: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .car-rental-visual::before {
+      content: none;
+    }
+    .car-rental-hero-car {
+      position: relative;
+      z-index: 2;
+      width: min(170%, 620px);
+      height: 265px;
+      background-image: url('/Users/fatinshamirah/.cursor/projects/Users-fatinshamirah-website-sml/assets/image-removebg-preview-6-6b6c5680-96aa-4c81-a323-597c2396cc2d.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      transform: translateX(74px);
+      filter: drop-shadow(0 14px 18px rgba(10,24,50,0.28));
+    }
     .car-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px 18px; margin-top: 12px; }
     .car-card {
       background: #f3f5f9;
@@ -1281,13 +1403,19 @@
     .m-step.done { background: var(--accent); }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
     .form-row.full { grid-template-columns: 1fr; }
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
     .form-group label { font-size: 12px; font-weight: 700; color: #2a3a52; text-transform: uppercase; letter-spacing: 0.6px; }
     .form-group input, .form-group select, .form-group textarea {
       border: 1.5px solid #dde7f5; border-radius: 10px; padding: 10px 12px; font-size: 14px;
       color: #1a2a40; background: #f8fbff; outline: none; transition: 0.15s ease; font-family: inherit;
+      width: 100%;
+      box-sizing: border-box;
     }
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); background: #fff; }
+    #carPhone,
+    #bkgPhone {
+      padding-right: 18px;
+    }
     .form-group textarea { resize: none; min-height: 80px; }
     .qty-row { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
     .qty-label { flex: 1; font-size: 14px; font-weight: 600; color: #2a3a52; }
@@ -1407,6 +1535,48 @@
         opacity: 0.72;
       }
       .pkg-grid, .car-grid, .review-grid { grid-template-columns: 1fr; }
+      .car-rental-banner {
+        margin: 4px 0 12px;
+        border-radius: 14px;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 16px 14px;
+        min-height: 0;
+      }
+      .car-rental-banner::before {
+        width: 100%;
+        opacity: 0.7;
+      }
+      .car-rental-banner::after {
+        width: 146px;
+        right: 46px;
+        transform: scaleY(1.06);
+      }
+      .car-rental-intro h3 {
+        font-size: clamp(30px, 10.4vw, 40px);
+      }
+      .car-rental-intro p {
+        font-size: 14px;
+      }
+      .car-rental-visual {
+        min-height: 210px;
+      }
+      .car-rental-visual::before {
+        content: none;
+      }
+      .car-rental-hero-car {
+        height: 172px;
+        width: min(150%, 420px);
+        transform: translateX(42px);
+      }
+      .car-tabs.after-intro {
+        margin: 4px 0 12px;
+        gap: 18px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .car-tabs.after-intro::-webkit-scrollbar { display: none; }
       .svc-carousel { padding: 24px 12px 28px; }
       .svc-carousel::before, .svc-carousel::after { width: 34px; }
       .svc-card { width: 188px; min-width: 188px; padding: 16px 12px; }
@@ -2360,12 +2530,6 @@
     <p class="section-eyebrow" data-i18n="cars_eyebrow">Transport</p>
     <h2 class="section-title" data-i18n="cars_title">Book Your <span>Island Ride</span></h2>
     <div class="cars-filter-row">
-      <div class="car-tabs">
-        <button class="car-tab active" onclick="filterCars('family',this)" data-i18n="car_tab_family">Family</button>
-        <button class="car-tab" onclick="filterCars('sport',this)" data-i18n="car_tab_sport">Sport</button>
-        <button class="car-tab" onclick="filterCars('sedan',this)" data-i18n="car_tab_sedan">Sedan</button>
-        <button class="car-tab" onclick="filterCars('jeep',this)" data-i18n="car_tab_jeep">Jeep</button>
-      </div>
       <div class="sort-row">
         <select class="sort-dd" onchange="sortCars(this.value)" style="outline:none;appearance:none;padding-right:28px;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 10 6%22><path d=%22M0 0l5 6 5-6z%22 fill=%22%23556a82%22/></svg>');background-repeat:no-repeat;background-position:right 10px center;background-size:10px;">
           <option value="default" data-i18n="sort_transport">Select transport</option>
@@ -2379,6 +2543,23 @@
           <option value="price-desc" data-i18n="sort_price_hi">Price: High → Low</option>
         </select>
       </div>
+    </div>
+    <div class="car-rental-banner reveal" style="--d:40ms;">
+      <div class="car-rental-intro">
+        <p class="car-rental-kicker">Carsharing</p>
+        <h3>Book a Car Near You and Drive in Minutes</h3>
+        <div class="car-rental-intro-line" aria-hidden="true"></div>
+        <p>Choose from reliable daily rentals in Langkawi for solo trips, family holidays, or business movement with smooth pickup and fast support.</p>
+      </div>
+      <div class="car-rental-visual">
+        <div class="car-rental-hero-car" aria-hidden="true"></div>
+      </div>
+    </div>
+    <div class="car-tabs after-intro">
+      <button class="car-tab active" onclick="filterCars('family',this)" data-i18n="car_tab_family">Family</button>
+      <button class="car-tab" onclick="filterCars('sport',this)" data-i18n="car_tab_sport">Sport</button>
+      <button class="car-tab" onclick="filterCars('sedan',this)" data-i18n="car_tab_sedan">Sedan</button>
+      <button class="car-tab" onclick="filterCars('jeep',this)" data-i18n="car_tab_jeep">Jeep</button>
     </div>
     <div class="car-grid" id="carGrid">
 
