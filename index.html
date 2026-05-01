@@ -6,7 +6,7 @@
   <title>Langkawi Escape — Island Adventures & Booking</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet" />
   <style>
     :root {
       --blue-dark: #081840;
@@ -15,6 +15,10 @@
       --accent: #3a9eff;
       --accent-glow: rgba(58,158,255,0.35);
       --accent2: #ffbe3a;
+      --gold: #f2c14e;
+      --gold-deep: #d9a62f;
+      --gold-soft: #fff2cc;
+      --gold-glow: rgba(242,193,78,0.34);
       --white: #ffffff;
       --offwhite: #f2f7ff;
       --text-muted: #8fa3bf;
@@ -29,40 +33,10 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; scroll-padding-top: 110px; }
     body { font-family: 'Poppins', sans-serif; background: var(--blue-dark); color: #fff; overflow-x: hidden; }
-    body.loading { overflow: hidden; }
     img, video, iframe { max-width: 100%; height: auto; }
     button { cursor: pointer; font-family: inherit; border: none; background: none; }
     a { text-decoration: none; color: inherit; }
     input, select { font-family: inherit; }
-
-    /* ─── LOADER ─── */
-    .page-loader {
-      position: fixed; inset: 0; display: grid; place-items: center;
-      background: linear-gradient(160deg, #060f2a 0%, #0c1f50 60%, #081840 100%);
-      z-index: 9999; transition: opacity 0.6s ease, visibility 0.6s ease;
-    }
-    .page-loader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
-    .loader-inner { display: flex; flex-direction: column; align-items: center; gap: 18px; width: min(400px,86vw); text-align: center; animation: loaderFloat 1.8s ease-in-out infinite; }
-    .loader-island { width: 52px; height: 52px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.3); border-top-color: #fff; animation: spin 1.1s linear infinite; }
-    .loader-title { font-size: 22px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #e8f4ff; animation: titlePulse 1.4s ease-in-out infinite; }
-    .loader-sub { font-size: 13px; color: rgba(200,224,255,0.7); letter-spacing: 0.5px; }
-    .loader-bar-wrap { width: 100%; height: 8px; border-radius: 99px; background: rgba(255,255,255,0.1); overflow: hidden; }
-    .loader-bar { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #3a9eff, #5dd6ff); transition: width 0.15s ease; box-shadow: 0 0 12px rgba(90,200,255,0.6); position: relative; overflow: hidden; }
-    .loader-bar::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -40%;
-      width: 40%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.65), transparent);
-      animation: barShimmer 1.1s linear infinite;
-    }
-    .loader-pct { font-size: 13px; font-weight: 600; color: #c8e4ff; }
-    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    @keyframes barShimmer { from { left: -40%; } to { left: 120%; } }
-    @keyframes titlePulse { 0%,100% { opacity: 0.75; } 50% { opacity: 1; } }
-    @keyframes loaderFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
 
     /* ─── TOAST ─── */
     .toast-wrap { position: fixed; top: 24px; right: 24px; z-index: 8000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
@@ -110,11 +84,11 @@
       background: linear-gradient(180deg, rgba(5,12,32,0.55) 0%, rgba(8,18,52,0.65) 50%, rgba(6,10,28,0.85) 100%);
     }
     /* Slide images using high-quality Unsplash photos */
-    .hs1 { background-image: url('https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=1600&q=80'); }
-    .hs2 { background-image: url('https://images.unsplash.com/photo-1504274066651-8d31a536b11a?w=1600&q=80'); }
-    .hs3 { background-image: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1600&q=80'); }
-    .hs4 { background-image: url('https://images.unsplash.com/photo-1559628233-100c798642d8?w=1600&q=80'); }
-    .hs5 { background-image: url('https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?w=1600&q=80'); }
+    .hs1 { background-image: url('https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=800&q=75'); }
+    .hs2 { }
+    .hs3 { }
+    .hs4 { }
+    .hs5 { }
     .slideshow-dots {
       position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
       display: flex; gap: 8px; z-index: 6;
@@ -182,7 +156,7 @@
       color: #4b617e; font-size: 13px; font-weight: 500;
       padding: 8px 14px; border-radius: 9px; transition: 0.2s ease;
     }
-    .nav-pill a:hover, .nav-pill a.active { background: #ffffff; color: #1e76d8; }
+    .nav-pill a:hover, .nav-pill a.active { background: #ffffff; color: var(--gold-deep); box-shadow: inset 0 0 0 1px rgba(217,166,47,0.26); }
     .nav-right { display: flex; align-items: center; gap: 10px; }
     .mobile-menu-btn {
       display: none;
@@ -196,36 +170,43 @@
       line-height: 1;
       box-shadow: 0 6px 14px rgba(10,28,72,0.08);
     }
+    /* ─── SIMPLE NAV DROPDOWN ─── */
     .mobile-nav {
       position: fixed;
-      top: calc(82px + env(safe-area-inset-top, 0px));
-      right: 14px;
-      left: 14px;
+      top: calc(96px + env(safe-area-inset-top, 0px));
+      right: 16px; left: 16px;
       z-index: 1199;
       background: #ffffff;
       border: 1px solid #dbe5f2;
-      border-radius: 14px;
-      box-shadow: 0 20px 30px rgba(10,28,72,0.16);
+      border-radius: 16px;
+      box-shadow: 0 16px 40px rgba(10,28,72,0.16);
       padding: 10px;
-      display: none;
+      opacity: 0;
+      transform: translateY(-8px) scale(0.98);
+      pointer-events: none;
+      transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.22,1,0.36,1);
     }
-    .mobile-nav.open { display: grid; animation: mobileMenuIn 0.22s ease; }
+    .mobile-nav.open {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
     .mobile-nav a {
-      padding: 11px 12px;
-      border-radius: 10px;
-      color: #2a3a52;
-      font-size: 14px;
-      font-weight: 600;
+      display: block; padding: 11px 14px; border-radius: 10px;
+      color: #2a3a52; font-size: 14px; font-weight: 600;
+      transition: background 0.15s ease, color 0.15s ease;
     }
-    .mobile-nav a:hover { background: #f4f9ff; color: #1e76d8; }
-    @keyframes mobileMenuIn { from { opacity: 0; transform: translateY(-8px);} to { opacity: 1; transform: translateY(0);} }
+    .mobile-nav a:hover { background: #fef8e9; color: var(--gold-deep); }
+    .mobile-nav a.active { background: #f3f7ff; color: var(--accent); }
+    .mobile-menu-btn { transition: transform 0.2s ease; }
+    .mobile-menu-btn.is-open { transform: rotate(90deg); }
     .btn-plan {
       border: 1px solid #d2e1f3; background: #ffffff;
       color: #2a3a52; border-radius: 12px; padding: 10px 18px; font-size: 13.5px; font-weight: 600;
       display: inline-flex; align-items: center; gap: 8px;
       transition: 0.2s ease;
     }
-    .btn-plan:hover { background: #f4f9ff; transform: translateY(-1px); color: #1e76d8; }
+    .btn-plan:hover { background: #fef8e9; transform: translateY(-1px); color: var(--gold-deep); border-color: rgba(217,166,47,0.35); }
     #step3,
     #bkgStep3 { display: none !important; }
 
@@ -236,18 +217,18 @@
       animation: heroFade 1s ease both 0.3s;
     }
     @keyframes heroFade { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
-    .hero-eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; opacity: 0.9; }
+    .hero-eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; opacity: 0.95; text-shadow: 0 0 10px rgba(242,193,78,0.32); }
     .hero-title { font-size: clamp(80px,15vw,190px); font-weight: 900; line-height: 0.9; letter-spacing: 8px; color: #f4f8ff; text-shadow: 0 6px 40px rgba(0,0,0,0.4); user-select: none; }
-    .hero-title em { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 500; color: var(--accent); font-size: 0.38em; letter-spacing: 2px; display: block; margin-top: 8px; }
+    .hero-title em { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 500; color: var(--gold); font-size: 0.38em; letter-spacing: 2px; display: block; margin-top: 8px; text-shadow: 0 0 14px rgba(242,193,78,0.26); }
     .hero-subtitle { margin-top: 24px; font-size: 17px; color: rgba(200,224,255,0.8); max-width: 480px; line-height: 1.6; }
     .hero-actions { margin-top: 36px; display: flex; gap: 14px; }
     .btn-primary {
-      background: linear-gradient(110deg, #3a9eff, #1e76d8); color: #fff;
+      background: linear-gradient(110deg, #2f8ef0, var(--gold-deep)); color: #fff;
       border-radius: 14px; padding: 14px 30px; font-size: 15px; font-weight: 600;
-      box-shadow: 0 8px 24px rgba(58,158,255,0.4); transition: 0.2s ease;
+      box-shadow: 0 8px 24px rgba(58,158,255,0.4), 0 8px 22px rgba(217,166,47,0.24); transition: 0.2s ease;
       display: inline-flex; align-items: center; gap: 8px;
     }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(58,158,255,0.5); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(58,158,255,0.45), 0 10px 24px var(--gold-glow); }
     .btn-outline {
       border: 1.5px solid rgba(255,255,255,0.3); color: #fff; border-radius: 14px;
       padding: 14px 28px; font-size: 15px; font-weight: 500; background: rgba(255,255,255,0.07);
@@ -364,7 +345,7 @@
     .about-section { padding-top: 72px; }
     .section-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
     .section-title { font-size: clamp(34px,3.8vw,56px); font-weight: 800; line-height: 1.08; color: #1a2a40; margin-bottom: 16px; }
-    .section-title span { color: var(--accent); }
+    .section-title span { color: var(--gold-deep); }
     .section-desc { font-size: 17px; color: #556a82; line-height: 1.65; max-width: 600px; }
     .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
     .scroll-indicator {
@@ -390,15 +371,15 @@
     .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 36px; }
     .stat-box { background: #fff; border: 1px solid #e4edf8; border-radius: 18px; padding: 20px 16px; text-align: center; box-shadow: 0 6px 16px rgba(20,50,100,0.06); transition: 0.2s ease; }
     .stat-box:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(20,50,100,0.1); }
-    .stat-big { font-size: 36px; font-weight: 800; color: var(--accent); line-height: 1; }
+    .stat-big { font-size: 36px; font-weight: 800; color: var(--gold-deep); line-height: 1; }
     .stat-lbl { font-size: 13px; color: #556a82; font-weight: 500; margin-top: 6px; }
-    .collage { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .col-img { border-radius: 20px; overflow: hidden; min-height: 160px; box-shadow: 0 12px 24px rgba(20,50,100,0.12); background-size: cover; background-position: center; background-repeat: no-repeat; }
+    .collage { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; height: 380px; }
+    .col-img { border-radius: 20px; overflow: hidden; box-shadow: 0 12px 24px rgba(20,50,100,0.12); background-size: cover; background-position: center; background-repeat: no-repeat; height: 100%; }
     .col-img-tall { min-height: 240px; }
-    .col-a { background-image: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&q=80'); }
-    .col-b { background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80'); }
-    .col-c { background-image: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1200&q=80'); }
-    .col-d { background-image: url('https://images.unsplash.com/photo-1504274066651-8d31a536b11a?w=1200&q=80'); }
+    .col-a { background-image: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&q=75'); }
+    .col-b { background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=75'); }
+    .col-c { background-image: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=75'); }
+    .col-d { background-image: url('https://images.unsplash.com/photo-1504274066651-8d31a536b11a?w=600&q=75'); }
 
     /* ─── VISION, WHY US & SERVICES ─── */
     .vm-section {
@@ -427,7 +408,26 @@
     }
     .vm-content { position: relative; z-index: 2; }
     .vm-section .section-eyebrow { color: #7fc0ff; }
-    .vm-section .section-title { color: #f1f7ff; }
+    /* Solid colours on video bg — global .section-title gradient clip hid “Vision” */
+    .vm-section .section-title {
+      color: #f8fbff;
+      background: none;
+      -webkit-text-fill-color: #f8fbff;
+      -webkit-background-clip: border-box;
+      background-clip: border-box;
+      animation: none;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.45);
+    }
+    .vm-section .section-title span {
+      display: inline-block;
+      background: none;
+      -webkit-background-clip: border-box;
+      background-clip: border-box;
+      -webkit-text-fill-color: #ffd666;
+      color: #ffd666;
+      animation: none;
+      text-shadow: 0 2px 14px rgba(0,0,0,0.5);
+    }
     .vm-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 18px; }
     .vm-card {
       background: #fff;
@@ -568,8 +568,16 @@
     .wc-card p { font-size: 13.5px; color: #5c7087; line-height: 1.6; }
 
     .services-section { padding-top: 72px; overflow: hidden; }
+    .svc-groups { display: grid; gap: 24px; margin-top: 14px; }
+    .svc-group-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1a2a40;
+      margin: 0 4px 4px;
+      letter-spacing: 0.2px;
+    }
     .svc-carousel {
-      margin-top: 16px;
+      margin-top: 0;
       overflow: visible;
       position: relative;
       border-radius: 26px;
@@ -597,8 +605,11 @@
       padding: 6px 2px;
       will-change: transform;
     }
-    .services-section.active .svc-grid.is-looping { animation: servicesCarouselLoop 34s linear infinite; }
+    .svc-grid.is-looping { animation: servicesCarouselLoop 19s linear infinite; }
     .services-section:hover .svc-grid.is-looping { animation-play-state: paused; }
+    .services-section .svc-group:nth-child(2) .svc-grid.is-looping {
+      animation-direction: reverse;
+    }
     @keyframes servicesCarouselLoop {
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }
@@ -683,15 +694,15 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    .svc-airport { background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&q=80'); }
-    .svc-corporate { background-image: url('https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?w=1400&q=80'); }
-    .svc-mice { background-image: url('https://images.unsplash.com/photo-1511578314322-379afb476865?w=1400&q=80'); }
-    .svc-hotel { background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1400&q=80'); }
-    .svc-tour { background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1400&q=80'); }
-    .svc-langkawi { background-image: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1400&q=80'); }
-    .svc-ticketing { background-image: url('https://images.unsplash.com/photo-1489515217757-5fd1be406fef?w=1400&q=80'); }
-    .svc-media { background-image: url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1400&q=80'); }
-    .svc-event { background-image: url('https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1400&q=80'); }
+    .svc-airport { background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=700&q=75'); }
+    .svc-corporate { background-image: url('https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?w=700&q=75'); }
+    .svc-mice { background-image: url('https://images.unsplash.com/photo-1511578314322-379afb476865?w=700&q=75'); }
+    .svc-hotel { background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=700&q=75'); }
+    .svc-tour { background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=75'); }
+    .svc-langkawi { background-image: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=700&q=75'); }
+    .svc-ticketing { background-image: url('https://images.unsplash.com/photo-1489515217757-5fd1be406fef?w=700&q=75'); }
+    .svc-media { background-image: url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=700&q=75'); }
+    .svc-event { background-image: url('https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=700&q=75'); }
 
     /* ─── PACKAGES ─── */
     .packages-section { padding-top: 72px; }
@@ -709,12 +720,12 @@
       height: 185px; position: relative; overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat;
     }
     .pkg-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,22,48,0.58), transparent 55%); }
-    .pi-skybridge { background-image: url('https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=1400&q=80'); }
-    .pi-mangrove { background-image: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1400&q=80'); }
-    .pi-beach { background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1400&q=80'); }
-    .pi-cable { background-image: url('https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?w=1400&q=80'); }
-    .pi-islandhop { background-image: url('https://images.unsplash.com/photo-1504274066651-8d31a536b11a?w=1400&q=80'); }
-    .pi-sunset { background-image: url('https://images.unsplash.com/photo-1493558103817-58b2924bce98?w=1400&q=80'); }
+    .pi-skybridge { background-image: url('https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=700&q=75'); }
+    .pi-mangrove { background-image: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=700&q=75'); }
+    .pi-beach { background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=75'); }
+    .pi-cable { background-image: url('https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?w=700&q=75'); }
+    .pi-islandhop { background-image: url('https://images.unsplash.com/photo-1504274066651-8d31a536b11a?w=700&q=75'); }
+    .pi-sunset { background-image: url('https://images.unsplash.com/photo-1493558103817-58b2924bce98?w=700&q=75'); }
     .pkg-badges { position: absolute; bottom: 10px; left: 10px; z-index: 2; display: flex; gap: 6px; flex-wrap: wrap; }
     .pkg-badge { background: rgba(12,30,58,0.6); color: #f0f8ff; border: 1px solid rgba(255,255,255,0.2); border-radius: 99px; padding: 5px 10px; font-size: 12px; backdrop-filter: blur(4px); }
     .pkg-body { padding: 16px; }
@@ -725,6 +736,23 @@
     .pkg-price span { font-size: 12px; color: #8fa3bf; }
     .pkg-rating { font-size: 12px; color: #556a82; display: flex; align-items: center; gap: 4px; }
     .pkg-rating .stars-gold { color: #f4b837; letter-spacing: 1px; }
+    .rating-stars-row {
+      display: inline-block;
+      letter-spacing: 3px;
+      font-size: 14px;
+      line-height: 1;
+      color: #f4b837;
+    }
+    .pkg-rating .rating-stars-row { font-size: 13px; letter-spacing: 2px; }
+    .rating-stars-row .star-dim { color: #d0d8e6; }
+    .hero-rating-stars {
+      display: block;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 6px;
+      color: #ffd666;
+      text-shadow: 0 2px 14px rgba(0,0,0,0.35);
+    }
     .btn-book-sm {
       background: linear-gradient(110deg, #3a9eff, #1e76d8); color: #fff; border-radius: 10px;
       padding: 9px 18px; font-size: 13px; font-weight: 600; transition: 0.2s ease;
@@ -790,10 +818,10 @@
       inset: 0;
       background: linear-gradient(to top, rgba(8,22,48,0.68), rgba(8,22,48,0.12) 55%);
     }
-    .gallery-card.gc-1 { background-image: url('https://images.unsplash.com/photo-1504274066651-8d31a536b11a?w=1600&q=80'); }
-    .gallery-card.gc-2 { background-image: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1600&q=80'); }
-    .gallery-card.gc-3 { background-image: url('https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?w=1600&q=80'); }
-    .gallery-card.gc-4 { background-image: url('https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=1600&q=80'); }
+    .gallery-card.gc-1 { background-image: url('https://images.unsplash.com/photo-1504274066651-8d31a536b11a?w=800&q=75'); }
+    .gallery-card.gc-2 { background-image: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=75'); }
+    .gallery-card.gc-3 { background-image: url('https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?w=800&q=75'); }
+    .gallery-card.gc-4 { background-image: url('https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=800&q=75'); }
     .gallery-meta {
       position: absolute;
       left: 14px;
@@ -856,14 +884,14 @@
     .review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
     .rv-card { background: #fff; border: 1px solid #e4edf8; border-radius: 20px; overflow: hidden; box-shadow: 0 6px 16px rgba(20,50,100,0.07); }
     .rv-photo { min-height: 200px; background-size: cover; background-position: center; background-repeat: no-repeat; }
-    .rv-photo.rp1 { background-image: url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&q=80'); }
-    .rv-photo.rp2 { background-image: url('https://images.unsplash.com/photo-1468824357306-a439d58ccb1c?w=1200&q=80'); }
-    .rv-photo.rp3 { background-image: url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1200&q=80'); }
+    .rv-photo.rp1 { background-image: url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=75'); }
+    .rv-photo.rp2 { background-image: url('https://images.unsplash.com/photo-1468824357306-a439d58ccb1c?w=600&q=75'); }
+    .rv-photo.rp3 { background-image: url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&q=75'); }
     .rv-body { padding: 18px 16px; text-align: center; }
     .rv-avatar { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; font-size: 26px; margin: 0 auto 10px; }
     .av-a { background: #ede8ff; } .av-b { background: #ffeecf; } .av-c { background: #d8f2d4; }
     .rv-name { font-size: 15px; font-weight: 700; color: #1a2a40; margin-bottom: 4px; }
-    .rv-stars { color: #3a9eff; font-size: 13px; margin-bottom: 8px; font-weight: 600; }
+    .rv-stars { color: #f4b837; font-size: 14px; margin-bottom: 8px; font-weight: 600; letter-spacing: 3px; }
     .rv-text { font-size: 13.5px; color: #556a82; line-height: 1.55; }
 
     /* ─── CAR RENTAL ─── */
@@ -923,11 +951,11 @@
       filter: drop-shadow(0 14px 12px rgba(10,26,56,0.18));
     }
     .ci-bezza { background-image: url('/Users/fatinshamirah/.cursor/projects/Users-fatinshamirah-website-sml/assets/image-removebg-preview-6-6b6c5680-96aa-4c81-a323-597c2396cc2d.png'); }
-    .ci-scooter { background-image: url('https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=900&q=80'); }
-    .ci-brv { background-image: url('https://images.unsplash.com/photo-1493238792000-8113da705763?w=900&q=80'); }
-    .ci-vios { background-image: url('https://images.unsplash.com/photo-1550355291-bbee04a92027?w=900&q=80'); }
+    .ci-scooter { background-image: url('https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=500&q=75'); }
+    .ci-brv { background-image: url('https://images.unsplash.com/photo-1493238792000-8113da705763?w=500&q=75'); }
+    .ci-vios { background-image: url('https://images.unsplash.com/photo-1550355291-bbee04a92027?w=500&q=75'); }
     .ci-serena { background-image: url('/Users/fatinshamirah/.cursor/projects/Users-fatinshamirah-website-sml/assets/image-removebg-preview-7bc23404-9f28-48cc-89fd-97705629db7f.png'); }
-    .ci-hiace { background-image: url('https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=900&q=80'); }
+    .ci-hiace { background-image: url('https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=500&q=75'); }
     .car-stars-row { color: #f3a531; font-size: 12px; margin-bottom: 6px; margin-top: 8px; }
     .car-name { font-size: 23px; font-weight: 800; color: #0f2140; margin-bottom: 8px; min-height: auto; line-height: 1.05; text-transform: uppercase; }
     .car-specs-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; margin-bottom: 12px; }
@@ -952,8 +980,8 @@
     .why-vid-icon { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-size: 12px; }
     .why-imgs { display: grid; grid-template-columns: 1fr 0.65fr; gap: 12px; align-items: start; }
     .why-img { border-radius: 18px; border: 3px solid rgba(220,240,255,0.8); min-height: 200px; box-shadow: 0 12px 24px rgba(0,0,0,0.28); background-size: cover; background-position: center; background-repeat: no-repeat; }
-    .wi-a { background-image: url('https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=1200&q=80'); }
-    .wi-b { background-image: url('https://images.unsplash.com/photo-1493238792000-8113da705763?w=1200&q=80'); min-height: 140px !important; margin-top: 24px; }
+    .wi-a { background-image: url('https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=600&q=75'); }
+    .wi-b { background-image: url('https://images.unsplash.com/photo-1493238792000-8113da705763?w=600&q=75'); min-height: 140px !important; margin-top: 24px; }
     .partner-pill { background: #fff; color: #1a2a40; border-radius: 12px; padding: 10px 14px; width: fit-content; font-size: 13px; font-weight: 700; }
     .partner-pill span { color: var(--accent); }
     .why-title { font-size: clamp(30px,3.8vw,56px); font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.05; color: #fff; margin-bottom: 14px; }
@@ -1097,7 +1125,6 @@
     .page-section .about-grid,
     .page-section .vm-grid,
     .page-section .wc-grid,
-    .page-section .svc-grid,
     .page-section .packages-head,
     .page-section .pkg-grid,
     .page-section .review-grid,
@@ -1115,7 +1142,6 @@
     .page-section.active .about-grid,
     .page-section.active .vm-grid,
     .page-section.active .wc-grid,
-    .page-section.active .svc-grid,
     .page-section.active .packages-head,
     .page-section.active .pkg-grid,
     .page-section.active .review-grid,
@@ -1132,7 +1158,6 @@
     .page-section.active .about-grid,
     .page-section.active .vm-grid,
     .page-section.active .wc-grid,
-    .page-section.active .svc-grid,
     .page-section.active .packages-head,
     .page-section.active .pkg-grid,
     .page-section.active .review-grid,
@@ -1209,7 +1234,7 @@
     .contact-card { animation-duration: 7s, 9s; }
     .section-eyebrow,
     .section-title { animation: textBreath 5.8s ease-in-out infinite; transform-origin: left center; }
-    .section-title span { display: inline-block; background: linear-gradient(90deg, #2f88e7, #5db6ff, #2f88e7); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shineSweep 4.8s linear infinite; }
+    .section-title span { display: inline-block; background: linear-gradient(90deg, #2f88e7, #f2c14e, #d9a62f, #2f88e7); background-size: 240% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shineSweep 4.8s linear infinite; }
     .wc-icon,
     .svc-ico,
     .vm-icon,
@@ -1381,6 +1406,7 @@
       .svc-card { width: 188px; min-width: 188px; padding: 16px 12px; }
       .svc-card h4 { font-size: 13px; }
       .svc-card p { font-size: 11.5px; -webkit-line-clamp: 2; line-clamp: 2; }
+      .svc-group-title { font-size: 16px; margin: 0 2px 2px; }
       .wc-grid::before { left: 16px; transform: none; }
       .wc-card {
         width: calc(100% - 30px);
@@ -1402,42 +1428,38 @@
       .search-go { margin: 6px 0 0; min-height: 48px; width: 100%; }
       .chip-dropdown { left: 0; min-width: 0; width: min(280px, calc(100vw - 56px)); max-width: 100%; }
       .about-grid {
-        display: flex;
-        gap: 14px;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        padding-bottom: 6px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 28px;
       }
       .about-grid > div {
-        min-width: min(88vw, 360px);
-        scroll-snap-align: start;
+        width: 100%;
       }
+      .collage {
+        grid-template-columns: 1fr 1fr;
+        height: 260px;
+        overflow: hidden;
+      }
+      .col-img-tall { min-height: unset !important; }
       .vm-grid {
-        display: flex;
-        gap: 12px;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        padding-bottom: 6px;
-        align-items: flex-start;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
       }
       .vm-grid .vm-card {
-        min-width: min(86vw, 340px);
-        scroll-snap-align: start;
+        width: 100%;
         height: auto;
       }
       .why-grid {
-        display: flex;
-        gap: 12px;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        padding-bottom: 8px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
       }
       .why-grid > div {
-        min-width: min(86vw, 340px);
-        scroll-snap-align: start;
+        width: 100%;
       }
       .vm-section { padding: 56px 16px 24px; }
-      .scroll-indicator { display: block; }
+      .scroll-indicator { display: none; }
       .stats-row { grid-template-columns: repeat(2,1fr); }
       .hero-stats { flex-wrap: wrap; justify-content: center; row-gap: 14px; }
       .hero-stat { min-width: 120px; }
@@ -1452,7 +1474,6 @@
       .nav-pill { display: none; }
       .mobile-menu-btn { display: grid; place-items: center; }
       .search-section { margin-top: -26px; }
-      .mobile-nav { right: var(--gutter-mobile); left: var(--gutter-mobile); }
       .float-whatsapp { width: 52px; height: 52px; right: var(--gutter-mobile); bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
     }
     @media (max-width: 480px) {
@@ -1460,20 +1481,414 @@
       .hero-title em { letter-spacing: 1px; }
     }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+
+    /* ════════════════════════════════════════════
+       ENHANCED ANIMATIONS — ALL OBJECTS
+    ════════════════════════════════════════════ */
+
+    /* ── Scroll progress bar ── */
+    #scrollProgress {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent));
+      background-size: 200% 100%;
+      z-index: 9998; border-radius: 0 2px 2px 0;
+      animation: progressShimmer 2s linear infinite;
+      transition: width 0.1s linear;
+      pointer-events: none;
+    }
+    @keyframes progressShimmer { 0%{background-position:0% 0%} 100%{background-position:200% 0%} }
+
+    /* ── Cursor glow ── */
+    #cursorGlow {
+      position: fixed; width: 320px; height: 320px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(58,158,255,0.07) 0%, transparent 70%);
+      pointer-events: none; z-index: 0; transform: translate(-50%,-50%);
+      transition: transform 0.08s linear; mix-blend-mode: screen;
+    }
+
+    /* ── Reveal variants ── */
+    .reveal-left  { opacity: 0; transform: translateX(-38px) scale(0.97); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1); transition-delay: var(--d,0ms); }
+    .reveal-right { opacity: 0; transform: translateX(38px)  scale(0.97); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1); transition-delay: var(--d,0ms); }
+    .reveal-scale { opacity: 0; transform: scale(0.86); transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.34,1.56,0.64,1); transition-delay: var(--d,0ms); }
+    .reveal-rotate{ opacity: 0; transform: translateY(24px) rotate(-3deg); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1); transition-delay: var(--d,0ms); }
+    .reveal-left.show,
+    .reveal-right.show,
+    .reveal-scale.show,
+    .reveal-rotate.show { opacity: 1; transform: none; }
+
+    /* ── Shimmer on cards (::before overlay) — wc-card excluded: preserves timeline branch (::before) & dots (::after) ── */
+    .pkg-card, .rv-card, .car-card, .vm-card, .contact-card, .stat-box {
+      overflow: hidden;
+    }
+    .why-choose-section .wc-card {
+      overflow: visible;
+    }
+    .pkg-card::before,
+    .rv-card::before,
+    .car-card::before,
+    .vm-card::before,
+    .contact-card::before,
+    .stat-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.55) 50%, transparent 60%);
+      transform: translateX(-110%);
+      z-index: 10;
+      pointer-events: none;
+      transition: none;
+      border-radius: inherit;
+    }
+    .pkg-card:hover::before,
+    .rv-card:hover::before,
+    .car-card:hover::before,
+    .vm-card:hover::before,
+    .contact-card:hover::before,
+    .stat-box:hover::before {
+      transform: translateX(110%);
+      transition: transform 0.55s ease;
+    }
+
+    /* ── Glowing border pulse on hover ── */
+    .pkg-card:hover  { box-shadow: 0 16px 32px rgba(20,50,100,0.13), 0 0 0 2px rgba(58,158,255,0.25), 0 0 28px rgba(58,158,255,0.12) !important; }
+    .svc-card:hover  { box-shadow: 0 15px 30px rgba(20,50,100,0.14), 0 0 0 2px rgba(58,158,255,0.3), 0 0 24px rgba(58,158,255,0.18) !important; }
+    .car-card:hover  { box-shadow: 0 14px 28px rgba(20,50,100,0.12), 0 0 0 2px rgba(242,193,78,0.3), 0 0 20px rgba(242,193,78,0.1) !important; }
+    .stat-box:hover  { box-shadow: 0 10px 24px rgba(20,50,100,0.1), 0 0 0 2px rgba(58,158,255,0.2) !important; }
+
+    /* ── Gallery card tilt (JS-driven, prep styles) ── */
+    .gallery-card { transform-style: preserve-3d; }
+    .gallery-card.tilt-active { transition: transform 0.12s ease !important; }
+
+    /* ── Section eyebrow animated underline ── */
+    .section-eyebrow {
+      position: relative; display: inline-block;
+    }
+    .section-eyebrow::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--gold));
+      border-radius: 2px;
+      transition: width 0.6s cubic-bezier(0.22,1,0.36,1);
+    }
+    .page-section.active .section-eyebrow::after,
+    .show + * .section-eyebrow::after,
+    .eyebrow-line .section-eyebrow::after { width: 100%; }
+
+    /* ── Section title gradient sweep ── */
+    .section-title {
+      background: linear-gradient(90deg, #1a2a40 0%, #1a2a40 45%, var(--gold-deep) 55%, #1a2a40 100%);
+      background-size: 250% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: titleSweep 6s ease-in-out infinite;
+    }
+    .section-title span {
+      -webkit-text-fill-color: var(--gold-deep);
+      background: none;
+    }
+    @keyframes titleSweep {
+      0%,100% { background-position: 0% 0%; }
+      50%      { background-position: 100% 0%; }
+    }
+
+    /* ── Hero title letter stagger ── */
+    .hero-title .char {
+      display: inline-block;
+      animation: charDrop 0.7s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    @keyframes charDrop {
+      from { opacity: 0; transform: translateY(-28px) rotate(-6deg); }
+      to   { opacity: 1; transform: translateY(0) rotate(0deg); }
+    }
+
+    /* ── Ripple click effect ── */
+    .ripple-host { position: relative; overflow: hidden; }
+    .ripple-ring {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,0.38);
+      transform: scale(0); animation: rippleOut 0.55s ease-out forwards;
+      pointer-events: none;
+    }
+    @keyframes rippleOut {
+      to { transform: scale(2.8); opacity: 0; }
+    }
+
+    /* ── Magnetic button – JS handles translate, CSS sets transition ── */
+    .btn-primary, .btn-outline, .search-go, .btn-book-sm, .btn-rent {
+      transition: transform 0.18s cubic-bezier(0.22,1,0.36,1),
+                  box-shadow 0.18s ease, background 0.2s ease !important;
+    }
+
+    /* ── Floating particles ── */
+    .particle {
+      position: fixed; border-radius: 50%; pointer-events: none; z-index: 0;
+      opacity: 0; animation: particleFly var(--dur,8s) ease-in-out var(--delay,0s) infinite;
+      will-change: transform, opacity;
+    }
+    @keyframes particleFly {
+      0%   { opacity: 0; transform: translateY(0) translateX(0) scale(1); }
+      15%  { opacity: var(--op, 0.45); }
+      85%  { opacity: var(--op, 0.45); }
+      100% { opacity: 0; transform: translateY(var(--vy,-220px)) translateX(var(--vx,30px)) scale(0.6); }
+    }
+
+    /* ── Why item stagger ── */
+    .why-item { opacity: 0; transform: translateX(-22px); transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22,1,0.36,1); }
+    .why-item.show { opacity: 1; transform: translateX(0); }
+    .why-item:nth-child(1) { transition-delay: 50ms; }
+    .why-item:nth-child(2) { transition-delay: 150ms; }
+    .why-item:nth-child(3) { transition-delay: 250ms; }
+
+    /* ── Contact item stagger ── */
+    .contact-item { opacity: 0; transform: translateY(12px); transition: opacity 0.48s ease, transform 0.48s cubic-bezier(0.22,1,0.36,1); }
+    .contact-item.show { opacity: 1; transform: translateY(0); }
+
+    /* ── Collage image tilt ── */
+    .col-img { transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease; }
+    .col-img:hover { transform: scale(1.04) rotate(-1deg); box-shadow: 0 20px 40px rgba(20,50,100,0.18); }
+
+    /* ── Why section image hover ── */
+    .why-img { transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease; }
+    .why-img:hover { transform: scale(1.04) rotate(0.8deg); box-shadow: 0 20px 40px rgba(0,0,0,0.35); }
+
+    /* ── Nav link underline animation ── */
+    .nav-pill a { position: relative; overflow: hidden; }
+    .nav-pill a::before {
+      content: ''; position: absolute; bottom: 3px; left: 50%; right: 50%;
+      height: 2px; background: var(--gold-deep); border-radius: 2px;
+      transition: left 0.3s ease, right 0.3s ease;
+    }
+    .nav-pill a:hover::before { left: 10px; right: 10px; }
+
+    /* ── Footer link arrow slide ── */
+    .footer-link-list a {
+      display: inline-flex; align-items: center; gap: 0;
+      overflow: hidden;
+    }
+    .footer-link-list a::after {
+      content: ' →'; opacity: 0; transform: translateX(-8px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      font-size: 12px; white-space: nowrap;
+    }
+    .footer-link-list a:hover::after { opacity: 1; transform: translateX(4px); }
+
+    /* ── Gallery dots bounce on active ── */
+    .gallery-dot.active { animation: dotBounce 0.35s cubic-bezier(0.34,1.56,0.64,1) both; }
+    @keyframes dotBounce { from { transform: scale(0.6); } to { transform: scale(1); } }
+
+    /* ── Stat counter (number roll) ── */
+    .stat-big, .hero-stat strong { display: inline-block; }
+    .hero-stat strong.hero-rating-stars { display: block; }
+
+    /* ── Package badge float ── */
+    .pkg-badge {
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .pkg-card:hover .pkg-badge { transform: translateY(-2px) scale(1.04); background: rgba(8,24,52,0.82); }
+
+    /* ── Social btn spin on hover ── */
+    .social-btn { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s ease, box-shadow 0.2s ease; }
+    .social-btn:hover { transform: translateY(-3px) rotate(8deg) scale(1.08) !important; }
+
+    /* ── Contact card border glow ── */
+    .contact-card {
+      transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s cubic-bezier(0.22,1,0.36,1);
+    }
+    .contact-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(58,158,255,0.3);
+      box-shadow: 0 16px 32px rgba(20,50,100,0.12), 0 0 0 1px rgba(58,158,255,0.18), 0 0 20px rgba(58,158,255,0.07);
+    }
+
+    /* ── Why icon orbit glow ── */
+    .why-icon {
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), background 0.3s ease, box-shadow 0.3s ease;
+    }
+    .why-item:hover .why-icon {
+      transform: rotate(12deg) scale(1.12);
+      background: rgba(58,158,255,0.2);
+      box-shadow: 0 0 18px rgba(58,158,255,0.3);
+    }
+
+    /* ── Section title word-pop (animated spans added by JS) ── */
+    .word-pop { display: inline-block; animation: wordPop 0.55s cubic-bezier(0.34,1.56,0.64,1) both; }
+    @keyframes wordPop { from { opacity:0; transform:translateY(16px) scale(0.9); } to { opacity:1; transform:none; } }
+
+    /* ── Review card entrance ── */
+    .rv-card {
+      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease;
+    }
+    .rv-card:hover {
+      transform: translateY(-7px) scale(1.01);
+      box-shadow: 0 18px 36px rgba(20,50,100,0.12);
+    }
+
+    /* ── Floating action button pulse ring ── */
+    .float-whatsapp::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px solid rgba(40,199,111,0.4);
+      animation: wsPing 2.4s ease-out infinite;
+    }
+    .float-whatsapp::after {
+      content: '';
+      position: absolute;
+      inset: -14px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(40,199,111,0.2);
+      animation: wsPing 2.4s ease-out 0.6s infinite;
+    }
+    @keyframes wsPing {
+      0%   { transform: scale(0.9); opacity: 1; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+
+    /* ── Pkg card image zoom ── */
+    .pkg-img { overflow: hidden; }
+    .pkg-img > * { transition: transform 0.5s ease; }
+    .pkg-card:hover .pkg-img { background-size: 110% !important; transition: background-size 0.5s ease; }
+
+    /* ── Svc group title bar slide ── */
+    .svc-group-title {
+      position: relative; display: inline-block; padding-left: 14px;
+    }
+    .svc-group-title::before {
+      content: '';
+      position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+      width: 4px; height: 0;
+      background: linear-gradient(180deg, var(--accent), var(--gold));
+      border-radius: 2px;
+      transition: height 0.5s cubic-bezier(0.22,1,0.36,1);
+    }
+    .show ~ .svc-group .svc-group-title::before,
+    .page-section.active .svc-group-title::before { height: 100%; }
+
+    /* ── vm-card icon bounce on hover ── */
+    .vm-icon { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease; }
+    .vm-card:hover .vm-icon { transform: translateY(-4px) scale(1.12); box-shadow: 0 12px 24px rgba(58,158,255,0.38); }
+
+    /* ── Gallery nav hover spin ── */
+    .gallery-nav { transition: background 0.2s ease, transform 0.25s cubic-bezier(0.34,1.56,0.64,1) !important; }
+    .gallery-prev:hover { transform: translateY(-50%) scale(1.1) rotate(-5deg) !important; }
+    .gallery-next:hover { transform: translateY(-50%) scale(1.1) rotate(5deg) !important; }
+
+    /* ── About section stat counter box ── */
+    .stat-box { position: relative; }
+    .stat-box::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--gold));
+      border-radius: 0 0 18px 18px;
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+    }
+    .stat-box:hover::after { transform: scaleX(1); }
+
+    /* ── Section background gradient pulse ── */
+    .gallery-section, .services-section, .packages-section, .reviews-section, .cars-section {
+      position: relative;
+    }
+
+    /* ── Eyebrow char animation (word-by-word) ── */
+    .hero-eyebrow { animation: eyebrowIn 0.8s cubic-bezier(0.22,1,0.36,1) both 0.2s; }
+    @keyframes eyebrowIn { from { opacity:0; letter-spacing: 8px; } to { opacity:1; letter-spacing: 4px; } }
+
+    /* ── Plane deco enhanced path ── */
+    @keyframes planeFloat {
+      0%  { transform: rotate(-14deg) translateY(0)   translateX(0); }
+      30% { transform: rotate(-10deg) translateY(-14px) translateX(10px); }
+      60% { transform: rotate(-17deg) translateY(-6px) translateX(-6px); }
+      100%{ transform: rotate(-14deg) translateY(0)   translateX(0); }
+    }
+
+    /* ── Search card chip hover line ── */
+    .s-chip { transition: background 0.18s ease; }
+    .s-chip:hover label { color: var(--gold-deep); transition: color 0.18s ease; }
+
+    /* ── Btn book sm sparkle ring ── */
+    .btn-book-sm {
+      position: relative;
+    }
+    .btn-book-sm::after {
+      content: '';
+      position: absolute; inset: 0; border-radius: inherit;
+      background: transparent;
+      box-shadow: 0 0 0 0 rgba(58,158,255,0.45);
+      animation: bookSpark 3.5s ease-in-out infinite;
+    }
+    @keyframes bookSpark {
+      0%,100% { box-shadow: 0 0 0 0 rgba(58,158,255,0.35); }
+      50%     { box-shadow: 0 0 0 7px rgba(58,158,255,0); }
+    }
+
+    /* ── Why section background ripple ── */
+    .why-section { overflow: hidden; }
+    .why-section::after {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(58,158,255,0.06), transparent 70%);
+      top: -200px; right: -200px;
+      animation: whyOrb 10s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes whyOrb {
+      0%,100% { transform: translate(0,0) scale(1); }
+      50%     { transform: translate(-40px,40px) scale(1.1); }
+    }
+
+    /* ── Contact section floating icon ── */
+    .contact-ico { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+    .contact-item:hover .contact-ico { transform: scale(1.15) rotate(-5deg); }
+
+    /* ── img-badge pop ── */
+    .img-badge { animation: badgePop 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
+    @keyframes badgePop { from{transform:scale(0) rotate(-10deg)} to{transform:scale(1) rotate(0deg)} }
+
+    /* ── Footer logo fade ── */
+    .footer-title { animation: footerIn 0.7s ease both; }
+    @keyframes footerIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+
+    /* ── Scroll-linked section glow ── */
+    .in-view-glow {
+      transition: box-shadow 0.5s ease;
+      box-shadow: 0 0 0 0 transparent;
+    }
+    .in-view-glow.glowing {
+      box-shadow: 0 0 60px rgba(58,158,255,0.06);
+    }
+
+    /* ─── LANGUAGE TOGGLE ─── */
+    .lang-toggle {
+      display: flex; align-items: center; gap: 3px;
+      background: #f6f9ff; border: 1px solid #dce6f4; border-radius: 10px;
+      padding: 4px; overflow: hidden;
+    }
+    .lang-btn {
+      border: none; background: transparent; cursor: pointer;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.4px;
+      color: #6a7e99; border-radius: 7px; padding: 5px 10px;
+      transition: 0.18s ease; font-family: inherit;
+    }
+    .lang-btn.active {
+      background: #fff; color: var(--gold-deep);
+      box-shadow: 0 2px 8px rgba(10,28,72,0.10);
+      border: 1px solid rgba(217,166,47,0.22);
+    }
+    .lang-btn:hover:not(.active) { color: #2a3a52; background: rgba(255,255,255,0.6); }
   </style>
 </head>
-<body class="loading">
+<body>
 
-<!-- PAGE LOADER -->
-<div class="page-loader" id="pageLoader">
-  <div class="loader-inner">
-    <div class="loader-island"></div>
-    <p class="loader-title">Langkawi Escape</p>
-    <p class="loader-sub">Loading beaches, tours & island adventures…</p>
-    <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
-    <p class="loader-pct" id="loaderPct">0%</p>
-  </div>
-</div>
+<!-- SCROLL PROGRESS -->
+<div id="scrollProgress"></div>
+<!-- PARTICLES -->
+<canvas id="particleCanvas" style="position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.55;"></canvas>
 
 <!-- TOASTS -->
 <div class="toast-wrap" id="toastWrap"></div>
@@ -1481,18 +1896,18 @@
 <!-- CART DRAWER -->
 <div class="cart-drawer" id="cartDrawer">
   <div class="cart-header">
-    <h3>Your Bookings</h3>
+    <h3 data-i18n="cart_title">Your Bookings</h3>
     <button class="cart-close" onclick="closeCart()">✕</button>
   </div>
   <div class="cart-items" id="cartItems">
-    <div class="cart-empty"><span>—</span><p>No bookings yet</p></div>
+    <div class="cart-empty"><span>—</span><p data-i18n="cart_empty">No bookings yet</p></div>
   </div>
   <div class="cart-footer">
     <div class="cart-total-row">
-      <span class="cart-total-label">Total</span>
+      <span class="cart-total-label" data-i18n="cart_total">Total</span>
       <span class="cart-total-amount" id="cartTotal">RM 0</span>
     </div>
-    <button class="btn-checkout" onclick="checkout()">Proceed to Checkout →</button>
+    <button class="btn-checkout" onclick="checkout()" data-i18n="cart_checkout">Proceed to Checkout →</button>
   </div>
 </div>
 
@@ -1502,24 +1917,29 @@
     <img class="company-logo" src="./assets/sm-leisure-logo.png" alt="SM Leisure Travel & Tours logo" />
   </div>
   <nav class="nav-pill" id="mainNav">
-    <a href="#" class="active" data-section="hero">Home</a>
-    <a href="#about" data-section="about">About</a>
-    <a href="#services" data-section="services">Services</a>
-    <a href="#packages" data-section="packages">Packages</a>
-    <a href="#transport" data-section="transport">Transport</a>
-    <a href="#contact" data-section="contact">Contact</a>
+    <a href="#" class="active" data-section="hero" data-i18n="nav_home">Home</a>
+    <a href="#about" data-section="about" data-i18n="nav_about">About</a>
+    <a href="#services" data-section="services" data-i18n="nav_services">Services</a>
+    <a href="#packages" data-section="packages" data-i18n="nav_packages">Packages</a>
+    <a href="#transport" data-section="transport" data-i18n="nav_transport">Transport</a>
+    <a href="#contact" data-section="contact" data-i18n="nav_contact">Contact</a>
   </nav>
   <div class="nav-right">
+    <div class="lang-toggle" id="langToggle">
+      <button class="lang-btn active" id="langEN" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="langZH" onclick="setLang('zh')">中文</button>
+    </div>
     <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileNav()" aria-label="Open menu">≡</button>
   </div>
 </header>
-<nav class="mobile-nav" id="mobileNav">
-  <a href="#" data-section="hero">Home</a>
-  <a href="#about" data-section="about">About</a>
-  <a href="#services" data-section="services">Services</a>
-  <a href="#packages" data-section="packages">Packages</a>
-  <a href="#transport" data-section="transport">Transport</a>
-  <a href="#contact" data-section="contact">Contact</a>
+<!-- SIMPLE NAV DROPDOWN -->
+<nav class="mobile-nav" id="megaNav">
+  <a href="#" data-section="hero" onclick="navigateToSection('hero');closeMegaNav()" data-i18n="nav_home">Home</a>
+  <a href="#about" data-section="about" onclick="navigateToSection('about');closeMegaNav()" data-i18n="nav_about">About</a>
+  <a href="#services" data-section="services" onclick="navigateToSection('services');closeMegaNav()" data-i18n="nav_services">Services</a>
+  <a href="#packages" data-section="packages" onclick="navigateToSection('packages');closeMegaNav()" data-i18n="nav_packages">Packages</a>
+  <a href="#transport" data-section="transport" onclick="navigateToSection('transport');closeMegaNav()" data-i18n="nav_transport">Transport</a>
+  <a href="#contact" data-section="contact" onclick="navigateToSection('contact');closeMegaNav()" data-i18n="nav_contact">Contact</a>
 </nav>
 
 <!-- ─── SKY HERO ─── -->
@@ -1541,20 +1961,20 @@
 
   <!-- HERO -->
   <section class="hero" id="hero">
-    <p class="hero-eyebrow">Discover Malaysia's Island Gem</p>
-    <h1 class="hero-title">LANGKAWI<em>Island Escape</em></h1>
-    <p class="hero-subtitle">Discover beaches, cable car views, mangrove adventures, and unforgettable island experiences in Langkawi.</p>
+    <p class="hero-eyebrow" data-i18n="hero_eyebrow">Discover Malaysia's Island Gem</p>
+    <h1 class="hero-title">LANGKAWI<em data-i18n="hero_tagline">Island Escape</em></h1>
+    <p class="hero-subtitle" data-i18n="hero_subtitle">Discover beaches, cable car views, mangrove adventures, and unforgettable island experiences in Langkawi.</p>
     <div class="hero-actions">
-      <button class="btn-primary" onclick="navigateToSection('services')">Our Services</button>
-      <button class="btn-outline" onclick="openVideo()">Watch Company Profile</button>
+      <button class="btn-primary" onclick="navigateToSection('services')" data-i18n="hero_btn_services">Our Services</button>
+      <button class="btn-outline" onclick="openVideo()" data-i18n="hero_btn_video">Watch Company Profile</button>
     </div>
     <div class="hero-stats">
-      <div class="hero-stat"><strong>5k+</strong><span>Clients Served</span></div>
-      <div class="hero-stat"><strong>120+</strong><span>Local Experiences</span></div>
-      <div class="hero-stat"><strong>4.9/5</strong><span>Average Rating</span></div>
-      <div class="hero-stat"><strong>24/7</strong><span>Support Team</span></div>
+      <div class="hero-stat"><strong>5k+</strong><span data-i18n="stat_clients">Clients Served</span></div>
+      <div class="hero-stat"><strong>120+</strong><span data-i18n="stat_exp">Local Experiences</span></div>
+      <div class="hero-stat"><strong class="hero-rating-stars" aria-label="4.9 out of 5 stars">★★★★★</strong><span data-i18n="stat_rating">Average Rating</span></div>
+      <div class="hero-stat"><strong>24/7</strong><span data-i18n="stat_support">Support Team</span></div>
     </div>
-    <div class="hero-scroll"><span class="scroll-arrow">↓</span>Scroll to explore</div>
+    <div class="hero-scroll"><span class="scroll-arrow">↓</span><span data-i18n="hero_scroll">Scroll to explore</span></div>
     <div class="plane-deco"></div>
   </section>
   <div class="slideshow-dots" id="slideshowDots">
@@ -1571,8 +1991,8 @@
 
   <!-- GALLERY CAROUSEL -->
   <section class="gallery-section reveal page-section active" data-page="home" style="--d:0ms;">
-    <p class="section-eyebrow">Visual Journey</p>
-    <h2 class="section-title">Langkawi Photo <span>Carousel</span></h2>
+    <p class="section-eyebrow" data-i18n="gal_eyebrow">Visual Journey</p>
+    <h2 class="section-title" data-i18n="gal_title">Langkawi Photo <span>Carousel</span></h2>
     <div class="gallery-wrap" data-parallax data-speed="0.05">
       <button class="gallery-nav gallery-prev" onclick="moveGallery(-1)">‹</button>
       <button class="gallery-nav gallery-next" onclick="moveGallery(1)">›</button>
@@ -1580,37 +2000,37 @@
         <article class="gallery-card gc-1">
           <div class="gallery-meta">
             <div class="gallery-caption">
-              <strong>Eagle Square</strong>
-              <span>15 listings</span>
+              <strong data-i18n="gal_eagle">Eagle Square</strong>
+              <span>15 <span data-i18n="gal_listings">listings</span></span>
             </div>
-            <button class="gallery-view">View All →</button>
+            <button class="gallery-view" data-i18n="gal_view">View All →</button>
           </div>
         </article>
         <article class="gallery-card gc-2">
           <div class="gallery-meta">
             <div class="gallery-caption">
-              <strong>Kilim Geoforest</strong>
-              <span>12 listings</span>
+              <strong data-i18n="gal_kilim">Kilim Geoforest</strong>
+              <span>12 <span data-i18n="gal_listings">listings</span></span>
             </div>
-            <button class="gallery-view">View All →</button>
+            <button class="gallery-view" data-i18n="gal_view">View All →</button>
           </div>
         </article>
         <article class="gallery-card gc-3">
           <div class="gallery-meta">
             <div class="gallery-caption">
-              <strong>Cable Car</strong>
-              <span>22 listings</span>
+              <strong data-i18n="gal_cable">Cable Car</strong>
+              <span>22 <span data-i18n="gal_listings">listings</span></span>
             </div>
-            <button class="gallery-view">View All →</button>
+            <button class="gallery-view" data-i18n="gal_view">View All →</button>
           </div>
         </article>
         <article class="gallery-card gc-4">
           <div class="gallery-meta">
             <div class="gallery-caption">
-              <strong>Pulau Payar</strong>
-              <span>9 listings</span>
+              <strong data-i18n="gal_payar">Pulau Payar</strong>
+              <span>9 <span data-i18n="gal_listings">listings</span></span>
             </div>
-            <button class="gallery-view">View All →</button>
+            <button class="gallery-view" data-i18n="gal_view">View All →</button>
           </div>
         </article>
       </div>
@@ -1625,56 +2045,68 @@
 
   <!-- OUR SERVICES -->
   <section class="services-section reveal page-section active" data-page="home" id="services" style="--d:0ms;">
-    <p class="section-eyebrow">What We Offer</p>
-    <h2 class="section-title">Our <span>Services</span></h2>
-    <div class="svc-carousel">
-    <div class="svc-grid" id="svcLoopGrid">
-      <div class="svc-card svc-airport reveal" style="--d:0ms;">
-        <div class="svc-ico">AT</div>
-        <h4>Airport Transfers & VIP Meet-and-Greet</h4>
-        <p>Professional airport pickup, drop-off, VIP fast-track assistance, and personalized arrival services.</p>
+    <p class="section-eyebrow" data-i18n="svc_eyebrow">What We Offer</p>
+    <h2 class="section-title" data-i18n="svc_title">Our <span>Services</span></h2>
+    <div class="svc-groups">
+      <div class="svc-group">
+        <h3 class="svc-group-title" data-i18n="svc_grp_car">Car Rental</h3>
+        <div class="svc-carousel">
+        <div class="svc-grid svc-loop-grid">
+          <div class="svc-card svc-airport reveal" style="--d:0ms;">
+            <h4 data-i18n="svc_cr1_h">Airport Car Rental</h4>
+            <p data-i18n="svc_cr1_p">Pick up your preferred vehicle directly at Langkawi Airport with smooth handover.</p>
+          </div>
+          <div class="svc-card svc-corporate reveal" style="--d:60ms;">
+            <h4 data-i18n="svc_cr2_h">Self-Drive Daily Rental</h4>
+            <p data-i18n="svc_cr2_p">Affordable daily car rental options for couples, families, and business travellers.</p>
+          </div>
+          <div class="svc-card svc-hotel reveal" style="--d:120ms;">
+            <h4 data-i18n="svc_cr3_h">Hotel Delivery Rental</h4>
+            <p data-i18n="svc_cr3_p">Get your rental car delivered to your hotel for a more convenient island journey.</p>
+          </div>
+        </div>
+        </div>
       </div>
-      <div class="svc-card svc-corporate reveal" style="--d:60ms;">
-        <div class="svc-ico">CT</div>
-        <h4>Corporate Transportation</h4>
-        <p>Executive transport for meetings, conferences, exhibitions, and business delegations.</p>
+
+      <div class="svc-group">
+        <h3 class="svc-group-title" data-i18n="svc_grp_chauffeur">Chauffeur Service</h3>
+        <div class="svc-carousel">
+        <div class="svc-grid svc-loop-grid">
+          <div class="svc-card svc-mice reveal" style="--d:0ms;">
+            <h4 data-i18n="svc_ch1_h">Executive Chauffeur</h4>
+            <p data-i18n="svc_ch1_p">Professional chauffeur service for corporate visits, meetings, and VIP clients.</p>
+          </div>
+          <div class="svc-card svc-ticketing reveal" style="--d:60ms;">
+            <h4 data-i18n="svc_ch2_h">Event Chauffeur Support</h4>
+            <p data-i18n="svc_ch2_p">Dedicated drivers for conferences, weddings, and events with punctual schedules.</p>
+          </div>
+          <div class="svc-card svc-event reveal" style="--d:120ms;">
+            <h4 data-i18n="svc_ch3_h">Private Day Chauffeur</h4>
+            <p data-i18n="svc_ch3_p">Book a private driver by the hour or full day for flexible and stress-free travel.</p>
+          </div>
+        </div>
+        </div>
       </div>
-      <div class="svc-card svc-mice reveal" style="--d:120ms;">
-        <div class="svc-ico">MX</div>
-        <h4>MICE & Exhibition Support</h4>
-        <p>Complete ground handling support for meetings, incentives, conferences, exhibitions, and corporate events.</p>
+
+      <div class="svc-group">
+        <h3 class="svc-group-title" data-i18n="svc_grp_act">Activities</h3>
+        <div class="svc-carousel">
+        <div class="svc-grid svc-loop-grid">
+          <div class="svc-card svc-tour reveal" style="--d:0ms;">
+            <h4 data-i18n="svc_ac1_h">Activity & Tour Booking</h4>
+            <p data-i18n="svc_ac1_p">Easy booking for top Langkawi experiences including beach, nature, and adventure tours.</p>
+          </div>
+          <div class="svc-card svc-langkawi reveal" style="--d:60ms;">
+            <h4 data-i18n="svc_ac2_h">Langkawi Signature Activities</h4>
+            <p data-i18n="svc_ac2_p">Mangrove tour, island hopping, sunset cruise, private yacht, and more in one place.</p>
+          </div>
+          <div class="svc-card svc-media reveal" style="--d:120ms;">
+            <h4 data-i18n="svc_ac3_h">Photo & Video Experience</h4>
+            <p data-i18n="svc_ac3_p">Capture your travel moments with optional photography and videography sessions.</p>
+          </div>
+        </div>
+        </div>
       </div>
-      <div class="svc-card svc-hotel reveal" style="--d:0ms;">
-        <div class="svc-ico">HC</div>
-        <h4>Hotel & Travel Coordination</h4>
-        <p>Accommodation arrangements, itinerary planning, and travel management solutions.</p>
-      </div>
-      <div class="svc-card svc-tour reveal" style="--d:60ms;">
-        <div class="svc-ico">TB</div>
-        <h4>Activity & Tour Bookings</h4>
-        <p>Arrangement of popular local experiences and leisure activities across Malaysia, especially in Langkawi.</p>
-      </div>
-      <div class="svc-card svc-langkawi reveal" style="--d:120ms;">
-        <div class="svc-ico">LE</div>
-        <h4>Langkawi Experiences</h4>
-        <p>Mangrove Tours, Island Hopping, Sunset Dinner Cruises, Private Yacht Charters, Water Activities & more.</p>
-      </div>
-      <div class="svc-card svc-ticketing reveal" style="--d:0ms;">
-        <div class="svc-ico">TK</div>
-        <h4>Ticketing Services</h4>
-        <p>Ferry tickets, attraction tickets, theme park tickets, event tickets, and travel-related reservations.</p>
-      </div>
-      <div class="svc-card svc-media reveal" style="--d:60ms;">
-        <div class="svc-ico">MV</div>
-        <h4>Photography & Videography</h4>
-        <p>Professional media support for events, corporate activities, exhibitions, and travel experiences.</p>
-      </div>
-      <div class="svc-card svc-event reveal" style="--d:120ms;">
-        <div class="svc-ico">OG</div>
-        <h4>Event & On-Ground Assistance</h4>
-        <p>On-site coordination, guest assistance, registration support, and logistics management.</p>
-      </div>
-    </div>
     </div>
   </section>
 
@@ -1682,23 +2114,23 @@
   <section class="about-section reveal page-section" data-page="about" id="about" style="--d:0ms;">
     <div class="about-grid" id="aboutScroll">
       <div>
-        <p class="section-eyebrow">About SM Leisure</p>
-        <h2 class="section-title">Your Trusted <span>Ground Handling</span> Partner</h2>
-        <p class="section-desc">SM Leisure Travel & Tours Sdn Bhd is a Malaysia-based travel and destination management company specializing in premium ground handling, corporate travel support, VIP hospitality, and customized travel experiences.</p>
-        <p class="section-desc" style="margin-top:14px;">With extensive experience handling international business groups, exhibitions, corporate delegations, and private travelers, we provide seamless end-to-end services tailored to every client's requirements. Beyond corporate and VIP arrangements, we specialize in leisure experiences and activity bookings across Malaysia — particularly in Langkawi.</p>
-        <p class="section-desc" style="margin-top:14px;font-style:italic;color:var(--accent);font-weight:600;">Your Journey, Our Commitment.</p>
+        <p class="section-eyebrow" data-i18n="about_eyebrow">About SM Leisure</p>
+        <h2 class="section-title" data-i18n="about_title">Your Trusted <span>Ground Handling</span> Partner</h2>
+        <p class="section-desc" data-i18n="about_p1">SM Leisure Travel & Tours Sdn Bhd is a Malaysia-based travel and destination management company specializing in premium ground handling, corporate travel support, VIP hospitality, and customized travel experiences.</p>
+        <p class="section-desc" style="margin-top:14px;" data-i18n="about_p2">With extensive experience handling international business groups, exhibitions, corporate delegations, and private travelers, we provide seamless end-to-end services tailored to every client's requirements. Beyond corporate and VIP arrangements, we specialize in leisure experiences and activity bookings across Malaysia — particularly in Langkawi.</p>
+        <p class="section-desc" style="margin-top:14px;font-style:italic;color:var(--accent);font-weight:600;" data-i18n="about_tagline">Your Journey, Our Commitment.</p>
         <div class="stats-row">
-          <div class="stat-box reveal" style="--d:0ms;"><div class="stat-big">5k+</div><div class="stat-lbl">Clients Served</div></div>
-          <div class="stat-box reveal" style="--d:100ms;"><div class="stat-big">120+</div><div class="stat-lbl">Local Experiences</div></div>
-          <div class="stat-box reveal" style="--d:200ms;"><div class="stat-big">24/7</div><div class="stat-lbl">Support Team</div></div>
-          <div class="stat-box reveal" style="--d:300ms;"><div class="stat-big">100%</div><div class="stat-lbl">Local Specialists</div></div>
+          <div class="stat-box reveal" style="--d:0ms;"><div class="stat-big">5k+</div><div class="stat-lbl" data-i18n="stat_lbl_clients">Clients Served</div></div>
+          <div class="stat-box reveal" style="--d:100ms;"><div class="stat-big">120+</div><div class="stat-lbl" data-i18n="stat_lbl_exp">Local Experiences</div></div>
+          <div class="stat-box reveal" style="--d:200ms;"><div class="stat-big">24/7</div><div class="stat-lbl" data-i18n="stat_lbl_support">Support Team</div></div>
+          <div class="stat-box reveal" style="--d:300ms;"><div class="stat-big">100%</div><div class="stat-lbl" data-i18n="stat_lbl_local">Local Specialists</div></div>
         </div>
       </div>
       <div class="collage reveal" style="--d:100ms;">
-        <div class="col-img col-img-tall col-a"></div>
-        <div><div class="col-img col-b" style="margin-bottom:12px;"></div><div class="col-img col-c"></div></div>
-        <div class="col-img col-img-tall col-d"></div>
         <div class="col-img col-a"></div>
+        <div class="col-img col-b"></div>
+        <div class="col-img col-c"></div>
+        <div class="col-img col-d"></div>
       </div>
     </div>
     <div class="scroll-indicator" data-for="aboutScroll"><span></span></div>
@@ -1706,30 +2138,30 @@
 
   <!-- VISION & MISSION -->
   <section class="vm-section reveal page-section" data-page="about" id="vision" style="--d:0ms;">
-    <video class="vm-bg-video" autoplay muted loop playsinline preload="metadata">
+    <video class="vm-bg-video" autoplay muted loop playsinline preload="none">
       <source src="https://videos.pexels.com/video-files/2169880/2169880-hd_1920_1080_30fps.mp4" type="video/mp4">
     </video>
     <div class="vm-content">
-      <p class="section-eyebrow">Our Direction</p>
-      <h2 class="section-title">Vision & <span>Mission</span></h2>
+      <p class="section-eyebrow" data-i18n="vm_eyebrow">Our Direction</p>
+      <h2 class="section-title" data-i18n="vm_title">Vision & <span>Mission</span></h2>
       <div class="vm-grid" id="vmScroll">
         <div class="vm-card vm-vision reveal" style="--d:0ms;">
           <div class="vm-head">
             <div class="vm-icon">🔭</div>
-            <h3>Our Vision</h3>
+            <h3 data-i18n="vm_vis_h">Our Vision</h3>
           </div>
-          <p>To become one of Malaysia's trusted and leading destination management and ground handling companies, recognized for professionalism, reliability, and exceptional service standards.</p>
+          <p data-i18n="vm_vis_p">To become one of Malaysia's trusted and leading destination management and ground handling companies, recognized for professionalism, reliability, and exceptional service standards.</p>
         </div>
         <div class="vm-card vm-mission reveal" style="--d:120ms;">
           <div class="vm-head">
             <div class="vm-icon">🎯</div>
-            <h3>Our Mission</h3>
+            <h3 data-i18n="vm_mis_h">Our Mission</h3>
           </div>
           <ul class="vm-list">
-            <li>To provide seamless and high-quality travel and ground handling experiences.</li>
-            <li>To deliver professional, efficient, and personalized services for every client.</li>
-            <li>To continuously improve service standards and operational excellence.</li>
-            <li>To build long-term partnerships through trust, consistency, and hospitality.</li>
+            <li data-i18n="vm_mis_li1">To provide seamless and high-quality travel and ground handling experiences.</li>
+            <li data-i18n="vm_mis_li2">To deliver professional, efficient, and personalized services for every client.</li>
+            <li data-i18n="vm_mis_li3">To continuously improve service standards and operational excellence.</li>
+            <li data-i18n="vm_mis_li4">To build long-term partnerships through trust, consistency, and hospitality.</li>
           </ul>
         </div>
       </div>
@@ -1739,38 +2171,38 @@
 
   <!-- WHY CHOOSE US -->
   <section class="why-choose-section reveal page-section" data-page="about" id="whychoose" style="--d:0ms;">
-    <p class="section-eyebrow">Why Us</p>
-    <h2 class="section-title">Why Choose <span>SM Leisure?</span></h2>
+    <p class="section-eyebrow" data-i18n="wc_eyebrow">Why Us</p>
+    <h2 class="section-title" data-i18n="wc_title">Why Choose <span>SM Leisure?</span></h2>
     <div class="wc-grid">
       <div class="wc-card reveal" style="--d:0ms;">
         <div class="wc-icon">👔</div>
-        <h4>Professional & Reliable Team</h4>
-        <p>Experienced in handling corporate groups, VIP clients, and international travelers.</p>
+        <h4 data-i18n="wc1_h">Professional & Reliable Team</h4>
+        <p data-i18n="wc1_p">Experienced in handling corporate groups, VIP clients, and international travelers.</p>
       </div>
       <div class="wc-card reveal" style="--d:80ms;">
         <div class="wc-icon">🔗</div>
-        <h4>One-Stop Ground Handling Solution</h4>
-        <p>From transportation and accommodation to event coordination and media support.</p>
+        <h4 data-i18n="wc2_h">One-Stop Ground Handling Solution</h4>
+        <p data-i18n="wc2_p">From transportation and accommodation to event coordination and media support.</p>
       </div>
       <div class="wc-card reveal" style="--d:160ms;">
         <div class="wc-icon">LX</div>
-        <h4>Strong Local Expertise</h4>
-        <p>Extensive local network and operational knowledge across Malaysia.</p>
+        <h4 data-i18n="wc3_h">Strong Local Expertise</h4>
+        <p data-i18n="wc3_p">Extensive local network and operational knowledge across Malaysia.</p>
       </div>
       <div class="wc-card reveal" style="--d:0ms;">
         <div class="wc-icon">✏️</div>
-        <h4>Flexible & Customized Services</h4>
-        <p>Every itinerary and arrangement is tailored according to client needs and expectations.</p>
+        <h4 data-i18n="wc4_h">Flexible & Customized Services</h4>
+        <p data-i18n="wc4_p">Every itinerary and arrangement is tailored according to client needs and expectations.</p>
       </div>
       <div class="wc-card reveal" style="--d:80ms;">
         <div class="wc-icon">🎯</div>
-        <h4>Attention to Detail</h4>
-        <p>We prioritize smooth coordination, punctuality, comfort, and service quality in every project.</p>
+        <h4 data-i18n="wc5_h">Attention to Detail</h4>
+        <p data-i18n="wc5_p">We prioritize smooth coordination, punctuality, comfort, and service quality in every project.</p>
       </div>
       <div class="wc-card reveal" style="--d:160ms;">
         <div class="wc-icon">TR</div>
-        <h4>Trusted by Business & Leisure Clients</h4>
-        <p>Committed to building long-term partnerships through professionalism and consistency.</p>
+        <h4 data-i18n="wc6_h">Trusted by Business & Leisure Clients</h4>
+        <p data-i18n="wc6_p">Committed to building long-term partnerships through professionalism and consistency.</p>
       </div>
     </div>
   </section>
@@ -1779,8 +2211,8 @@
   <section class="packages-section reveal page-section" data-page="packages" id="packages" style="--d:0ms;">
     <div class="packages-head">
       <div>
-        <p class="section-eyebrow">Top Experiences</p>
-        <h2 class="section-title">Top Langkawi <span>Highlights</span></h2>
+        <p class="section-eyebrow" data-i18n="pkg_eyebrow">Top Experiences</p>
+        <h2 class="section-title" data-i18n="pkg_title">Top Langkawi <span>Highlights</span></h2>
       </div>
     </div>
     <div class="pkg-grid" id="pkgGrid">
@@ -1788,15 +2220,15 @@
       <!-- Card 1 -->
       <article class="pkg-card reveal" style="--d:0ms;" data-cat="nature">
         <div class="pkg-img pi-skybridge">
-          <div class="pkg-badges"><span class="pkg-badge">Nature</span><span class="pkg-badge">Half day</span></div>
+          <div class="pkg-badges"><span class="pkg-badge" data-i18n="badge_nature">Nature</span><span class="pkg-badge" data-i18n="badge_half">Half day</span></div>
         </div>
         <div class="pkg-body">
-          <h3 class="pkg-title">SkyBridge Adventure</h3>
-          <p class="pkg-desc">Ride the cable car and walk above rainforest peaks with panoramic sea views.</p>
+          <h3 class="pkg-title" data-i18n="pkg1_t">SkyBridge Adventure</h3>
+          <p class="pkg-desc" data-i18n="pkg1_d">Ride the cable car and walk above rainforest peaks with panoramic sea views.</p>
           <div class="pkg-footer">
             <div class="pkg-price"><strong>RM 180</strong><span>/pax</span></div>
-            <div class="pkg-rating">Rating 4.9</div>
-            <button class="btn-book-sm" onclick="openBooking('SkyBridge Adventure','RM 180',180,'nature')">Book Now</button>
+            <div class="pkg-rating"><span class="rating-stars-row" aria-label="4.9 out of 5">★★★★★</span></div>
+            <button class="btn-book-sm" onclick="openBooking('SkyBridge Adventure','RM 180',180,'nature','天空之桥探险')" data-i18n="pkg_book">Book Now</button>
           </div>
         </div>
       </article>
@@ -1804,15 +2236,15 @@
       <!-- Card 2 -->
       <article class="pkg-card reveal" style="--d:80ms;" data-cat="tour">
         <div class="pkg-img pi-mangrove">
-          <div class="pkg-badges"><span class="pkg-badge">Popular</span><span class="pkg-badge">Half day</span></div>
+          <div class="pkg-badges"><span class="pkg-badge" data-i18n="badge_popular">Popular</span><span class="pkg-badge" data-i18n="badge_half">Half day</span></div>
         </div>
         <div class="pkg-body">
-          <h3 class="pkg-title">Kilim Mangrove Tour</h3>
-          <p class="pkg-desc">Cruise through mangrove forests, spot eagles, and visit hidden limestone caves.</p>
+          <h3 class="pkg-title" data-i18n="pkg2_t">Kilim Mangrove Tour</h3>
+          <p class="pkg-desc" data-i18n="pkg2_d">Cruise through mangrove forests, spot eagles, and visit hidden limestone caves.</p>
           <div class="pkg-footer">
             <div class="pkg-price"><strong>RM 220</strong><span>/pax</span></div>
-            <div class="pkg-rating">Rating 4.8</div>
-            <button class="btn-book-sm" onclick="openBooking('Kilim Mangrove Tour','RM 220',220,'tour')">Book Now</button>
+            <div class="pkg-rating"><span class="rating-stars-row" aria-label="4.8 out of 5">★★★★<span class="star-dim">☆</span></span></div>
+            <button class="btn-book-sm" onclick="openBooking('Kilim Mangrove Tour','RM 220',220,'tour','红树林生态游')" data-i18n="pkg_book">Book Now</button>
           </div>
         </div>
       </article>
@@ -1820,15 +2252,15 @@
       <!-- Card 3 -->
       <article class="pkg-card reveal" style="--d:160ms;" data-cat="beach">
         <div class="pkg-img pi-beach">
-          <div class="pkg-badges"><span class="pkg-badge">Beach</span><span class="pkg-badge">Full day</span></div>
+          <div class="pkg-badges"><span class="pkg-badge" data-i18n="badge_beach">Beach</span><span class="pkg-badge" data-i18n="badge_full">Full day</span></div>
         </div>
         <div class="pkg-body">
-          <h3 class="pkg-title">Pantai Cenang Chill Day</h3>
-          <p class="pkg-desc">Relax by clear waters, try water sports, and enjoy local cafes by the beach.</p>
+          <h3 class="pkg-title" data-i18n="pkg3_t">Pantai Cenang Chill Day</h3>
+          <p class="pkg-desc" data-i18n="pkg3_d">Relax by clear waters, try water sports, and enjoy local cafes by the beach.</p>
           <div class="pkg-footer">
             <div class="pkg-price"><strong>RM 150</strong><span>/pax</span></div>
-            <div class="pkg-rating">Rating 4.7</div>
-            <button class="btn-book-sm" onclick="openBooking('Pantai Cenang Chill Day','RM 150',150,'beach')">Book Now</button>
+            <div class="pkg-rating"><span class="rating-stars-row" aria-label="4.7 out of 5">★★★★<span class="star-dim">☆</span></span></div>
+            <button class="btn-book-sm" onclick="openBooking('Pantai Cenang Chill Day','RM 150',150,'beach','珍南海滩悠闲日')" data-i18n="pkg_book">Book Now</button>
           </div>
         </div>
       </article>
@@ -1836,15 +2268,15 @@
       <!-- Card 4 -->
       <article class="pkg-card reveal" style="--d:0ms;" data-cat="nature">
         <div class="pkg-img pi-cable">
-          <div class="pkg-badges"><span class="pkg-badge">Must Try</span><span class="pkg-badge">3 hours</span></div>
+          <div class="pkg-badges"><span class="pkg-badge" data-i18n="badge_must">Must Try</span><span class="pkg-badge" data-i18n="badge_3h">3 hours</span></div>
         </div>
         <div class="pkg-body">
-          <h3 class="pkg-title">Machinchang Sunset Ride</h3>
-          <p class="pkg-desc">Golden hour cable car ride with dramatic mountain silhouettes and sea horizon.</p>
+          <h3 class="pkg-title" data-i18n="pkg4_t">Machinchang Sunset Ride</h3>
+          <p class="pkg-desc" data-i18n="pkg4_d">Golden hour cable car ride with dramatic mountain silhouettes and sea horizon.</p>
           <div class="pkg-footer">
             <div class="pkg-price"><strong>RM 130</strong><span>/pax</span></div>
-            <div class="pkg-rating">Rating 4.9</div>
-            <button class="btn-book-sm" onclick="openBooking('Machinchang Sunset Ride','RM 130',130,'evening')">Book Now</button>
+            <div class="pkg-rating"><span class="rating-stars-row" aria-label="4.9 out of 5">★★★★★</span></div>
+            <button class="btn-book-sm" onclick="openBooking('Machinchang Sunset Ride','RM 130',130,'evening','玛青岗日落缆车')" data-i18n="pkg_book">Book Now</button>
           </div>
         </div>
       </article>
@@ -1852,15 +2284,15 @@
       <!-- Card 5 -->
       <article class="pkg-card reveal" style="--d:80ms;" data-cat="tour">
         <div class="pkg-img pi-islandhop">
-          <div class="pkg-badges"><span class="pkg-badge">Tour</span><span class="pkg-badge">Full day</span></div>
+          <div class="pkg-badges"><span class="pkg-badge" data-i18n="badge_tour">Tour</span><span class="pkg-badge" data-i18n="badge_full">Full day</span></div>
         </div>
         <div class="pkg-body">
-          <h3 class="pkg-title">Island Hopping Combo</h3>
-          <p class="pkg-desc">Visit Dayang Bunting Lake, Beras Basah Island, and eagle feeding spots.</p>
+          <h3 class="pkg-title" data-i18n="pkg5_t">Island Hopping Combo</h3>
+          <p class="pkg-desc" data-i18n="pkg5_d">Visit Dayang Bunting Lake, Beras Basah Island, and eagle feeding spots.</p>
           <div class="pkg-footer">
             <div class="pkg-price"><strong>RM 240</strong><span>/pax</span></div>
-            <div class="pkg-rating">Rating 4.8</div>
-            <button class="btn-book-sm" onclick="openBooking('Island Hopping Combo','RM 240',240,'tour')">Book Now</button>
+            <div class="pkg-rating"><span class="rating-stars-row" aria-label="4.8 out of 5">★★★★<span class="star-dim">☆</span></span></div>
+            <button class="btn-book-sm" onclick="openBooking('Island Hopping Combo','RM 240',240,'tour','跳岛组合行程')" data-i18n="pkg_book">Book Now</button>
           </div>
         </div>
       </article>
@@ -1868,15 +2300,15 @@
       <!-- Card 6 -->
       <article class="pkg-card reveal" style="--d:160ms;" data-cat="evening">
         <div class="pkg-img pi-sunset">
-          <div class="pkg-badges"><span class="pkg-badge">New</span><span class="pkg-badge">Evening</span></div>
+          <div class="pkg-badges"><span class="pkg-badge" data-i18n="badge_new">New</span><span class="pkg-badge" data-i18n="badge_evening">Evening</span></div>
         </div>
         <div class="pkg-body">
-          <h3 class="pkg-title">Sunset Cruise Experience</h3>
-          <p class="pkg-desc">Sail around Langkawi waters with dinner, music, and a stunning sunset backdrop.</p>
+          <h3 class="pkg-title" data-i18n="pkg6_t">Sunset Cruise Experience</h3>
+          <p class="pkg-desc" data-i18n="pkg6_d">Sail around Langkawi waters with dinner, music, and a stunning sunset backdrop.</p>
           <div class="pkg-footer">
             <div class="pkg-price"><strong>RM 290</strong><span>/pax</span></div>
-            <div class="pkg-rating">Rating 5.0</div>
-            <button class="btn-book-sm" onclick="openBooking('Sunset Cruise Experience','RM 290',290,'evening')">Book Now</button>
+            <div class="pkg-rating"><span class="rating-stars-row" aria-label="5 out of 5">★★★★★</span></div>
+            <button class="btn-book-sm" onclick="openBooking('Sunset Cruise Experience','RM 290',290,'evening','日落游船体验')" data-i18n="pkg_book">Book Now</button>
           </div>
         </div>
       </article>
@@ -1886,16 +2318,16 @@
 
   <!-- REVIEWS -->
   <section class="reviews-section reveal page-section" data-page="packages" style="--d:0ms;">
-    <p class="section-eyebrow">Testimonials</p>
-    <h2 class="section-title">More than a booking site — <span>your local partner</span></h2>
+    <p class="section-eyebrow" data-i18n="rev_eyebrow">Testimonials</p>
+    <h2 class="section-title" data-i18n="rev_title">More than a booking site — <span>your local partner</span></h2>
     <div class="review-grid">
       <div class="rv-card"><div class="rv-photo rp1"></div></div>
       <div class="rv-card">
         <div class="rv-body">
           <div class="rv-avatar av-a">AR</div>
           <p class="rv-name">Aina Rahman</p>
-          <p class="rv-stars">5.0 rating</p>
-          <p class="rv-text">Everything was smooth from airport pickup to island hopping. Perfect for first-time visitors.</p>
+          <p class="rv-stars rating-stars-row" aria-label="5 out of 5 stars">★★★★★</p>
+          <p class="rv-text" data-i18n="rv1_t">Everything was smooth from airport pickup to island hopping. Perfect for first-time visitors.</p>
         </div>
       </div>
       <div class="rv-card"><div class="rv-photo rp2"></div></div>
@@ -1903,8 +2335,8 @@
         <div class="rv-body">
           <div class="rv-avatar av-b">DW</div>
           <p class="rv-name">Daniel Wong</p>
-          <p class="rv-stars">5.0 rating</p>
-          <p class="rv-text">Great recommendations and quick response from the team. We saw all key spots in two days.</p>
+          <p class="rv-stars rating-stars-row" aria-label="5 out of 5 stars">★★★★★</p>
+          <p class="rv-text" data-i18n="rv2_t">Great recommendations and quick response from the team. We saw all key spots in two days.</p>
         </div>
       </div>
       <div class="rv-card"><div class="rv-photo rp3"></div></div>
@@ -1912,8 +2344,8 @@
         <div class="rv-body">
           <div class="rv-avatar av-c">NI</div>
           <p class="rv-name">Nurul Izzati</p>
-          <p class="rv-stars">5.0 rating</p>
-          <p class="rv-text">The itinerary was balanced and not rushed. Highly recommended for a stress-free trip.</p>
+          <p class="rv-stars rating-stars-row" aria-label="5 out of 5 stars">★★★★★</p>
+          <p class="rv-text" data-i18n="rv3_t">The itinerary was balanced and not rushed. Highly recommended for a stress-free trip.</p>
         </div>
       </div>
     </div>
@@ -1921,26 +2353,26 @@
 
   <!-- CAR RENTAL -->
   <section class="cars-section reveal page-section" data-page="transport" id="transport" style="--d:0ms;">
-    <p class="section-eyebrow">Transport</p>
-    <h2 class="section-title">Book Your <span>Island Ride</span></h2>
+    <p class="section-eyebrow" data-i18n="cars_eyebrow">Transport</p>
+    <h2 class="section-title" data-i18n="cars_title">Book Your <span>Island Ride</span></h2>
     <div class="cars-filter-row">
       <div class="car-tabs">
-        <button class="car-tab active" onclick="filterCars('family',this)">Family</button>
-        <button class="car-tab" onclick="filterCars('sport',this)">Sport</button>
-        <button class="car-tab" onclick="filterCars('sedan',this)">Sedan</button>
-        <button class="car-tab" onclick="filterCars('jeep',this)">Jeep</button>
+        <button class="car-tab active" onclick="filterCars('family',this)" data-i18n="car_tab_family">Family</button>
+        <button class="car-tab" onclick="filterCars('sport',this)" data-i18n="car_tab_sport">Sport</button>
+        <button class="car-tab" onclick="filterCars('sedan',this)" data-i18n="car_tab_sedan">Sedan</button>
+        <button class="car-tab" onclick="filterCars('jeep',this)" data-i18n="car_tab_jeep">Jeep</button>
       </div>
       <div class="sort-row">
         <select class="sort-dd" onchange="sortCars(this.value)" style="outline:none;appearance:none;padding-right:28px;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 10 6%22><path d=%22M0 0l5 6 5-6z%22 fill=%22%23556a82%22/></svg>');background-repeat:no-repeat;background-position:right 10px center;background-size:10px;">
-          <option value="default">Select transport</option>
-          <option value="car">Car</option>
-          <option value="scooter">Scooter</option>
-          <option value="van">Van</option>
+          <option value="default" data-i18n="sort_transport">Select transport</option>
+          <option value="car" data-i18n="sort_car">Car</option>
+          <option value="scooter" data-i18n="sort_scooter">Scooter</option>
+          <option value="van" data-i18n="sort_van">Van</option>
         </select>
         <select class="sort-dd" onchange="sortCarsBy(this.value)" style="outline:none;appearance:none;padding-right:28px;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 10 6%22><path d=%22M0 0l5 6 5-6z%22 fill=%22%23556a82%22/></svg>');background-repeat:no-repeat;background-position:right 10px center;background-size:10px;">
-          <option value="default">Best value</option>
-          <option value="price-asc">Price: Low → High</option>
-          <option value="price-desc">Price: High → Low</option>
+          <option value="default" data-i18n="sort_best">Best value</option>
+          <option value="price-asc" data-i18n="sort_price_lo">Price: Low → High</option>
+          <option value="price-desc" data-i18n="sort_price_hi">Price: High → Low</option>
         </select>
       </div>
     </div>
@@ -1949,55 +2381,55 @@
       <div class="car-card reveal" style="--d:0ms;" data-cat="sedan family" data-price="95" data-type="car">
         <div class="car-top"><span class="car-badge cb-new">15% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
         <div class="car-img ci-bezza"></div>
-        <p class="car-stars-row">5.0 rating</p>
+        <p class="car-stars-row rating-stars-row" aria-label="5 out of 5 stars">★★★★★</p>
         <h3 class="car-name">Perodua Bezza</h3>
         <div class="car-specs-row"><span class="car-spec">Diesel</span><span class="car-spec">Family</span><span class="car-spec">4,000 Miles</span><span class="car-spec">5 Seats</span><span class="car-spec">Automatic</span><span class="car-spec">Sedan</span></div>
-        <div class="car-footer"><div class="car-price">RM 95<small>/Day</small></div><button class="btn-rent" onclick="openCarBooking('Perodua Bezza',95)">Book Now</button></div>
+        <div class="car-footer"><div class="car-price">RM 95<small data-i18n="car_day">/Day</small></div><button class="btn-rent" onclick="openCarBooking('Perodua Bezza',95,'Perodua Bezza')" data-i18n="car_book">Book Now</button></div>
       </div>
 
       <div class="car-card reveal" style="--d:80ms;" data-cat="sport" data-price="60" data-type="scooter">
         <div class="car-top"><span class="car-badge cb-pop">10% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
         <div class="car-img ci-scooter"></div>
-        <p class="car-stars-row">5.0 rating</p>
+        <p class="car-stars-row rating-stars-row" aria-label="5 out of 5 stars">★★★★★</p>
         <h3 class="car-name">Scooter 150cc</h3>
         <div class="car-specs-row"><span class="car-spec">Petrol</span><span class="car-spec">Sport</span><span class="car-spec">3,000 Miles</span><span class="car-spec">2 Seats</span><span class="car-spec">Automatic</span><span class="car-spec">Compact</span></div>
-        <div class="car-footer"><div class="car-price">RM 60<small>/Day</small></div><button class="btn-rent" onclick="openCarBooking('Scooter 150cc',60)">Book Now</button></div>
+        <div class="car-footer"><div class="car-price">RM 60<small data-i18n="car_day">/Day</small></div><button class="btn-rent" onclick="openCarBooking('Scooter 150cc',60,'150cc 摩托车')" data-i18n="car_book">Book Now</button></div>
       </div>
 
       <div class="car-card reveal" style="--d:160ms;" data-cat="jeep family" data-price="180" data-type="car">
         <div class="car-top"><span class="car-badge cb-new">15% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
         <div class="car-img ci-brv"></div>
-        <p class="car-stars-row">5.0 rating</p>
+        <p class="car-stars-row rating-stars-row" aria-label="5 out of 5 stars">★★★★★</p>
         <h3 class="car-name">Honda BR-V</h3>
         <div class="car-specs-row"><span class="car-spec">Diesel</span><span class="car-spec">Jeep</span><span class="car-spec">5,000 Miles</span><span class="car-spec">7 Seats</span><span class="car-spec">Automatic</span><span class="car-spec">SUV</span></div>
-        <div class="car-footer"><div class="car-price">RM 180<small>/Day</small></div><button class="btn-rent" onclick="openCarBooking('Honda BR-V',180)">Book Now</button></div>
+        <div class="car-footer"><div class="car-price">RM 180<small data-i18n="car_day">/Day</small></div><button class="btn-rent" onclick="openCarBooking('Honda BR-V',180,'Honda BR-V')" data-i18n="car_book">Book Now</button></div>
       </div>
 
       <div class="car-card reveal" style="--d:0ms;" data-cat="sedan" data-price="140" data-type="car">
         <div class="car-top"><span class="car-badge cb-pop">15% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
         <div class="car-img ci-vios"></div>
-        <p class="car-stars-row">5.0 rating</p>
+        <p class="car-stars-row rating-stars-row" aria-label="5 out of 5 stars">★★★★★</p>
         <h3 class="car-name">Toyota Vios</h3>
         <div class="car-specs-row"><span class="car-spec">Diesel</span><span class="car-spec">Sedan</span><span class="car-spec">7,000 Miles</span><span class="car-spec">4 Seats</span><span class="car-spec">Automatic</span><span class="car-spec">Urban</span></div>
-        <div class="car-footer"><div class="car-price">RM 140<small>/Day</small></div><button class="btn-rent" onclick="openCarBooking('Toyota Vios',140)">Book Now</button></div>
+        <div class="car-footer"><div class="car-price">RM 140<small data-i18n="car_day">/Day</small></div><button class="btn-rent" onclick="openCarBooking('Toyota Vios',140,'Toyota Vios')" data-i18n="car_book">Book Now</button></div>
       </div>
 
       <div class="car-card reveal" style="--d:80ms;" data-cat="family sport" data-price="240" data-type="van">
         <div class="car-top"><span class="car-badge cb-new">12% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
         <div class="car-img ci-serena"></div>
-        <p class="car-stars-row">5.0 rating</p>
+        <p class="car-stars-row rating-stars-row" aria-label="5 out of 5 stars">★★★★★</p>
         <h3 class="car-name">Nissan Serena</h3>
         <div class="car-specs-row"><span class="car-spec">Diesel</span><span class="car-spec">Family</span><span class="car-spec">7,000 Miles</span><span class="car-spec">8 Seats</span><span class="car-spec">Automatic</span><span class="car-spec">MPV</span></div>
-        <div class="car-footer"><div class="car-price">RM 240<small>/Day</small></div><button class="btn-rent" onclick="openCarBooking('Nissan Serena',240)">Book Now</button></div>
+        <div class="car-footer"><div class="car-price">RM 240<small data-i18n="car_day">/Day</small></div><button class="btn-rent" onclick="openCarBooking('Nissan Serena',240,'Nissan Serena')" data-i18n="car_book">Book Now</button></div>
       </div>
 
       <div class="car-card reveal" style="--d:160ms;" data-cat="jeep family" data-price="320" data-type="van">
         <div class="car-top"><span class="car-badge cb-pop">15% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
         <div class="car-img ci-hiace"></div>
-        <p class="car-stars-row">5.0 rating</p>
+        <p class="car-stars-row rating-stars-row" aria-label="5 out of 5 stars">★★★★★</p>
         <h3 class="car-name">Toyota Hiace</h3>
         <div class="car-specs-row"><span class="car-spec">Diesel</span><span class="car-spec">Jeep</span><span class="car-spec">7,000 Miles</span><span class="car-spec">10 Seats</span><span class="car-spec">Manual</span><span class="car-spec">Van</span></div>
-        <div class="car-footer"><div class="car-price">RM 320<small>/Day</small></div><button class="btn-rent" onclick="openCarBooking('Toyota Hiace',320)">Book Now</button></div>
+        <div class="car-footer"><div class="car-price">RM 320<small data-i18n="car_day">/Day</small></div><button class="btn-rent" onclick="openCarBooking('Toyota Hiace',320,'Toyota Hiace')" data-i18n="car_book">Book Now</button></div>
       </div>
 
     </div>
@@ -2007,30 +2439,30 @@
     <div class="why-grid" id="whyScroll">
       <div class="why-visual">
         <button class="why-vid-pill" onclick="openVideo()">
-          <div class="why-vid-icon">Play</div>
-          Watch Our Company Profile
+          <div class="why-vid-icon" data-i18n="why_vid_play">Play</div>
+          <span data-i18n="why_vid_btn">Watch Our Company Profile</span>
         </button>
         <div class="why-imgs">
           <div class="why-img wi-a"></div>
           <div class="why-img wi-b"></div>
         </div>
-        <div class="partner-pill">250+ Trusted <span>Local Partners</span></div>
+        <div class="partner-pill" data-i18n="why_partner">250+ Trusted <span>Local Partners</span></div>
       </div>
       <div class="why-content">
-        <h2 class="why-title">Ground Handling Excellence</h2>
-        <p class="why-desc">SM Leisure provides seamless, end-to-end travel and ground handling services. Whether for business delegations or leisure travelers, we coordinate everything so you can focus on what matters.</p>
+        <h2 class="why-title" data-i18n="why_block_h">Ground Handling Excellence</h2>
+        <p class="why-desc" data-i18n="why_block_p">SM Leisure provides seamless, end-to-end travel and ground handling services. Whether for business delegations or leisure travelers, we coordinate everything so you can focus on what matters.</p>
         <div class="why-list">
           <article class="why-item">
             <div class="why-icon">01</div>
-            <div><h4>Punctuality & Reliability</h4><p>We ensure on-time pickups, smooth transitions, and consistent service throughout every engagement.</p></div>
+            <div><h4 data-i18n="why_i1_h">Punctuality & Reliability</h4><p data-i18n="why_i1_p">We ensure on-time pickups, smooth transitions, and consistent service throughout every engagement.</p></div>
           </article>
           <article class="why-item">
             <div class="why-icon">02</div>
-            <div><h4>VIP & Corporate Expertise</h4><p>Trusted by international delegations, MICE organizers, and high-profile visitors across Malaysia.</p></div>
+            <div><h4 data-i18n="why_i2_h">VIP & Corporate Expertise</h4><p data-i18n="why_i2_p">Trusted by international delegations, MICE organizers, and high-profile visitors across Malaysia.</p></div>
           </article>
           <article class="why-item">
             <div class="why-icon">03</div>
-            <div><h4>Flexible Transport Support</h4><p>Car, van, or executive fleet — we tailor every arrangement to your schedule and preferences.</p></div>
+            <div><h4 data-i18n="why_i3_h">Flexible Transport Support</h4><p data-i18n="why_i3_p">Car, van, or executive fleet — we tailor every arrangement to your schedule and preferences.</p></div>
           </article>
         </div>
       </div>
@@ -2043,44 +2475,44 @@
 <!-- CONTACT -->
 <section class="contact-section page-section" data-page="contact" id="contact">
   <div class="contact-head">
-    <p class="section-eyebrow">Get In Touch</p>
-    <h2 class="section-title">Contact <span>SM Leisure</span></h2>
-    <p class="section-desc">Need ground handling, VIP assistance, or corporate travel support? Our team is ready to help with fast and reliable arrangements.</p>
+    <p class="section-eyebrow" data-i18n="contact_eyebrow">Get In Touch</p>
+    <h2 class="section-title" data-i18n="contact_title">Contact <span>SM Leisure</span></h2>
+    <p class="section-desc" data-i18n="contact_desc">Need ground handling, VIP assistance, or corporate travel support? Our team is ready to help with fast and reliable arrangements.</p>
   </div>
   <div class="contact-grid">
     <article class="contact-card">
-      <h3 class="contact-mini-title">Direct Contact</h3>
+      <h3 class="contact-mini-title" data-i18n="contact_mini1">Direct Contact</h3>
       <div class="contact-list">
         <div class="contact-item">
           <div class="contact-ico">EM</div>
-          <div><strong>Email</strong><span>smleisuretravel@gmail.com</span></div>
+          <div><strong data-i18n="lbl_email">Email</strong><span>smleisuretravel@gmail.com</span></div>
         </div>
         <div class="contact-item">
           <div class="contact-ico">PH</div>
-          <div><strong>Phone / WhatsApp</strong><span>+60 17-508 6608 · +60 4-499 5295</span></div>
+          <div><strong data-i18n="lbl_phone">Phone / WhatsApp</strong><span>+60 17-508 6608 · +60 4-499 5295</span></div>
         </div>
         <div class="contact-item">
           <div class="contact-ico">AD</div>
-          <div><strong>Office Address</strong><span>Lot 116, Pusat Perniagaan Kelana Mas, Kuah 07000, Langkawi, Kedah.</span></div>
+          <div><strong data-i18n="lbl_address">Office Address</strong><span>Lot 116, Pusat Perniagaan Kelana Mas, Kuah 07000, Langkawi, Kedah.</span></div>
         </div>
         <div class="contact-item">
           <div class="contact-ico">MD</div>
-          <div><strong>Managing Director</strong><span>Raymond Lau</span></div>
+          <div><strong data-i18n="lbl_md">Managing Director</strong><span>Raymond Lau</span></div>
         </div>
       </div>
       <div class="contact-actions">
-        <button class="contact-btn primary" onclick="toast('WhatsApp: +60 17-508 6608','info')">WhatsApp Us</button>
-        <button class="contact-btn secondary" onclick="toast('Email: smleisuretravel@gmail.com','info')">Send Email</button>
+        <button class="contact-btn primary" onclick="toast('WhatsApp: +60 17-508 6608','info')" data-i18n="btn_wa">WhatsApp Us</button>
+        <button class="contact-btn secondary" onclick="toast('Email: smleisuretravel@gmail.com','info')" data-i18n="btn_email">Send Email</button>
       </div>
     </article>
     <article class="contact-card">
-      <h3 class="contact-mini-title">Quick Links</h3>
+      <h3 class="contact-mini-title" data-i18n="contact_mini2">Quick Links</h3>
       <div class="contact-mini-list">
-        <a href="#services" onclick="navigateToSection('services')">Our Services</a>
-        <a href="#packages" onclick="navigateToSection('packages')">Top Experiences</a>
-        <a href="#transport" onclick="navigateToSection('transport')">Transport Booking</a>
-        <a href="#about" onclick="navigateToSection('about')">About SM Leisure</a>
-        <a href="#contact" onclick="navigateToSection('contact')">Contact Us</a>
+        <a href="#services" onclick="navigateToSection('services')" data-i18n="ql_services">Our Services</a>
+        <a href="#packages" onclick="navigateToSection('packages')" data-i18n="ql_top">Top Experiences</a>
+        <a href="#transport" onclick="navigateToSection('transport')" data-i18n="ql_transport">Transport Booking</a>
+        <a href="#about" onclick="navigateToSection('about')" data-i18n="ql_about">About SM Leisure</a>
+        <a href="#contact" onclick="navigateToSection('contact')" data-i18n="ql_contact">Contact Us</a>
       </div>
     </article>
   </div>
@@ -2088,29 +2520,29 @@
 <div class="site-footer">
   <div class="footer-main">
     <div>
-      <h4 class="footer-col-title">Contact Info</h4>
+      <h4 class="footer-col-title" data-i18n="foot_contact">Contact Info</h4>
       <div class="footer-link-list">
         <a href="tel:+60175086608">📞 +60 17-508 6608</a>
         <a href="tel:+6044995295">+60 4-499 5295</a>
         <a href="mailto:smleisuretravel@gmail.com">✉ smleisuretravel@gmail.com</a>
-        <a href="#">24 Hours Front Desk Service</a>
+        <a href="#" data-i18n="foot_desk">24 Hours Front Desk Service</a>
         <a href="#">Lot 116, Pusat Perniagaan Kelana Mas, Kuah 07000 Langkawi, Kedah.</a>
       </div>
     </div>
     <div>
-      <h4 class="footer-col-title">Explore</h4>
+      <h4 class="footer-col-title" data-i18n="foot_explore">Explore</h4>
       <div class="footer-link-list">
-        <a href="#" onclick="navigateToSection('hero')">Home</a>
-        <a href="#about" onclick="navigateToSection('about')">About</a>
-        <a href="#services" onclick="navigateToSection('services')">Services</a>
-        <a href="#packages" onclick="navigateToSection('packages')">Packages</a>
-        <a href="#transport" onclick="navigateToSection('transport')">Transport</a>
-        <a href="#contact" onclick="navigateToSection('contact')">Contact</a>
+        <a href="#" onclick="navigateToSection('hero')" data-i18n="nav_home">Home</a>
+        <a href="#about" onclick="navigateToSection('about')" data-i18n="nav_about">About</a>
+        <a href="#services" onclick="navigateToSection('services')" data-i18n="nav_services">Services</a>
+        <a href="#packages" onclick="navigateToSection('packages')" data-i18n="nav_packages">Packages</a>
+        <a href="#transport" onclick="navigateToSection('transport')" data-i18n="nav_transport">Transport</a>
+        <a href="#contact" onclick="navigateToSection('contact')" data-i18n="nav_contact">Contact</a>
       </div>
     </div>
     <div>
-      <h4 class="footer-col-title">Follow Us</h4>
-      <p class="footer-text">Social Media Channel</p>
+      <h4 class="footer-col-title" data-i18n="foot_follow">Follow Us</h4>
+      <p class="footer-text" data-i18n="foot_social">Social Media Channel</p>
       <div class="social-row">
         <a class="social-btn" href="https://wa.me/60175086608" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.79 11.79 0 0 0 12.12 0C5.67 0 .42 5.24.42 11.7c0 2.06.54 4.08 1.56 5.85L0 24l6.62-1.92a11.67 11.67 0 0 0 5.5 1.4h.01c6.45 0 11.7-5.25 11.7-11.7 0-3.12-1.21-6.05-3.31-8.3Zm-8.4 18.02h-.01a9.75 9.75 0 0 1-4.98-1.37l-.36-.21-3.93 1.14 1.18-3.83-.24-.39a9.75 9.75 0 0 1-1.5-5.16c0-5.38 4.38-9.76 9.76-9.76a9.7 9.7 0 0 1 6.9 2.86 9.69 9.69 0 0 1 2.86 6.9c0 5.38-4.38 9.76-9.76 9.76Zm5.35-7.33c-.29-.15-1.72-.85-1.98-.95-.26-.1-.45-.15-.64.14s-.73.95-.89 1.14c-.16.19-.33.21-.62.07-.29-.15-1.22-.45-2.32-1.42-.86-.77-1.44-1.72-1.61-2.01-.16-.29-.02-.45.12-.59.13-.13.29-.33.43-.5.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.07-.15-.64-1.54-.88-2.11-.23-.56-.47-.49-.64-.49h-.55c-.19 0-.5.07-.76.36-.26.29-1 1-1 2.43s1.02 2.81 1.16 3c.14.19 2 3.05 4.84 4.27.68.29 1.22.47 1.63.6.68.22 1.3.19 1.79.12.55-.08 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.19-.55-.33Z"/></svg>
@@ -2130,7 +2562,7 @@
       </div>
     </div>
   </div>
-  <div class="footer-bottom">© 2026 SM Leisure Travel & Tours Sdn Bhd. All Rights Reserved.</div>
+  <div class="footer-bottom" data-i18n="foot_copy">© 2026 SM Leisure Travel & Tours Sdn Bhd. All Rights Reserved.</div>
 </div>
 <a class="float-whatsapp" href="https://wa.me/60175086608" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.79 11.79 0 0 0 12.12 0C5.67 0 .42 5.24.42 11.7c0 2.06.54 4.08 1.56 5.85L0 24l6.62-1.92a11.67 11.67 0 0 0 5.5 1.4h.01c6.45 0 11.7-5.25 11.7-11.7 0-3.12-1.21-6.05-3.31-8.3Zm-8.4 18.02h-.01a9.75 9.75 0 0 1-4.98-1.37l-.36-.21-3.93 1.14 1.18-3.83-.24-.39a9.75 9.75 0 0 1-1.5-5.16c0-5.38 4.38-9.76 9.76-9.76a9.7 9.7 0 0 1 6.9 2.86 9.69 9.69 0 0 1 2.86 6.9c0 5.38-4.38 9.76-9.76 9.76Z"/></svg>
@@ -2154,13 +2586,13 @@
       <!-- Step 1: Details -->
       <div id="bkgStep1">
         <div class="form-row">
-          <div class="form-group"><label>Tour Date</label><input type="date" id="bkgDate" min="2026-01-01" value="2026-06-12"></div>
-          <div class="form-group"><label>Tour Time</label>
+          <div class="form-group"><label data-i18n="lbl_tour_date">Tour Date</label><input type="date" id="bkgDate" min="2026-01-01" value="2026-06-12"></div>
+          <div class="form-group"><label data-i18n="lbl_tour_time">Tour Time</label>
             <select id="bkgTime"><option>08:00 AM</option><option>09:00 AM</option><option>10:00 AM</option><option>02:00 PM</option><option>04:00 PM</option></select>
           </div>
         </div>
         <div class="qty-row">
-          <div class="qty-label">Number of Pax<br><small style="color:#8fa3bf;font-size:12px;font-weight:400;">Adults & Children</small></div>
+          <div class="qty-label"><span data-i18n="qty_label">Number of Pax</span><br><small style="color:#8fa3bf;font-size:12px;font-weight:400;" data-i18n="qty_sub">Adults & Children</small></div>
           <div class="qty-btns">
             <button class="qty-btn" onclick="changeQty(-1)">−</button>
             <span class="qty-val" id="bkgQty">2</span>
@@ -2169,24 +2601,24 @@
         </div>
         <div class="price-summary">
           <div class="ps-row"><span id="bkgPriceLabel">RM 180 × 2 pax</span><span id="bkgSubtotal">RM 360</span></div>
-          <div class="ps-row"><span>Service fee (5%)</span><span id="bkgFee">RM 18</span></div>
-          <div class="ps-row total"><span>Total</span><span id="bkgTotal">RM 378</span></div>
+          <div class="ps-row"><span data-i18n="lbl_service_fee">Service fee (5%)</span><span id="bkgFee">RM 18</span></div>
+          <div class="ps-row total"><span data-i18n="lbl_total">Total</span><span id="bkgTotal">RM 378</span></div>
         </div>
       </div>
 
       <!-- Step 2: Personal Info -->
       <div id="bkgStep2" style="display:none;">
         <div class="form-row">
-          <div class="form-group"><label>Full Name</label><input type="text" id="bkgName" placeholder="Your full name"></div>
+          <div class="form-group"><label data-i18n="lbl_full_name">Full Name</label><input type="text" id="bkgName" data-i18n-placeholder="ph_full_name" placeholder="Your full name"></div>
         </div>
         <div class="form-row">
-          <div class="form-group"><label>Phone</label><input type="tel" id="bkgPhone" placeholder="+60 12 345 6789"></div>
-          <div class="form-group"><label>Nationality</label>
-            <select id="bkgNat"><option>Malaysian</option><option>Singaporean</option><option>Indonesian</option><option>Thai</option><option>Other</option></select>
+          <div class="form-group"><label data-i18n="lbl_phone_in">Phone</label><input type="tel" id="bkgPhone" data-i18n-placeholder="ph_phone" placeholder="+60 12 345 6789"></div>
+          <div class="form-group"><label data-i18n="lbl_nat">Nationality</label>
+            <select id="bkgNat"><option data-i18n="nat_my">Malaysian</option><option data-i18n="nat_sg">Singaporean</option><option data-i18n="nat_id">Indonesian</option><option data-i18n="nat_th">Thai</option><option data-i18n="nat_other">Other</option></select>
           </div>
         </div>
         <div class="form-row full">
-          <div class="form-group"><label>Special Requests (optional)</label><textarea id="bkgNote" placeholder="Dietary needs, accessibility requirements…"></textarea></div>
+          <div class="form-group"><label data-i18n="lbl_note">Special Requests (optional)</label><textarea id="bkgNote" data-i18n-placeholder="ph_note" placeholder="Dietary needs, accessibility requirements…"></textarea></div>
         </div>
       </div>
 
@@ -2194,45 +2626,45 @@
       <div id="bkgStep3" style="display:none;">
         <div class="form-row full">
           <div class="form-group">
-            <label>Cardholder Name</label>
-            <input type="text" id="bkgCardName" placeholder="Name on card">
+            <label data-i18n="lbl_card_name">Cardholder Name</label>
+            <input type="text" id="bkgCardName" data-i18n-placeholder="ph_card_name" placeholder="Name on card">
           </div>
         </div>
         <div class="form-row full">
           <div class="form-group">
-            <label>Card Number</label>
-            <input type="text" id="bkgCardNum" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)">
+            <label data-i18n="lbl_card_num">Card Number</label>
+            <input type="text" id="bkgCardNum" data-i18n-placeholder="ph_card_num" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)">
             <div class="card-icons">
-              <span class="card-icon" id="ci-visa">Visa</span>
-              <span class="card-icon" id="ci-mc">Mastercard</span>
-              <span class="card-icon" id="ci-amex">Amex</span>
+              <span class="card-icon" id="ci-visa" data-i18n="pay_visa">Visa</span>
+              <span class="card-icon" id="ci-mc" data-i18n="pay_mc">Mastercard</span>
+              <span class="card-icon" id="ci-amex" data-i18n="pay_amex">Amex</span>
             </div>
           </div>
         </div>
         <div class="form-row">
-          <div class="form-group"><label>Expiry Date</label><input type="text" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)"></div>
-          <div class="form-group"><label>CVV</label><input type="password" placeholder="···" maxlength="4"></div>
+          <div class="form-group"><label data-i18n="lbl_expiry">Expiry Date</label><input type="text" data-i18n-placeholder="ph_expiry" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)"></div>
+          <div class="form-group"><label data-i18n="lbl_cvv">CVV</label><input type="password" data-i18n-placeholder="ph_cvv" placeholder="···" maxlength="4"></div>
         </div>
         <div class="price-summary" style="margin-top:4px;">
           <div class="ps-row"><span id="bkgPriceLabel2"></span><span id="bkgSubtotal2"></span></div>
-          <div class="ps-row"><span>Service fee (5%)</span><span id="bkgFee2"></span></div>
-          <div class="ps-row total"><span>Charge total</span><span id="bkgTotal2" style="color:var(--accent);"></span></div>
+          <div class="ps-row"><span data-i18n="lbl_service_fee">Service fee (5%)</span><span id="bkgFee2"></span></div>
+          <div class="ps-row total"><span data-i18n="lbl_charge_total">Charge total</span><span id="bkgTotal2" style="color:var(--accent);"></span></div>
         </div>
       </div>
 
       <!-- Success screen -->
       <div class="success-screen" id="bkgSuccess">
         <div class="success-icon">🎉</div>
-        <h2>Booking Confirmed!</h2>
-        <p>Your tour details have been sent to WhatsApp for confirmation.</p>
+        <h2 data-i18n="bkg_success_h">Booking Confirmed!</h2>
+        <p data-i18n="bkg_success_p">Your tour details have been sent to WhatsApp for confirmation.</p>
         <div class="booking-ref" id="bkgRef">Booking #LKW-XXXXX</div>
-        <button class="btn-primary" style="margin-top:20px;" onclick="closeModal('bookingModal')">Back to Home</button>
+        <button class="btn-primary" style="margin-top:20px;" onclick="closeModal('bookingModal')" data-i18n="bkg_back_home">Back to Home</button>
       </div>
 
     </div>
     <div class="modal-footer" id="bkgFooter">
-      <button class="btn-modal-back" id="bkgBack" onclick="bkgPrev()" style="display:none;">← Back</button>
-      <button class="btn-modal-next" id="bkgNext" onclick="bkgNext()">Continue →</button>
+      <button class="btn-modal-back" id="bkgBack" onclick="bkgPrev()" style="display:none;" data-i18n="btn_back">← Back</button>
+      <button class="btn-modal-next" id="bkgNext" onclick="bkgNext()" data-i18n="btn_continue_arrow">Continue →</button>
     </div>
   </div>
 </div>
@@ -2241,42 +2673,42 @@
 <div class="modal-overlay" id="carModal" onclick="handleModalClick(event,'carModal')">
   <div class="modal-box" onclick="event.stopPropagation()">
     <div class="modal-header">
-      <div><p class="modal-title" id="carTitle">Rent a Vehicle</p><p class="modal-sub">Choose your rental period</p></div>
+      <div><p class="modal-title" id="carTitle" data-i18n="car_modal_title">Rent a Vehicle</p><p class="modal-sub" data-i18n="car_modal_sub">Choose your rental period</p></div>
       <button class="modal-close" onclick="closeModal('carModal')">✕</button>
     </div>
     <div class="modal-body">
       <div class="form-row">
-        <div class="form-group"><label>Pick-up Date</label><input type="date" id="carPickup" value="2026-06-12" min="2026-01-01"></div>
-        <div class="form-group"><label>Return Date</label><input type="date" id="carReturn" value="2026-06-15" min="2026-01-02"></div>
+        <div class="form-group"><label data-i18n="lbl_pickup">Pick-up Date</label><input type="date" id="carPickup" value="2026-06-12" min="2026-01-01"></div>
+        <div class="form-group"><label data-i18n="lbl_return">Return Date</label><input type="date" id="carReturn" value="2026-06-15" min="2026-01-02"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Pick-up Location</label>
-          <select id="carPickupLoc"><option>Langkawi Airport</option><option>Kuah Jetty</option><option>Pantai Cenang</option><option>Your Hotel</option></select>
+        <div class="form-group"><label data-i18n="lbl_pickup_loc">Pick-up Location</label>
+          <select id="carPickupLoc"><option data-i18n="loc_airport">Langkawi Airport</option><option data-i18n="loc_kuah">Kuah Jetty</option><option data-i18n="loc_cenang">Pantai Cenang</option><option data-i18n="loc_hotel">Your Hotel</option></select>
         </div>
-        <div class="form-group"><label>Drop-off Location</label>
-          <select id="carDropLoc"><option>Langkawi Airport</option><option>Kuah Jetty</option><option>Pantai Cenang</option><option>Your Hotel</option></select>
+        <div class="form-group"><label data-i18n="lbl_drop_loc">Drop-off Location</label>
+          <select id="carDropLoc"><option data-i18n="loc_airport">Langkawi Airport</option><option data-i18n="loc_kuah">Kuah Jetty</option><option data-i18n="loc_cenang">Pantai Cenang</option><option data-i18n="loc_hotel">Your Hotel</option></select>
         </div>
       </div>
       <div class="price-summary" style="margin-top:4px;">
         <div class="ps-row"><span id="carPriceLabel">RM 95 × 3 days</span><span id="carSubtotal">RM 285</span></div>
-        <div class="ps-row"><span>Insurance & service</span><span id="carFee">RM 28</span></div>
-        <div class="ps-row total"><span>Total</span><span id="carTotal">RM 313</span></div>
+        <div class="ps-row"><span data-i18n="car_insurance_row">Insurance & service</span><span id="carFee">RM 28</span></div>
+        <div class="ps-row total"><span data-i18n="lbl_total">Total</span><span id="carTotal">RM 313</span></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Driver Name</label><input type="text" id="carName" placeholder="Full name on IC/Passport"></div>
-        <div class="form-group"><label>Phone</label><input type="tel" id="carPhone" placeholder="+60 12 345 6789"></div>
+        <div class="form-group"><label data-i18n="lbl_driver">Driver Name</label><input type="text" id="carName" data-i18n-placeholder="ph_driver" placeholder="Full name on IC/Passport"></div>
+        <div class="form-group"><label data-i18n="lbl_phone_in">Phone</label><input type="tel" id="carPhone" data-i18n-placeholder="ph_phone" placeholder="+60 12 345 6789"></div>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn-modal-back" onclick="closeModal('carModal')">Cancel</button>
-      <button class="btn-modal-next" onclick="confirmCarBooking()">Confirm Rental →</button>
+      <button class="btn-modal-back" onclick="closeModal('carModal')" data-i18n="car_cancel">Cancel</button>
+      <button class="btn-modal-next" onclick="confirmCarBooking()" data-i18n="car_confirm">Confirm Rental →</button>
     </div>
     <div class="success-screen" id="carSuccess">
       <div class="success-icon">Booking</div>
-      <h2>Rental Confirmed!</h2>
-      <p>Your vehicle has been booked. Our team will contact you with pick-up details.</p>
+      <h2 data-i18n="car_success_h">Rental Confirmed!</h2>
+      <p data-i18n="car_success_p">Your vehicle has been booked. Our team will contact you with pick-up details.</p>
       <div class="booking-ref" id="carRef">Booking #CAR-XXXXX</div>
-      <button class="btn-primary" style="margin-top:20px;" onclick="closeModal('carModal')">Done</button>
+      <button class="btn-primary" style="margin-top:20px;" onclick="closeModal('carModal')" data-i18n="car_done">Done</button>
     </div>
   </div>
 </div>
@@ -2287,15 +2719,15 @@
     <div class="planner-hero">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;">
         <div>
-          <h2>Build Your Langkawi Itinerary</h2>
-          <p>Drag and drop activities to plan your perfect island trip</p>
+          <h2 data-i18n="planner_h">Build Your Langkawi Itinerary</h2>
+          <p data-i18n="planner_p">Drag and drop activities to plan your perfect island trip</p>
         </div>
         <button class="modal-close" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.3);color:#fff;" onclick="closeModal('plannerModal')">✕</button>
       </div>
       <div style="display:flex;gap:20px;margin-top:18px;">
-        <div style="flex:1;"><label style="font-size:11px;font-weight:700;letter-spacing:0.8px;opacity:0.7;text-transform:uppercase;">Trip Start</label><input type="date" value="2026-06-12" style="width:100%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:8px 10px;color:#fff;margin-top:4px;font-family:Poppins,sans-serif;font-size:14px;outline:none;"></div>
-        <div style="flex:1;"><label style="font-size:11px;font-weight:700;letter-spacing:0.8px;opacity:0.7;text-transform:uppercase;">Trip End</label><input type="date" value="2026-06-15" style="width:100%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:8px 10px;color:#fff;margin-top:4px;font-family:Poppins,sans-serif;font-size:14px;outline:none;"></div>
-        <div style="flex:1;"><label style="font-size:11px;font-weight:700;letter-spacing:0.8px;opacity:0.7;text-transform:uppercase;">Travellers</label><input type="number" value="2" min="1" style="width:100%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:8px 10px;color:#fff;margin-top:4px;font-family:Poppins,sans-serif;font-size:14px;outline:none;"></div>
+        <div style="flex:1;"><label style="font-size:11px;font-weight:700;letter-spacing:0.8px;opacity:0.7;text-transform:uppercase;" data-i18n="planner_start">Trip Start</label><input type="date" value="2026-06-12" style="width:100%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:8px 10px;color:#fff;margin-top:4px;font-family:Poppins,sans-serif;font-size:14px;outline:none;"></div>
+        <div style="flex:1;"><label style="font-size:11px;font-weight:700;letter-spacing:0.8px;opacity:0.7;text-transform:uppercase;" data-i18n="planner_end">Trip End</label><input type="date" value="2026-06-15" style="width:100%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:8px 10px;color:#fff;margin-top:4px;font-family:Poppins,sans-serif;font-size:14px;outline:none;"></div>
+        <div style="flex:1;"><label style="font-size:11px;font-weight:700;letter-spacing:0.8px;opacity:0.7;text-transform:uppercase;" data-i18n="planner_trav">Travellers</label><input type="number" value="2" min="1" style="width:100%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:8px 10px;color:#fff;margin-top:4px;font-family:Poppins,sans-serif;font-size:14px;outline:none;"></div>
       </div>
     </div>
     <div class="planner-body">
@@ -2334,7 +2766,7 @@
       </div>
     </div>
     <div class="planner-footer">
-      <button class="btn-modal-next" style="width:100%;" onclick="savePlanner()">Save My Itinerary</button>
+      <button class="btn-modal-next" style="width:100%;" onclick="savePlanner()" data-i18n="planner_save">Save My Itinerary</button>
     </div>
   </div>
 </div>
@@ -2342,47 +2774,33 @@
 <!-- ─── VIDEO MODAL ─── -->
 <div class="modal-overlay" id="videoModal" onclick="handleModalClick(event,'videoModal')">
   <div class="video-box" onclick="event.stopPropagation()">
-    <div class="video-placeholder">
-      <div class="video-play-btn" onclick="toast('Video would play here in the full version.','info')">Play</div>
-      <p>Langkawi Island Guide — Official Video</p>
+      <div class="video-placeholder">
+      <div class="video-play-btn" onclick="toast(t('toast_video_stub'),'info')" data-i18n="video_play">Play</div>
+      <p data-i18n="video_cap">Langkawi Island Guide — Official Video</p>
     </div>
     <div class="video-meta" style="display:flex;justify-content:space-between;align-items:center;">
-      <div><h3>Explore Langkawi — Complete Travel Guide</h3><p>4K | 12 min | Updated 2026</p></div>
+      <div><h3 data-i18n="video_meta_h">Explore Langkawi — Complete Travel Guide</h3><p data-i18n="video_meta_p">4K | 12 min | Updated 2026</p></div>
       <button class="modal-close" style="background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2);color:#ecf1fb;" onclick="closeModal('videoModal')">✕</button>
     </div>
   </div>
 </div>
 
 <!-- ─── SCRIPTS ─── -->
+<script src="./assets/i18n.js"></script>
 <script>
-  /* ── INITIAL LOAD ── */
-  var bootStartAt = Date.now();
-  var loaderBar = document.getElementById('loaderBar');
-  var loaderPct = document.getElementById('loaderPct');
-  var loaderProgress = 0;
-  var loaderTick = setInterval(function(){
-    if (!loaderBar || !loaderPct) return;
-    if (loaderProgress >= 92) return;
-    loaderProgress += Math.floor(Math.random() * 7) + 2;
-    if (loaderProgress > 92) loaderProgress = 92;
-    loaderBar.style.width = loaderProgress + '%';
-    loaderPct.textContent = loaderProgress + '%';
-  }, 120);
+  /* ── Deferred hero slide loads ── */
   window.addEventListener('load', function(){
-    var loader = document.getElementById('pageLoader');
-    var minLoaderMs = 2600;
-    var waitMs = Math.max(0, minLoaderMs - (Date.now() - bootStartAt));
-    setTimeout(function(){
-      document.body.classList.remove('loading');
-      if (!loader) return;
-      if (loaderBar && loaderPct) {
-        clearInterval(loaderTick);
-        loaderBar.style.width = '100%';
-        loaderPct.textContent = '100%';
-      }
-      loader.classList.add('hide');
-      setTimeout(function(){ loader.remove(); }, 650);
-    }, waitMs);
+    var deferredSlides = [
+      ['hs2','https://images.unsplash.com/photo-1504274066651-8d31a536b11a?w=800&q=75'],
+      ['hs3','https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=75'],
+      ['hs4','https://images.unsplash.com/photo-1559628233-100c798642d8?w=800&q=75'],
+      ['hs5','https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?w=800&q=75']
+    ];
+    deferredSlides.forEach(function(s, i){
+      setTimeout(function(){
+        document.querySelectorAll('.'+s[0]).forEach(function(el){ el.style.backgroundImage = "url('"+s[1]+"')"; });
+      }, 300 + i * 500);
+    });
   });
 
   /* ── SCROLL REVEAL ── */
@@ -2408,22 +2826,25 @@
     });
   }
   function initServicesLoop(){
-    var grid = document.getElementById('svcLoopGrid');
-    if(!grid || grid.dataset.looped === '1') return;
-    var originals = Array.from(grid.children);
-    originals.forEach(function(card, idx){
-      card.style.setProperty('--svc-i', String(idx));
+    var grids = Array.from(document.querySelectorAll('.svc-loop-grid'));
+    if(!grids.length) return;
+    grids.forEach(function(grid){
+      if(grid.dataset.looped === '1') return;
+      var originals = Array.from(grid.children);
+      originals.forEach(function(card, idx){
+        card.style.setProperty('--svc-i', String(idx));
+      });
+      originals.forEach(function(card, idx){
+        var clone = card.cloneNode(true);
+        clone.classList.remove('reveal');
+        clone.classList.add('show');
+        clone.setAttribute('aria-hidden', 'true');
+        clone.style.setProperty('--svc-i', String(idx + originals.length));
+        grid.appendChild(clone);
+      });
+      grid.dataset.looped = '1';
+      grid.classList.add('is-looping');
     });
-    originals.forEach(function(card, idx){
-      var clone = card.cloneNode(true);
-      clone.classList.remove('reveal');
-      clone.classList.add('show');
-      clone.setAttribute('aria-hidden', 'true');
-      clone.style.setProperty('--svc-i', String(idx + originals.length));
-      grid.appendChild(clone);
-    });
-    grid.dataset.looped = '1';
-    grid.classList.add('is-looping');
   }
   function initScrollIndicators(){
     document.querySelectorAll('.scroll-indicator[data-for]').forEach(function(ind){
@@ -2475,20 +2896,25 @@
       a.classList.toggle('active', a.dataset.section === sectionId);
     });
   }
-  function toggleMobileNav(){
-    var panel = document.getElementById('mobileNav');
+  function toggleMegaNav(){
+    var nav = document.getElementById('megaNav');
     var btn = document.getElementById('mobileMenuBtn');
-    if(!panel || !btn) return;
-    var isOpen = panel.classList.toggle('open');
-    btn.textContent = isOpen ? '×' : '≡';
+    if(!nav) return;
+    var isOpen = nav.classList.toggle('open');
+    if(btn){ btn.classList.toggle('is-open', isOpen); btn.textContent = isOpen ? '×' : '≡'; }
+    document.body.style.overflow = isOpen ? 'hidden' : '';
   }
-  function closeMobileNav(){
-    var panel = document.getElementById('mobileNav');
+  function closeMegaNav(){
+    var nav = document.getElementById('megaNav');
     var btn = document.getElementById('mobileMenuBtn');
-    if(!panel || !btn) return;
-    panel.classList.remove('open');
-    btn.textContent = '≡';
+    if(!nav) return;
+    nav.classList.remove('open');
+    if(btn){ btn.classList.remove('is-open'); btn.textContent = '≡'; }
+    document.body.style.overflow = '';
   }
+  /* Keep backward-compat aliases */
+  function toggleMobileNav(){ toggleMegaNav(); }
+  function closeMobileNav(){ closeMegaNav(); }
   function showPage(page, sectionId){
     document.querySelectorAll('.page-section').forEach(function(el){
       el.classList.toggle('active', el.dataset.page === page);
@@ -2530,12 +2956,11 @@
     });
   });
   document.addEventListener('click', function(e){
-    var panel = document.getElementById('mobileNav');
+    var nav = document.getElementById('megaNav');
     var btn = document.getElementById('mobileMenuBtn');
-    if(!panel || !btn) return;
-    if(!panel.classList.contains('open')) return;
-    if(panel.contains(e.target) || btn.contains(e.target)) return;
-    closeMobileNav();
+    if(!nav || !nav.classList.contains('open')) return;
+    if(nav.contains(e.target) || (btn && btn.contains(e.target))) return;
+    closeMegaNav();
   });
   var parallaxTicking = false;
   function updateParallax(){
@@ -2799,24 +3224,25 @@
     document.getElementById('cartTotal').textContent = 'RM '+total;
   }
   function checkout(){
-    if(cartItems.length===0){ toast('Your cart is empty.','warning'); return; }
-    toast('Proceeding to checkout — RM '+cartItems.reduce(function(a,i){ return a+i.price; },0),'success');
-    setTimeout(function(){ toast('Booking confirmed. Check your email.','success'); cartItems=[]; renderCart(); closeCart(); },2000);
+    if(cartItems.length===0){ toast(t('toast_cart_empty'),'warning'); return; }
+    toast(t('toast_checkout')+cartItems.reduce(function(a,i){ return a+i.price; },0),'success');
+    setTimeout(function(){ toast(t('toast_cart_confirm'),'success'); cartItems=[]; renderCart(); closeCart(); },2000);
   }
 
   /* ── BOOKING MODAL ── */
-  var bkgStep=1, bkgBasePrice=0, bkgQtyVal=2, currentBookingName='';
-  function openBooking(name, priceStr, price, cat){
-    currentBookingName = name;
+  var bkgStep=1, bkgBasePrice=0, bkgQtyVal=2, currentBookingNameEn='', currentBookingNameZh='';
+  function openBooking(name, priceStr, price, cat, nameZh){
+    currentBookingNameEn = name;
+    currentBookingNameZh = nameZh || name;
     bkgBasePrice = price; bkgQtyVal = 2; bkgStep=1;
-    document.getElementById('bkgTitle').textContent = name;
-    document.getElementById('bkgSub').textContent = 'Select your date and number of guests';
+    document.getElementById('bkgTitle').textContent = currentLang === 'zh' ? currentBookingNameZh : currentBookingNameEn;
+    document.getElementById('bkgSub').textContent = t('bkg_sub_step1');
     document.getElementById('bkgImg').className = 'modal-img pi-'+catToClass(cat);
     document.getElementById('bkgImg').style.display='block';
     document.getElementById('bkgSuccess').style.display='none'; document.getElementById('bkgSuccess').classList.remove('show');
     document.getElementById('bkgFooter').style.display='flex';
     document.getElementById('bkgNext').disabled = false;
-    document.getElementById('bkgNext').textContent = 'Continue';
+    document.getElementById('bkgNext').textContent = t('btn_continue_arrow');
     showBkgStep(1);
     updateBkgPrice();
     openModal('bookingModal');
@@ -2831,8 +3257,8 @@
     var bkgImg = document.getElementById('bkgImg');
     if (bkgImg) bkgImg.style.display = (n===1) ? 'block' : 'none';
     document.getElementById('bkgBack').style.display = n>1?'':'none';
-    document.getElementById('bkgNext').textContent = n===2 ? 'Confirm Booking' : 'Continue';
-    var subs = ['Select your date and number of guests','Enter your personal details'];
+    document.getElementById('bkgNext').textContent = n===2 ? t('btn_confirm_booking') : t('btn_continue_arrow');
+    var subs = [t('bkg_sub_step1'), t('bkg_sub_step2')];
     document.getElementById('bkgSub').textContent = subs[n-1];
   }
   function changeQty(delta){
@@ -2842,11 +3268,11 @@
   }
   function updateBkgPrice(){
     var sub = bkgBasePrice*bkgQtyVal, fee = Math.round(sub*0.05), total = sub+fee;
-    document.getElementById('bkgPriceLabel').textContent = 'RM '+bkgBasePrice+' × '+bkgQtyVal+' pax';
+    document.getElementById('bkgPriceLabel').textContent = 'RM '+bkgBasePrice+' × '+bkgQtyVal+' '+t('word_pax');
     document.getElementById('bkgSubtotal').textContent = 'RM '+sub;
     document.getElementById('bkgFee').textContent = 'RM '+fee;
     document.getElementById('bkgTotal').textContent = 'RM '+total;
-    document.getElementById('bkgPriceLabel2').textContent = 'RM '+bkgBasePrice+' × '+bkgQtyVal+' pax';
+    document.getElementById('bkgPriceLabel2').textContent = 'RM '+bkgBasePrice+' × '+bkgQtyVal+' '+t('word_pax');
     document.getElementById('bkgSubtotal2').textContent = 'RM '+sub;
     document.getElementById('bkgFee2').textContent = 'RM '+fee;
     document.getElementById('bkgTotal2').textContent = 'RM '+total;
@@ -2857,8 +3283,8 @@
     } else if(bkgStep===2){
       var name = document.getElementById('bkgName').value;
       var phone = document.getElementById('bkgPhone').value;
-      if(!name.trim()){ toast('Please enter your full name.','warning'); return; }
-      if(!phone.trim()){ toast('Please enter your phone number.','warning'); return; }
+      if(!name.trim()){ toast(t('toast_need_name'),'warning'); return; }
+      if(!phone.trim()){ toast(t('toast_need_phone'),'warning'); return; }
       processPayment();
     }
   }
@@ -2867,7 +3293,7 @@
   }
   function processPayment(){
     var nextBtn = document.getElementById('bkgNext');
-    nextBtn.textContent='Processing…';
+    nextBtn.textContent = t('btn_processing');
     nextBtn.disabled=true;
     try {
       var ref = 'LKW-'+Math.floor(10000+Math.random()*90000);
@@ -2878,11 +3304,28 @@
       var phone = document.getElementById('bkgPhone').value.trim();
       var nationality = document.getElementById('bkgNat').value;
       var note = document.getElementById('bkgNote').value.trim();
-      var waMsg = [
+      var pkgLabel = currentLang === 'zh' ? currentBookingNameZh : currentBookingNameEn;
+      var waMsg = currentLang === 'zh' ? [
+        '您好 SM Leisure，我想确认预订。',
+        '',
+        '预订编号：'+ref,
+        '套餐：'+pkgLabel,
+        '日期：'+bookingDate,
+        '时间：'+bookingTime,
+        '人数：'+bkgQtyVal,
+        '小计：RM '+sub,
+        '服务费：RM '+fee,
+        '合计：RM '+total,
+        '',
+        '姓名：'+fullName,
+        '电话：'+phone,
+        '国籍：'+nationality,
+        '备注：'+(note || '-')
+      ].join('\n') : [
         'Hi SM Leisure, saya nak confirm booking.',
         '',
         'Booking Number: '+ref,
-        'Package: '+currentBookingName,
+        'Package: '+pkgLabel,
         'Date: '+bookingDate,
         'Time: '+bookingTime,
         'Pax: '+bkgQtyVal,
@@ -2896,11 +3339,21 @@
         'Special Request: '+(note || '-')
       ].join('\n');
       var waUrl = 'https://wa.me/60175086608?text='+encodeURIComponent(waMsg);
-      window.location.assign(waUrl);
+      var opened = window.open(waUrl, '_blank');
+      if (!opened) {
+        window.location.href = waUrl;
+      }
+      setTimeout(function(){
+        if (document.visibilityState === 'visible') {
+          nextBtn.disabled = false;
+          nextBtn.textContent = t('btn_confirm_booking');
+          toast(t('toast_wa_retry'),'info');
+        }
+      }, 1400);
     } catch (err) {
       toast('Tak dapat redirect ke WhatsApp. Cuba sekali lagi.','warning');
       nextBtn.disabled=false;
-      nextBtn.textContent='Confirm Booking';
+      nextBtn.textContent = t('btn_confirm_booking');
     }
   }
   function formatCard(input){
@@ -2918,25 +3371,386 @@
     input.value = v.substring(0,7);
   }
 
-  /* ── CAR BOOKING ── */
-  var carBasePrice=0;
-  function openCarBooking(name, price){
+
+
+  /* =============================================================
+     UNIVERSAL LOOPING ANIMATIONS
+     IntersectionObserver-driven. No cursor required.
+     Every element re-animates each time it enters viewport.
+  ============================================================= */
+
+  /* -- Scroll Progress Bar -- */
+  (function(){
+    var bar = document.getElementById('scrollProgress');
+    if(!bar) return;
+    window.addEventListener('scroll', function(){
+      var doc = document.documentElement;
+      var scrolled = window.scrollY / Math.max(1, doc.scrollHeight - window.innerHeight) * 100;
+      bar.style.width = Math.min(scrolled, 100) + '%';
+    }, { passive: true });
+  })();
+
+  /* -- Canvas Particle System -- */
+  (function(){
+    var canvas = document.getElementById('particleCanvas');
+    if(!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var W, H, particles = [], RAF;
+    function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+    function mkP(){
+      return { x: Math.random()*W, y: H+20, r: Math.random()*2.2+0.5,
+               vx:(Math.random()-0.5)*0.6, vy:-(Math.random()*0.7+0.25),
+               life:0, maxLife:Math.random()*260+120,
+               hue: Math.random()<0.5?210:42, sat:75 };
+    }
+    for(var i=0;i<30;i++){ var p=mkP(); p.y=Math.random()*H; p.life=Math.random()*p.maxLife; particles.push(p); }
+    function tick(){
+      ctx.clearRect(0,0,W,H);
+      for(var i=0;i<particles.length;i++){
+        var p=particles[i]; p.x+=p.vx; p.y+=p.vy; p.life++;
+        if(p.life>p.maxLife){ particles[i]=mkP(); continue; }
+        var a=Math.sin(p.life/p.maxLife*Math.PI)*0.5;
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle='hsla('+p.hue+','+p.sat+'%,80%,'+a+')'; ctx.fill();
+      }
+      RAF=requestAnimationFrame(tick);
+    }
+    tick();
+    document.addEventListener('visibilitychange',function(){ if(document.hidden) cancelAnimationFrame(RAF); else tick(); });
+  })();
+
+  /* -- Ripple click effect -- */
+  (function(){
+    function addRipple(e){
+      var btn=e.currentTarget; btn.classList.add('ripple-host');
+      var rect=btn.getBoundingClientRect();
+      var size=Math.max(rect.width,rect.height)*1.6;
+      var ring=document.createElement('span'); ring.className='ripple-ring';
+      ring.style.cssText='width:'+size+'px;height:'+size+'px;left:'+(e.clientX-rect.left-size/2)+'px;top:'+(e.clientY-rect.top-size/2)+'px;';
+      btn.appendChild(ring); setTimeout(function(){ ring.remove(); },600);
+    }
+    document.querySelectorAll('.btn-primary,.btn-outline,.btn-book-sm,.search-go,.btn-plan,.btn-rent,.contact-btn,.btn-checkout,.gallery-nav,.mega-cta').forEach(function(btn){
+      btn.addEventListener('click',addRipple);
+    });
+  })();
+
+  /* -- Hero Title Letter Stagger -- */
+  (function(){
+    var titleEl=document.querySelector('.hero-title');
+    if(!titleEl) return;
+    var text='LANGKAWI', html='';
+    for(var i=0;i<text.length;i++) html+='<span class="char" style="animation-delay:'+(i*55+300)+'ms">'+text[i]+'</span>';
+    var em=titleEl.querySelector('em'); titleEl.innerHTML=html; if(em) titleEl.appendChild(em);
+  })();
+
+  /*
+   * CORE LOOPING OBSERVER FACTORY
+   * onEnter fires every time element enters viewport.
+   * onLeave fires every time element exits viewport.
+   * This means animation re-plays every scroll pass.
+   */
+  function loopIO(onEnter, onLeave, threshold){
+    return new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting) onEnter(en.target);
+        else if(onLeave) onLeave(en.target);
+      });
+    }, { threshold: threshold || 0.12 });
+  }
+
+  /* Generic looping stagger helper */
+  function staggerObserve(parentSel, childSel, enterFn, leaveFn, threshold){
+    var io = loopIO(
+      function(parent){ parent.querySelectorAll(childSel).forEach(function(c,i){ enterFn(c,i); }); },
+      function(parent){ if(leaveFn) parent.querySelectorAll(childSel).forEach(function(c,i){ leaveFn(c,i); }); },
+      threshold || 0.1
+    );
+    document.querySelectorAll(parentSel).forEach(function(el){ io.observe(el); });
+  }
+
+  /* Shared animation helpers */
+  function animIn(el, delay, from){
+    el.style.transition='none';
+    el.style.opacity='0';
+    el.style.transform= from || 'translateY(26px) scale(0.96)';
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      el.style.transition='opacity 0.6s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1)';
+      el.style.transitionDelay=(delay||0)+'ms';
+      el.style.opacity='1'; el.style.transform='none';
+    });});
+  }
+  function animOut(el){
+    el.style.transition='opacity 0.25s ease, transform 0.25s ease';
+    el.style.transitionDelay='0ms';
+    el.style.opacity='0'; el.style.transform='translateY(14px) scale(0.97)';
+  }
+
+  /* -- Card grids (looping stagger) -- */
+  staggerObserve('#pkgGrid',    '.pkg-card', function(c,i){ animIn(c,70+i*90); }, animOut, 0.07);
+  staggerObserve('#carGrid',    '.car-card', function(c,i){ animIn(c,50+i*75,'translateY(22px) scale(0.97)'); }, animOut, 0.07);
+  staggerObserve('.review-grid','.rv-card',  function(c,i){ animIn(c,90+i*105,'translateY(28px)'); }, animOut, 0.08);
+  staggerObserve('.vm-grid',    '.vm-card',  function(c,i){ animIn(c,i*125,'translateY(20px)'); }, animOut, 0.12);
+  staggerObserve('.wc-grid',    '.wc-card',  function(c,i){ animIn(c,i*90,'translateY(18px)'); }, animOut, 0.07);
+  staggerObserve('.stats-row',  '.stat-box', function(c,i){ animIn(c,i*80,'translateY(16px) scale(0.93)'); }, animOut, 0.12);
+  staggerObserve('.collage',    '.col-img',  function(c,i){
+    animIn(c, 70+i*110, 'scale(0.87) rotate('+(i%2===0?'-3':'3')+'deg)');
+  }, animOut, 0.12);
+  staggerObserve('.why-imgs',   '.why-img',  function(c,i){
+    animIn(c, i*140, i===0?'translateX(-26px)':'translateX(26px)');
+  }, animOut, 0.12);
+
+  /* -- Why items (slide from left) -- */
+  staggerObserve('.why-list', '.why-item', function(c,i){
+    c.style.transition='none'; c.style.opacity='0'; c.style.transform='translateX(-28px)';
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      c.style.transition='opacity 0.55s ease, transform 0.55s cubic-bezier(0.22,1,0.36,1)';
+      c.style.transitionDelay=(50+i*110)+'ms';
+      c.style.opacity='1'; c.style.transform='none';
+    });});
+  }, function(c){ c.style.transitionDelay='0ms'; c.style.opacity='0'; c.style.transform='translateX(-20px)'; }, 0.15);
+
+  /* -- Contact items -- */
+  staggerObserve('.contact-list,.contact-mini-list', '.contact-item', function(c,i){
+    c.style.transition='none'; c.style.opacity='0'; c.style.transform='translateY(14px)';
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      c.style.transition='opacity 0.48s ease, transform 0.48s cubic-bezier(0.22,1,0.36,1)';
+      c.style.transitionDelay=(i*80)+'ms';
+      c.style.opacity='1'; c.style.transform='none';
+    });});
+  }, function(c){ c.style.transitionDelay='0ms'; c.style.opacity='0'; c.style.transform='translateY(10px)'; }, 0.1);
+
+  /* -- Social buttons -- */
+  staggerObserve('.social-row', '.social-btn', function(b,i){
+    b.style.transition='none'; b.style.opacity='0'; b.style.transform='scale(0.5) rotate(-10deg)';
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      b.style.transition='opacity 0.45s ease, transform 0.45s cubic-bezier(0.34,1.56,0.64,1)';
+      b.style.transitionDelay=(i*75)+'ms';
+      b.style.opacity='1'; b.style.transform='';
+    });});
+  }, function(b){ b.style.transitionDelay='0ms'; b.style.opacity='0'; b.style.transform='scale(0.5)'; }, 0.35);
+
+  /* -- Footer links -- */
+  staggerObserve('.footer-link-list', 'a', function(a,i){
+    a.style.transition='none'; a.style.opacity='0'; a.style.transform='translateX(-12px)';
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      a.style.transition='opacity 0.4s ease, transform 0.4s ease';
+      a.style.transitionDelay=(i*55)+'ms';
+      a.style.opacity='1'; a.style.transform='';
+    });});
+  }, function(a){ a.style.transitionDelay='0ms'; a.style.opacity='0'; }, 0.28);
+
+  /* -- reveal-left / reveal-right looping -- */
+  (function(){
+    var io = loopIO(function(el){
+      el.style.opacity='1'; el.style.transform='none';
+      el.style.transition='opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1)';
+    }, function(el){
+      el.style.transition='opacity 0.3s ease, transform 0.3s ease';
+      el.style.opacity='0';
+      if(el.classList.contains('reveal-left'))  el.style.transform='translateX(-38px) scale(0.97)';
+      if(el.classList.contains('reveal-right')) el.style.transform='translateX(38px)  scale(0.97)';
+    }, 0.12);
+    document.querySelectorAll('.reveal-left,.reveal-right').forEach(function(el){ io.observe(el); });
+  })();
+
+  /* -- Section eyebrow underlines (looping) -- */
+  (function(){
+    var style=document.createElement('style');
+    style.textContent='.section-eyebrow.ey-active::after{width:100%!important}';
+    document.head.appendChild(style);
+    var io=loopIO(
+      function(sec){ sec.querySelectorAll('.section-eyebrow').forEach(function(e){ e.classList.add('ey-active'); }); },
+      function(sec){ sec.querySelectorAll('.section-eyebrow').forEach(function(e){ e.classList.remove('ey-active'); }); },
+      0.18
+    );
+    document.querySelectorAll('section').forEach(function(s){ io.observe(s); });
+  })();
+
+  /* -- Svc group title bars (looping) -- */
+  (function(){
+    var style=document.createElement('style');
+    style.textContent='.svc-group-title.bar-show::before{height:100%!important}';
+    document.head.appendChild(style);
+    document.querySelectorAll('.svc-groups').forEach(function(el){
+      loopIO(
+        function(el2){ el2.querySelectorAll('.svc-group-title').forEach(function(t,i){ setTimeout(function(){ t.classList.add('bar-show'); },i*120); }); },
+        function(el2){ el2.querySelectorAll('.svc-group-title').forEach(function(t){ t.classList.remove('bar-show'); }); },
+        0.1
+      ).observe(el);
+    });
+  })();
+
+  /* -- Gallery & search card reveal -- */
+  (function(){
+    var io=loopIO(function(el){ animIn(el,0,'translateY(20px) scale(0.97)'); }, animOut, 0.1);
+    document.querySelectorAll('.gallery-wrap,.search-card').forEach(function(el){ io.observe(el); });
+  })();
+
+  /* -- Section glow -- */
+  (function(){
+    var io=loopIO(function(el){ el.classList.add('glowing'); }, function(el){ el.classList.remove('glowing'); }, 0.1);
+    document.querySelectorAll('.why-section,.vm-section').forEach(function(el){ el.classList.add('in-view-glow'); io.observe(el); });
+  })();
+
+  /* ==================================================
+     LOOPING COUNT-UP COUNTERS
+     Counts to target on enter, resets to 0 on exit.
+  ================================================== */
+  (function(){
+    var statBigCfg  = [{val:5000,sfx:'+'},{val:120,sfx:'+'},{val:null,fixed:'24/7'},{val:100,sfx:'%'}];
+    var heroStatCfg = [{val:5000,sfx:'+',short:true},{val:120,sfx:'+'},{val:null,fixed:'24/7'}];
+
+    function countUp(el, cfg, dur){
+      if(cfg.fixed){ el.textContent=cfg.fixed; return; }
+      var start=null; el._counting=true;
+      function step(ts){
+        if(!el._counting) return;
+        if(!start) start=ts;
+        var p=Math.min((ts-start)/dur,1);
+        var ease=1-Math.pow(1-p,3);
+        var val=cfg.float?(ease*cfg.val).toFixed(1):Math.floor(ease*cfg.val);
+        if(cfg.short&&val>=1000) el.textContent=Math.floor(val/1000)+'k'+cfg.sfx;
+        else el.textContent=val+cfg.sfx;
+        if(p<1) requestAnimationFrame(step); else el._counting=false;
+      }
+      requestAnimationFrame(step);
+    }
+    function resetEl(el,cfg){ el._counting=false; el.textContent=cfg.fixed||('0'+(cfg.sfx||'')); }
+
+    var statBigs  = Array.from(document.querySelectorAll('.stat-big'));
+    var heroStats = Array.from(document.querySelectorAll('.hero-stat strong:not(.hero-rating-stars)'));
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        var idx;
+        idx=statBigs.indexOf(en.target);
+        if(idx>-1&&statBigCfg[idx]){
+          if(en.isIntersecting) countUp(en.target,statBigCfg[idx],1400);
+          else resetEl(en.target,statBigCfg[idx]);
+        }
+        idx=heroStats.indexOf(en.target);
+        if(idx>-1&&heroStatCfg[idx]){
+          if(en.isIntersecting) countUp(en.target,heroStatCfg[idx],1600);
+          else resetEl(en.target,heroStatCfg[idx]);
+        }
+      });
+    },{threshold:0.5});
+    statBigs.forEach(function(el){ io.observe(el); });
+    heroStats.forEach(function(el){ io.observe(el); });
+  })();
+
+  /* -- Gallery Card 3D Tilt -- */
+  (function(){
+    var stage=document.getElementById('galleryStage');
+    if(!stage) return;
+    stage.addEventListener('mousemove',function(e){
+      var active=stage.querySelector('.gallery-card[style*="zIndex: 6"]')||stage.querySelector('.gallery-card[style*="z-index: 6"]');
+      if(!active) return;
+      var r=active.getBoundingClientRect();
+      var rx=((e.clientY-r.top-r.height/2)/r.height)*14;
+      var ry=((e.clientX-r.left-r.width/2)/r.width)*-14;
+      active.style.transform='translateX(0) rotate(0deg) scale(1) rotateX('+rx+'deg) rotateY('+ry+'deg)';
+    });
+    stage.addEventListener('mouseleave',function(){
+      stage.querySelectorAll('.gallery-card').forEach(function(c){ c.style.transform=''; });
+    });
+  })();
+
+  /* -- Pkg card image zoom on hover -- */
+  (function(){
+    document.querySelectorAll('.pkg-card').forEach(function(card){
+      var img=card.querySelector('.pkg-img'); if(!img) return;
+      card.addEventListener('mouseenter',function(){ img.style.transition='background-size 0.55s ease'; img.style.backgroundSize='115%'; });
+      card.addEventListener('mouseleave',function(){ img.style.backgroundSize='cover'; });
+    });
+  })();
+
+  (function(){
+    document.querySelectorAll('.svc-loop-grid').forEach(function(grid){
+      // Clone all existing cards and append to create seamless loop
+      var origCards = Array.from(grid.children);
+      origCards.forEach(function(card){
+        var clone = card.cloneNode(true);
+        clone.setAttribute('aria-hidden','true');
+        grid.appendChild(clone);
+      });
+      grid.classList.add('is-looping');
+    });
+    // Alternate direction for even groups
+    document.querySelectorAll('.svc-group').forEach(function(group, idx){
+      if(idx % 2 === 1){
+        var grid = group.querySelector('.svc-loop-grid');
+        if(grid) grid.style.animationDirection = 'reverse';
+      }
+    });
+  })();
+
+  /* ── LANGUAGE i18n ── */
+  var i18n = window.SML_I18N || { en: {}, zh: {} };
+  var currentLang = 'en';
+  try { currentLang = localStorage.getItem('sml_lang') === 'zh' ? 'zh' : 'en'; } catch (e) {}
+  function t(k){
+    var d = i18n[currentLang] || i18n.en;
+    if (d[k] !== undefined) return d[k];
+    return (i18n.en[k] !== undefined) ? i18n.en[k] : k;
+  }
+  function setLang(lang){
+    currentLang = lang;
+    try { localStorage.setItem('sml_lang', lang); } catch (e) {}
+    document.getElementById('langEN').classList.toggle('active', lang === 'en');
+    document.getElementById('langZH').classList.toggle('active', lang === 'zh');
+    var dict = i18n[lang] || i18n.en;
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var key = el.getAttribute('data-i18n');
+      if(dict[key] !== undefined){ el.innerHTML = dict[key]; }
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el){
+      var key = el.getAttribute('data-i18n-placeholder');
+      if(dict[key] !== undefined){ el.setAttribute('placeholder', dict[key]); }
+    });
+    document.querySelectorAll('option[data-i18n]').forEach(function(opt){
+      var key = opt.getAttribute('data-i18n');
+      if(dict[key] !== undefined){ opt.textContent = dict[key]; }
+    });
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    var bkgModal = document.getElementById('bookingModal');
+    if (bkgModal && !bkgModal.classList.contains('open')) {
+      var bt = document.getElementById('bkgTitle');
+      var bs = document.getElementById('bkgSub');
+      if (bt) bt.textContent = t('bkg_modal_title');
+      if (bs) bs.textContent = t('bkg_modal_sub');
+    } else if (bkgModal && bkgModal.classList.contains('open') && currentBookingNameEn) {
+      document.getElementById('bkgTitle').textContent = lang === 'zh' ? currentBookingNameZh : currentBookingNameEn;
+      showBkgStep(bkgStep);
+    }
+    var carModal = document.getElementById('carModal');
+    if (carModal && carModal.classList.contains('open') && typeof carNameEn !== 'undefined' && carNameEn) {
+      document.getElementById('carTitle').textContent = t('car_rent_prefix') + (lang === 'zh' ? carNameZh : carNameEn);
+      updateCarPrice();
+    }
+  }
+
+  var carBasePrice = 0, carNameEn = '', carNameZh = '';
+  function openCarBooking(nameEn, price, nameZh){
+    carNameEn = nameEn;
+    carNameZh = nameZh || nameEn;
     carBasePrice = price;
-    document.getElementById('carTitle').textContent = 'Rent: '+name;
+    document.getElementById('carTitle').textContent = t('car_rent_prefix') + (currentLang === 'zh' ? carNameZh : carNameEn);
     document.getElementById('carSuccess').style.display='none'; document.getElementById('carSuccess').classList.remove('show');
     updateCarPrice();
     openModal('carModal');
   }
   function updateCarPrice(){
     var days=3, sub=carBasePrice*days, ins=Math.round(sub*0.1), total=sub+ins;
-    document.getElementById('carPriceLabel').textContent='RM '+carBasePrice+' × '+days+' days';
+    document.getElementById('carPriceLabel').textContent = 'RM '+carBasePrice+' × '+days+' '+t('car_days_word');
     document.getElementById('carSubtotal').textContent='RM '+sub;
     document.getElementById('carFee').textContent='RM '+ins;
     document.getElementById('carTotal').textContent='RM '+total;
   }
   function confirmCarBooking(){
     var name = document.getElementById('carName').value;
-    if(!name.trim()){ toast('Please enter the driver name.','warning'); return; }
+    if(!name.trim()){ toast(t('toast_car_driver'),'warning'); return; }
     var ref = 'CAR-'+Math.floor(10000+Math.random()*90000);
     document.getElementById('carRef').textContent = 'Booking #'+ref;
     document.querySelector('#carModal .modal-body').style.display='none';
@@ -2944,7 +3758,7 @@
     var s=document.getElementById('carSuccess');
     s.style.display='flex'; s.classList.add('show');
     var days=3, sub=carBasePrice*days, ins=Math.round(sub*0.1), total=sub+ins;
-    addToCart(document.getElementById('carTitle').textContent.replace('Rent: ',''), '3 days rental', total);
+    addToCart(carNameEn, t('car_cart_days'), total);
   }
 
   /* ── PLANNER ── */
@@ -2960,7 +3774,7 @@
     btn.parentNode.insertBefore(slot, btn);
     toast('Added: '+act,'success');
   }
-  function savePlanner(){ toast('Itinerary saved. Check your email for the plan.','success'); closeModal('plannerModal'); }
+  function savePlanner(){ toast(t('planner_toast_saved'),'success'); closeModal('plannerModal'); }
 
   /* ── VIDEO ── */
   function openVideo(){ openModal('videoModal'); }
@@ -2970,9 +3784,16 @@
   function closeModal(id){
     document.getElementById(id).classList.remove('open');
     document.body.style.overflow='';
-    if(id==='carModal'){ document.querySelector('#carModal .modal-body').style.display=''; document.querySelector('#carModal .modal-footer').style.display=''; }
+    if(id==='carModal'){
+      document.querySelector('#carModal .modal-body').style.display='';
+      document.querySelector('#carModal .modal-footer').style.display='';
+      var ct = document.getElementById('carTitle');
+      if (ct) ct.innerHTML = t('car_modal_title');
+    }
   }
   function handleModalClick(e, id){ if(e.target===document.getElementById(id)) closeModal(id); }
+
+  setLang(currentLang);
 </script>
 </body>
 </html>
