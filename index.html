@@ -2020,6 +2020,48 @@
     #bkgPhone {
       padding-right: 18px;
     }
+    /* Native date fields: WebKit draws the calendar icon outside padding — pin it inside so width matches select/text */
+    .modal-box .form-group input[type="date"] {
+      position: relative;
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
+      padding-right: 42px;
+    }
+    .modal-box .form-group input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+      max-width: 100%;
+      padding: 0;
+    }
+    .modal-box .form-group input[type="date"]::-webkit-calendar-picker-indicator {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 22px;
+      height: 22px;
+      margin: 0;
+      padding: 0;
+      cursor: pointer;
+      opacity: 0.85;
+    }
+    #plannerModal input[type="date"] {
+      position: relative;
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
+      padding: 8px 42px 8px 10px !important;
+    }
+    #plannerModal input[type="date"]::-webkit-calendar-picker-indicator {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 22px;
+      height: 22px;
+      margin: 0;
+      cursor: pointer;
+      opacity: 0.9;
+    }
     .form-group textarea { resize: none; min-height: 80px; }
     .qty-row { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
     .qty-label { flex: 1; font-size: 14px; font-weight: 600; color: #2a3a52; }
@@ -2134,12 +2176,11 @@
       .company-logo { height: 46px; }
       .sky-wrap, .search-section, .light-wrap { padding-left: var(--gutter-mobile); padding-right: var(--gutter-mobile); }
       .light-wrap .page-section + .page-section { margin-top: 22px; }
-      /* Date fields: extra right padding so value aligns with text/select inputs on mobile WebKit */
-      .form-group input[type="date"] {
-        padding-right: 18px;
+      .modal-box .form-group input[type="date"] {
+        padding-right: 44px;
       }
       #plannerModal input[type="date"] {
-        padding: 8px 18px 8px 10px !important;
+        padding: 8px 44px 8px 10px !important;
       }
       .sky-wrap { padding-top: calc(92px + env(safe-area-inset-top, 0px)); }
       .hero { padding: 52px 0 76px; }
