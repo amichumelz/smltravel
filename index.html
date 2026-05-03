@@ -716,12 +716,39 @@
     .svc-media { background-image: url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=700&q=75'); }
     .svc-event { background-image: url('https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=700&q=75'); }
 
-    /* ─── PACKAGES ─── */
+    /* ─── PACKAGES (blue + gold, match fleet / car theme) ─── */
     .packages-section { padding-top: 72px; }
-    .packages-head { display: flex; align-items: flex-end; justify-content: flex-start; margin-bottom: 28px; }
+    .packages-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      margin-bottom: 28px;
+      padding-bottom: 14px;
+      box-shadow:
+        0 1px 0 rgba(58, 158, 255, 0.22),
+        0 4px 18px rgba(242, 193, 78, 0.09);
+    }
     .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
-    .ftab { border: 1.5px solid #d8e4f2; background: #fff; color: #2a3a52; border-radius: 99px; padding: 9px 20px; font-size: 13.5px; font-weight: 500; transition: 0.2s ease; }
-    .ftab.active, .ftab:hover { background: #1a2a40; border-color: #1a2a40; color: #fff; }
+    .ftab {
+      border: 1.5px solid rgba(58, 158, 255, 0.22);
+      background: linear-gradient(145deg, #ffffff 0%, #fffdf8 100%);
+      color: #2a3a52;
+      border-radius: 99px;
+      padding: 9px 20px;
+      font-size: 13.5px;
+      font-weight: 500;
+      transition: 0.2s ease;
+      box-shadow: 0 2px 8px rgba(58, 158, 255, 0.06);
+    }
+    .ftab.active,
+    .ftab:hover {
+      background: linear-gradient(125deg, #1a2a40 0%, #243a58 100%);
+      border-color: rgba(242, 193, 78, 0.55);
+      color: #fff;
+      box-shadow:
+        0 4px 14px rgba(58, 158, 255, 0.18),
+        0 2px 10px rgba(242, 193, 78, 0.12);
+    }
     .pkg-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -732,19 +759,37 @@
     }
     .pkg-card {
       position: relative;
-      background: #fff;
-      border: 1px solid #e4eaf2;
+      background: linear-gradient(165deg, #f7faff 0%, #fefcf6 48%, #f1f5fb 100%);
+      border: 1px solid rgba(58, 158, 255, 0.12);
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 8px 26px rgba(15, 23, 42, 0.07);
-      transition: 0.28s ease;
+      box-shadow:
+        0 8px 26px rgba(58, 158, 255, 0.07),
+        0 2px 14px rgba(242, 193, 78, 0.05);
+      transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
       cursor: default;
     }
-    .pkg-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(15, 23, 42, 0.11); border-color: #d5dee9; }
+    .pkg-card:hover {
+      z-index: 3;
+      transform: translateY(-4px);
+      box-shadow:
+        0 18px 38px rgba(58, 158, 255, 0.12),
+        0 8px 28px rgba(242, 193, 78, 0.14),
+        0 0 0 2px rgba(58, 158, 255, 0.22),
+        0 0 22px rgba(242, 193, 78, 0.18);
+      border-color: rgba(242, 193, 78, 0.35);
+    }
     .pkg-img {
       height: 210px; position: relative; overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat;
     }
-    .pkg-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,22,48,0.12), transparent 50%); z-index: 1; pointer-events: none; }
+    .pkg-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(8, 22, 48, 0.14) 0%, rgba(242, 193, 78, 0.07) 38%, transparent 56%);
+      z-index: 1;
+      pointer-events: none;
+    }
     .pi-skybridge { background-image: url('https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=700&q=75'); }
     .pi-mangrove { background-image: url('assets/pkg-mangrove-tour.png'); }
     .pi-sharing-basis { background-image: url('assets/pkg-mangrove-sharing.png'); }
@@ -754,15 +799,25 @@
     .pi-sunset { background-image: url('assets/pkg-sunset-cruise.png'); }
     .pi-atv { background-image: url('assets/pkg-atv-adventure.png'); }
     .pkg-badges { position: absolute; bottom: 10px; left: 10px; z-index: 2; display: flex; gap: 6px; flex-wrap: wrap; }
-    .pkg-badge { background: rgba(12,30,58,0.6); color: #f0f8ff; border: 1px solid rgba(255,255,255,0.2); border-radius: 99px; padding: 5px 10px; font-size: 12px; backdrop-filter: blur(4px); }
+    .pkg-badge {
+      background: rgba(12, 30, 58, 0.62);
+      color: #f0f8ff;
+      border: 1px solid rgba(242, 193, 78, 0.28);
+      border-radius: 99px;
+      padding: 5px 10px;
+      font-size: 12px;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 2px 8px rgba(58, 158, 255, 0.12);
+    }
     .pkg-duration-badge {
       position: absolute;
       top: 10px;
       right: 10px;
       z-index: 3;
-      background: #141820;
+      background: linear-gradient(135deg, #141820 0%, #1a3050 100%);
       color: #fff;
       border-radius: 8px;
+      border: 1px solid rgba(242, 193, 78, 0.38);
       padding: 6px 11px;
       font-size: 11px;
       font-weight: 700;
@@ -770,20 +825,23 @@
       line-height: 1.25;
       max-width: calc(100% - 20px);
       text-align: center;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+      box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.22),
+        0 2px 8px rgba(58, 158, 255, 0.14);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .pkg-body { padding: 18px 20px 20px; }
     .pkg-title { font-size: 20px; font-weight: 800; color: #101820; margin: 0 0 8px; letter-spacing: -0.02em; }
     .pkg-desc { font-size: 13.5px; color: #5c6b7e; line-height: 1.55; margin: 0 0 14px; }
     .pkg-meta-box {
-      background: #e8f3fb;
+      background: linear-gradient(145deg, rgba(232, 243, 251, 0.95) 0%, rgba(255, 253, 248, 0.98) 100%);
       border-radius: 12px;
       padding: 14px 16px;
       margin-bottom: 14px;
       display: grid;
       gap: 10px;
-      border: 1px solid rgba(58, 158, 255, 0.12);
+      border: 1px solid rgba(58, 158, 255, 0.14);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
     }
     .pkg-meta-row {
       display: grid;
@@ -815,7 +873,7 @@
       position: absolute;
       left: 0;
       top: 0;
-      color: #22c55e;
+      color: var(--gold-deep);
       font-weight: 800;
       font-size: 13px;
     }
@@ -870,7 +928,8 @@
       gap: 14px;
       padding-top: 14px;
       margin-top: 8px;
-      border-top: 1px solid #e8edf4;
+      border-top: 1px solid rgba(58, 158, 255, 0.12);
+      box-shadow: inset 0 1px 0 rgba(242, 193, 78, 0.12);
     }
     .pkg-price-block { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
     .pkg-from { font-size: 12px; font-weight: 600; color: #1a2a40; }
@@ -897,15 +956,27 @@
       text-shadow: 0 2px 14px rgba(0,0,0,0.35);
     }
     .btn-book-sm {
-      background: linear-gradient(110deg, #3a9eff, #1e76d8); color: #fff; border-radius: 10px;
-      padding: 9px 18px; font-size: 13px; font-weight: 600; transition: 0.2s ease;
-      box-shadow: 0 4px 12px rgba(58,158,255,0.3);
+      background: linear-gradient(110deg, #3a9eff, #1e76d8);
+      color: #fff;
+      border-radius: 10px;
+      padding: 9px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: 0.2s ease;
+      box-shadow:
+        0 4px 12px rgba(58, 158, 255, 0.3),
+        0 2px 8px rgba(242, 193, 78, 0.12);
     }
-    .btn-book-sm:hover { transform: scale(1.04); box-shadow: 0 6px 16px rgba(58,158,255,0.4); }
+    .btn-book-sm:hover {
+      transform: scale(1.04);
+      box-shadow:
+        0 6px 18px rgba(58, 158, 255, 0.4),
+        0 3px 12px rgba(242, 193, 78, 0.18);
+    }
     .btn-book-pill {
       border: none;
       cursor: pointer;
-      background: linear-gradient(110deg, #2f88e7, #1a6fd4);
+      background: linear-gradient(115deg, #2f88e7 0%, #1a6fd4 55%, #b8892a 175%);
       color: #fff;
       border-radius: 10px;
       padding: 11px 22px;
@@ -913,12 +984,19 @@
       font-weight: 800;
       letter-spacing: 0.5px;
       text-transform: uppercase;
-      box-shadow: 0 4px 14px rgba(47, 136, 231, 0.35);
+      box-shadow:
+        0 4px 14px rgba(47, 136, 231, 0.38),
+        0 2px 10px rgba(242, 193, 78, 0.14);
       transition: 0.2s ease;
       font-family: inherit;
       flex-shrink: 0;
     }
-    .btn-book-pill:hover { transform: scale(1.03); box-shadow: 0 6px 18px rgba(58,158,255,0.45); }
+    .btn-book-pill:hover {
+      transform: scale(1.03);
+      box-shadow:
+        0 8px 22px rgba(58, 158, 255, 0.38),
+        0 4px 16px rgba(242, 193, 78, 0.22);
+    }
 
     /* ─── GALLERY CAROUSEL ─── */
     .gallery-section { padding-top: 72px; position: relative; }
@@ -1171,33 +1249,57 @@
       margin: 0 auto;
     }
 
-    /* ─── CAR RENTAL ─── */
+    /* ─── CAR RENTAL (blue + gold fleet theme) ─── */
     .cars-section { padding-top: 72px; }
-    .cars-filter-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px; border-bottom: 1px solid #e3eaf4; padding-bottom: 10px; }
+    .cars-filter-row {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;
+      padding-bottom: 12px;
+      border-bottom: none;
+      box-shadow:
+        0 1px 0 rgba(58, 158, 255, 0.22),
+        0 4px 18px rgba(242, 193, 78, 0.09);
+    }
     .car-tabs { display: flex; gap: 28px; }
     .car-tabs.after-intro {
+      position: relative;
+      z-index: 30;
       margin: 6px 0 14px;
-      border-bottom: 1px solid #e3eaf4;
+      border-bottom: none;
       padding-bottom: 10px;
+      box-shadow: 0 1px 0 rgba(242, 193, 78, 0.35), 0 3px 14px rgba(58, 158, 255, 0.08);
     }
     .car-tab { border: 0; background: transparent; color: #7a8da5; border-radius: 0; padding: 4px 0 10px; font-size: 14px; font-weight: 500; transition: 0.2s ease; border-bottom: 2px solid transparent; }
-    .car-tab.active { color: #1a2a40; border-bottom-color: #f3a531; }
-    .car-tab:hover:not(.active) { color: #2f4665; }
+    .car-tab.active {
+      color: #142a52;
+      border-bottom: 3px solid transparent;
+      border-image: linear-gradient(90deg, var(--accent), var(--gold)) 1;
+      padding-bottom: 7px;
+    }
+    .car-tab:hover:not(.active) { color: #2f4665; text-shadow: 0 0 12px rgba(58, 158, 255, 0.15); }
     .sort-row { display: flex; gap: 8px; }
     .sort-dd {
-      border: 1.5px solid #d8e4f2; background: #fff; border-radius: 10px; padding: 9px 16px;
+      border: 1.5px solid rgba(58, 158, 255, 0.22);
+      background: linear-gradient(145deg, #ffffff 0%, #fffdf8 100%);
+      border-radius: 10px; padding: 9px 16px;
       font-size: 13px; color: #556a82; cursor: pointer; min-width: 148px; text-align: center;
-      transition: 0.2s ease;
+      transition: 0.22s ease;
+      box-shadow: 0 2px 8px rgba(58, 158, 255, 0.06);
     }
-    .sort-dd:hover { border-color: var(--accent); color: var(--accent); }
+    .sort-dd:hover {
+      border-color: rgba(242, 193, 78, 0.65);
+      color: #1a5088;
+      box-shadow: 0 4px 14px rgba(58, 158, 255, 0.12), 0 2px 10px rgba(242, 193, 78, 0.12);
+    }
     .car-rental-banner {
       margin: 4px 0 16px;
       border-radius: 14px;
       overflow: hidden;
-      border: 1px solid #e1e6ee;
-      box-shadow: 0 8px 18px rgba(20,50,100,0.06);
-      background:
-        linear-gradient(120deg, #f1f2f4 0%, #eceff3 52%, #f5f7fa 100%);
+      border: 1px solid rgba(58, 158, 255, 0.14);
+      box-shadow:
+        0 10px 28px rgba(58, 158, 255, 0.08),
+        0 4px 22px rgba(242, 193, 78, 0.07),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85);
+      background: linear-gradient(128deg, #f5f8ff 0%, #fffdf6 42%, #eef5ff 78%, #faf7ef 100%);
       display: grid;
       grid-template-columns: 1.15fr 1fr;
       gap: 12px;
@@ -1227,8 +1329,10 @@
       right: 0;
       width: min(220px, 25%);
       border-radius: 14px 0 0 14px;
-      background: linear-gradient(180deg, var(--accent), #1e76d8);
-      box-shadow: 0 12px 24px rgba(58,158,255,0.28);
+      background: linear-gradient(155deg, var(--accent) 0%, #2b84eb 38%, #4a9df5 62%, var(--gold) 108%);
+      box-shadow:
+        0 14px 30px rgba(58, 158, 255, 0.26),
+        -6px 10px 28px rgba(242, 193, 78, 0.22);
       z-index: 0;
       pointer-events: none;
       transform: scaleY(1.15);
@@ -1239,9 +1343,12 @@
       font-size: 10px;
       letter-spacing: 1.4px;
       text-transform: uppercase;
-      color: #8e96a4;
       font-weight: 700;
       margin: 0 0 8px;
+      background: linear-gradient(90deg, #5a8fd4 0%, #d9a62f 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
     .car-rental-intro h3 {
       margin: 0;
@@ -1252,11 +1359,12 @@
       max-width: 520px;
     }
     .car-rental-intro-line {
-      width: 34px;
+      width: 48px;
       height: 4px;
       border-radius: 99px;
-      background: var(--accent);
+      background: linear-gradient(90deg, var(--accent), var(--gold));
       margin-top: 8px;
+      box-shadow: 0 1px 6px rgba(242, 193, 78, 0.35);
     }
     .car-rental-intro p {
       margin: 8px 0 0;
@@ -1305,16 +1413,21 @@
       background-position: center right;
       background-size: contain;
       transform: translateX(124px);
-      filter: drop-shadow(0 14px 18px rgba(10,24,50,0.28));
+      filter:
+        drop-shadow(0 14px 20px rgba(10, 24, 50, 0.26))
+        drop-shadow(0 6px 16px rgba(58, 158, 255, 0.18))
+        drop-shadow(-4px 8px 18px rgba(242, 193, 78, 0.15));
     }
-    .car-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 22px; margin-top: 12px; }
+    .car-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 22px; margin-top: 12px; position: relative; z-index: 1; }
     .car-card {
-      background: #f3f5f9;
-      border: 1px solid #e3e8f1;
+      background: linear-gradient(165deg, #f7faff 0%, #fefcf6 48%, #f1f5fb 100%);
+      border: 1px solid rgba(58, 158, 255, 0.12);
       border-radius: 8px;
       padding: 102px 14px 14px;
-      box-shadow: 0 6px 14px rgba(20,50,100,0.06);
-      transition: box-shadow 0.28s ease;
+      box-shadow:
+        0 8px 20px rgba(58, 158, 255, 0.06),
+        0 2px 12px rgba(242, 193, 78, 0.05);
+      transition: box-shadow 0.28s ease, border-color 0.28s ease;
       position: relative;
       overflow: visible;
       z-index: 1;
@@ -1349,15 +1462,17 @@
       transform: translateX(-50%);
       z-index: 12;
       filter:
-        drop-shadow(0 22px 18px rgba(10, 26, 56, 0.28))
-        drop-shadow(0 10px 8px rgba(10, 26, 56, 0.14));
+        drop-shadow(0 22px 18px rgba(10, 26, 56, 0.26))
+        drop-shadow(0 8px 14px rgba(58, 158, 255, 0.12))
+        drop-shadow(0 6px 12px rgba(242, 193, 78, 0.1));
       transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
     }
     .car-card:hover .car-img {
       transform: translateX(-50%) translateY(-8px) scale(1.045);
       filter:
-        drop-shadow(0 28px 24px rgba(10, 26, 56, 0.34))
-        drop-shadow(0 14px 10px rgba(10, 26, 56, 0.18));
+        drop-shadow(0 28px 24px rgba(10, 26, 56, 0.32))
+        drop-shadow(0 12px 18px rgba(58, 158, 255, 0.16))
+        drop-shadow(0 8px 20px rgba(242, 193, 78, 0.14));
     }
     .ci-bezza { background-image: url('assets/fleet-perodua-bezza.png'); }
     .ci-scooter { background-image: url('assets/fleet-scooter-150cc.png'); }
@@ -1368,12 +1483,31 @@
     .car-stars-row { color: #f3a531; font-size: 12px; margin-bottom: 6px; margin-top: 8px; }
     .car-name { font-size: 23px; font-weight: 800; color: #0f2140; margin-bottom: 8px; min-height: auto; line-height: 1.05; text-transform: uppercase; }
     .car-specs-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; margin-bottom: 12px; }
-    .car-spec { font-size: 11px; color: #6b798c; text-align: left; background: #f7f9fd; border-radius: 6px; padding: 6px 8px; }
+    .car-spec {
+      font-size: 11px; color: #5a6b82; text-align: left;
+      background: linear-gradient(135deg, rgba(240, 247, 255, 0.95), rgba(255, 252, 242, 0.9));
+      border: 1px solid rgba(58, 158, 255, 0.08);
+      border-radius: 6px; padding: 6px 8px;
+    }
     .car-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
     .car-price { font-size: 46px; font-weight: 800; color: #0f2140; line-height: 1; }
     .car-price small { font-size: 18px; color: #8fa3bf; font-weight: 500; margin-left: 4px; }
-    .btn-rent { background: transparent; color: #f3a531; border-radius: 0; padding: 0; font-size: 26px; font-weight: 700; transition: 0.2s ease; }
-    .btn-rent:hover { color: #de8b08; }
+    .btn-rent {
+      background: transparent;
+      border-radius: 0; padding: 0; font-size: 26px; font-weight: 700; transition: 0.2s ease;
+      background-image: linear-gradient(105deg, var(--accent) 0%, var(--gold-deep) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: none;
+      filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.4));
+    }
+    .btn-rent:hover {
+      background-image: linear-gradient(105deg, #1e76d8 0%, #f2c14e 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(242, 193, 78, 0.35));
+    }
 
     /* ─── WHY SECTION ─── */
     .why-section {
@@ -1853,7 +1987,20 @@
     .modal-sub { font-size: 13.5px; color: #8fa3bf; margin-top: 4px; }
     .modal-close { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #dde7f5; background: #f5f8ff; font-size: 18px; color: #556a82; display: grid; place-items: center; cursor: pointer; flex-shrink: 0; transition: 0.15s ease; }
     .modal-close:hover { background: #fee; border-color: #f4a0a0; color: #e33; }
-    .modal-img { height: 180px; margin: 16px 28px 0; border-radius: 16px; }
+    .modal-img {
+      box-sizing: border-box;
+      width: calc(100% - 56px);
+      margin: 16px 28px 0;
+      min-height: 160px;
+      height: min(240px, 34vh);
+      max-height: 280px;
+      border-radius: 16px;
+      overflow: hidden;
+      background-color: #e8edf4;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
     .modal-body { padding: 20px 28px; }
     .modal-steps { display: flex; gap: 6px; margin-bottom: 24px; }
     .m-step { flex: 1; height: 4px; border-radius: 99px; background: #e8eef8; transition: 0.3s ease; }
@@ -2009,21 +2156,21 @@
       .pkg-grid { grid-template-columns: 1fr; max-width: none; }
       .car-grid, .review-grid { grid-template-columns: 1fr; }
       .car-rental-banner {
-        margin: 4px 0 12px;
+        margin: 4px 0 22px;
         border-radius: 14px;
         display: block;
         position: relative;
-        padding: 14px 14px min(120px, 28vw);
-        min-height: 0;
+        padding: 14px 14px 18px;
+        min-height: min(168px, 42vw);
         overflow: visible;
         isolation: isolate;
       }
       .car-rental-intro {
         min-width: 0;
         position: relative;
-        z-index: 2;
+        z-index: 4;
         max-width: 100%;
-        padding-right: 0;
+        padding-right: min(42%, 160px);
       }
       .car-rental-banner::before {
         width: 100%;
@@ -2040,8 +2187,8 @@
         border-radius: 0 14px 0 40px;
         transform: none;
         transform-origin: top right;
-        opacity: 0.88;
-        z-index: 0;
+        opacity: 0.92;
+        z-index: 1;
       }
       .car-rental-intro h3 {
         font-size: clamp(22px, 5.5vw, 34px);
@@ -2062,41 +2209,46 @@
       }
       .car-rental-visual {
         position: absolute;
-        right: -6px;
-        bottom: 2px;
+        top: 6px;
+        right: -10px;
+        bottom: auto;
         left: auto;
-        width: min(104vw, 360px);
+        width: min(100vw, 340px);
         max-width: none;
         min-height: 0;
-        height: min(200px, 48vw);
+        height: min(230px, 54vw);
         display: flex;
-        align-items: flex-end;
+        align-items: flex-start;
         justify-content: flex-end;
         padding: 0;
         margin: 0;
-        z-index: 1;
+        z-index: 3;
         pointer-events: none;
       }
       .car-rental-visual::before {
         content: none;
       }
       .car-rental-hero-car {
-        height: min(200px, 50vw);
-        min-height: 160px;
+        height: min(220px, 54vw);
+        min-height: 170px;
         width: 100%;
-        max-width: min(400px, 95vw);
+        max-width: min(380px, 92vw);
         margin: 0;
-        transform: translate(8px, 4px);
-        background-position: right bottom;
+        transform: translate(-12px, 4px);
+        background-position: right top;
         background-size: contain;
-        filter: drop-shadow(0 10px 16px rgba(10,24,50,0.32));
+        filter: drop-shadow(0 12px 18px rgba(10,24,50,0.34));
       }
       .car-tabs.after-intro {
-        margin: 4px 0 12px;
+        z-index: 40;
+        margin: 12px 0 18px;
         gap: 18px;
+        padding-top: 8px;
+        padding-bottom: 12px;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
+        background: var(--section-bg);
       }
       .car-tabs.after-intro::-webkit-scrollbar { display: none; }
       .pkg-meta-row { grid-template-columns: 1fr; gap: 4px; }
@@ -2255,9 +2407,15 @@
     }
 
     /* ── Glowing border pulse on hover ── */
-    .pkg-card:hover  { box-shadow: 0 16px 32px rgba(20,50,100,0.13), 0 0 0 2px rgba(58,158,255,0.25), 0 0 28px rgba(58,158,255,0.12) !important; }
     .svc-card:hover  { box-shadow: 0 15px 30px rgba(20,50,100,0.14), 0 0 0 2px rgba(58,158,255,0.3), 0 0 24px rgba(58,158,255,0.18) !important; }
-    .car-card:hover  { z-index: 6; box-shadow: 0 18px 36px rgba(20,50,100,0.15), 0 0 0 2px rgba(242,193,78,0.35), 0 0 26px rgba(242,193,78,0.14) !important; }
+    .car-card:hover {
+      z-index: 6;
+      box-shadow:
+        0 18px 38px rgba(58, 158, 255, 0.12),
+        0 8px 28px rgba(242, 193, 78, 0.14),
+        0 0 0 2px rgba(58, 158, 255, 0.22),
+        0 0 22px rgba(242, 193, 78, 0.18) !important;
+    }
     .stat-box:hover  { box-shadow: 0 10px 24px rgba(20,50,100,0.1), 0 0 0 2px rgba(58,158,255,0.2) !important; }
 
     /* ── Gallery card tilt (JS-driven, prep styles) ── */
@@ -2425,7 +2583,13 @@
     .stat-big, .hero-stat strong { display: inline-block; }
     .hero-stat strong.hero-rating-stars { display: block; }
 
-    .pkg-card:hover .pkg-duration-badge { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28); }
+    .pkg-card:hover .pkg-duration-badge {
+      transform: translateY(-1px);
+      box-shadow:
+        0 6px 18px rgba(0, 0, 0, 0.26),
+        0 3px 12px rgba(58, 158, 255, 0.18),
+        0 2px 10px rgba(242, 193, 78, 0.14);
+    }
 
     /* ── Social btn spin on hover ── */
     .social-btn { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s ease, box-shadow 0.2s ease; }
@@ -2553,8 +2717,16 @@
       animation: bookSpark 3.5s ease-in-out infinite;
     }
     @keyframes bookSpark {
-      0%,100% { box-shadow: 0 0 0 0 rgba(58,158,255,0.35); }
-      50%     { box-shadow: 0 0 0 7px rgba(58,158,255,0); }
+      0%, 100% {
+        box-shadow:
+          0 0 0 0 rgba(58, 158, 255, 0.32),
+          0 0 0 0 rgba(242, 193, 78, 0.18);
+      }
+      50% {
+        box-shadow:
+          0 0 0 7px rgba(58, 158, 255, 0),
+          0 0 0 5px rgba(242, 193, 78, 0);
+      }
     }
 
     /* ── Why section background ripple ── */
@@ -2969,7 +3141,7 @@
               <span class="pkg-from" data-i18n="pkg_from">From</span>
               <div class="pkg-amount"><strong>RM 45</strong><span data-i18n="suffix_pax">/pax</span></div>
             </div>
-            <button type="button" class="btn-book-pill" onclick="openBooking('Island Hopping','RM 45',45,'tour','跳岛游')" data-i18n="pkg_book_short">BOOK</button>
+            <button type="button" class="btn-book-pill" onclick="openBooking('Island Hopping','RM 45',45,'tour','跳岛游',false,false,'islandhop')" data-i18n="pkg_book_short">BOOK</button>
           </div>
         </div>
       </article>
@@ -2998,7 +3170,7 @@
               <span class="pkg-from" data-i18n="pkg_from">From</span>
               <div class="pkg-amount"><strong>RM 85</strong><span data-i18n="suffix_pax">/pax</span></div>
             </div>
-            <button type="button" class="btn-book-pill" onclick="openBooking('Cable Car','RM 85',85,'tour','缆车')" data-i18n="pkg_book_short">BOOK</button>
+            <button type="button" class="btn-book-pill" onclick="openBooking('Cable Car','RM 85',85,'tour','缆车',false,false,'cable')" data-i18n="pkg_book_short">BOOK</button>
           </div>
         </div>
       </article>
@@ -3026,7 +3198,7 @@
               <span class="pkg-from" data-i18n="pkg_from">From</span>
               <div class="pkg-amount"><strong>RM 190</strong><span data-i18n="suffix_pax">/pax</span></div>
             </div>
-            <button type="button" class="btn-book-pill" onclick="openBooking('Sunset Cruise','RM 190',190,'tour','日落游船')" data-i18n="pkg_book_short">BOOK</button>
+            <button type="button" class="btn-book-pill" onclick="openBooking('Sunset Cruise','RM 190',190,'tour','日落游船',false,false,'sunset')" data-i18n="pkg_book_short">BOOK</button>
           </div>
         </div>
       </article>
@@ -3055,7 +3227,7 @@
               <span class="pkg-from" data-i18n="pkg_from">From</span>
               <div class="pkg-amount"><strong>RM 120</strong><span data-i18n="suffix_pax">/pax</span></div>
             </div>
-            <button type="button" class="btn-book-pill" onclick="openBooking('Mangrove Sharing','RM 120',120,'tour','红树林共享拼团')" data-i18n="pkg_book_short">BOOK</button>
+            <button type="button" class="btn-book-pill" onclick="openBooking('Mangrove Sharing','RM 120',120,'tour','红树林共享拼团',false,false,'sharing-basis')" data-i18n="pkg_book_short">BOOK</button>
           </div>
         </div>
       </article>
@@ -4177,7 +4349,7 @@
 
   /* ── BOOKING MODAL ── */
   var bkgStep=1, bkgBasePrice=0, bkgQtyVal=2, bkgFlatPrice=false, bkgFlatType=null, currentBookingNameEn='', currentBookingNameZh='';
-  function openBooking(name, priceStr, price, cat, nameZh, flatPrice, flatType){
+  function openBooking(name, priceStr, price, cat, nameZh, flatPrice, flatType, cardImg){
     currentBookingNameEn = name;
     currentBookingNameZh = nameZh || name;
     bkgBasePrice = price; bkgQtyVal = 2; bkgStep=1;
@@ -4185,7 +4357,8 @@
     bkgFlatType = flatPrice ? (flatType || 'charter') : null;
     document.getElementById('bkgTitle').textContent = currentLang === 'zh' ? currentBookingNameZh : currentBookingNameEn;
     document.getElementById('bkgSub').textContent = t('bkg_sub_step1');
-    document.getElementById('bkgImg').className = 'modal-img pi-'+catToClass(cat);
+    var imgKey = cardImg || catToClass(cat);
+    document.getElementById('bkgImg').className = 'modal-img pi-' + imgKey;
     document.getElementById('bkgImg').style.display='block';
     document.getElementById('bkgSuccess').style.display='none'; document.getElementById('bkgSuccess').classList.remove('show');
     document.getElementById('bkgFooter').style.display='flex';
@@ -4706,7 +4879,7 @@
     var h = sel.value;
     var nameEn = 'Mangrove Tour — ' + h + 'h chartered boat';
     var nameZh = '红树林包船 ' + h + '小时';
-    openBooking(nameEn, 'RM ' + price, price, 'tour', nameZh, true, 'charter');
+    openBooking(nameEn, 'RM ' + price, price, 'tour', nameZh, true, 'charter', 'mangrove');
   }
   function bookAtvAdventure(){
     openBooking('ATV Adventure — 1 hour', 'RM 250', 250, 'atv', 'ATV 探险 1小时', true, 'atv');
