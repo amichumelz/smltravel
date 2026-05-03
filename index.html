@@ -436,13 +436,13 @@
     }
     .vm-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 18px; }
     .vm-card {
-      background: rgba(255, 255, 255, 0.58);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1.5px solid rgba(255, 255, 255, 0.42);
+      background: rgba(8, 20, 58, 0.28);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1.5px solid rgba(255, 255, 255, 0.18);
       border-radius: 24px;
       padding: 24px;
-      box-shadow: 0 10px 28px rgba(8, 24, 52, 0.12);
+      box-shadow: 0 10px 28px rgba(4, 10, 30, 0.22);
       transition: 0.25s ease;
       position: relative;
       overflow: hidden;
@@ -457,8 +457,9 @@
     }
     .vm-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 18px 40px rgba(8, 24, 52, 0.18);
-      background: rgba(255, 255, 255, 0.68);
+      box-shadow: 0 18px 40px rgba(4, 10, 30, 0.32);
+      background: rgba(8, 20, 58, 0.42);
+      border-color: rgba(255, 255, 255, 0.28);
     }
     .vm-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
     .vm-icon {
@@ -473,15 +474,15 @@
       box-shadow: 0 8px 18px rgba(58,158,255,0.3);
       flex-shrink: 0;
     }
-    .vm-card h3 { font-size: 22px; color: #1a2a40; font-weight: 800; }
-    .vm-card p { font-size: 14.5px; color: #5a6f87; line-height: 1.7; }
+    .vm-card h3 { font-size: 22px; color: #f0f6ff; font-weight: 800; }
+    .vm-card p { font-size: 14.5px; color: rgba(200, 224, 255, 0.82); line-height: 1.7; }
     .vm-list { list-style: none; display: grid; gap: 10px; margin-top: 8px; }
     .vm-list li {
       font-size: 14px;
-      color: #3d5268;
+      color: rgba(210, 230, 255, 0.88);
       line-height: 1.55;
-      background: rgba(247, 251, 255, 0.52);
-      border: 1px solid rgba(226, 237, 249, 0.65);
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.14);
       border-radius: 12px;
       padding: 10px 12px 10px 38px;
       position: relative;
@@ -494,8 +495,8 @@
       width: 18px;
       height: 18px;
       border-radius: 50%;
-      background: rgba(58,158,255,0.16);
-      color: #1e76d8;
+      background: rgba(58,158,255,0.28);
+      color: #7fc6ff;
       font-size: 12px;
       font-weight: 800;
       display: grid;
@@ -2029,10 +2030,17 @@
       max-width: 100%;
       box-sizing: border-box;
       padding-right: 30px;
+      -webkit-appearance: none;
+      appearance: none;
+      overflow: hidden;
     }
     .modal-box .form-group input[type="date"]::-webkit-datetime-edit-fields-wrapper {
       max-width: 100%;
       padding: 0;
+    }
+    .modal-box .form-group input[type="date"]::-webkit-date-and-time-value {
+      min-width: 0;
+      text-align: left;
     }
     .modal-box .form-group input[type="date"]::-webkit-calendar-picker-indicator {
       position: absolute;
@@ -2054,6 +2062,13 @@
       max-width: 100% !important;
       box-sizing: border-box;
       padding: 8px 30px 8px 10px !important;
+      -webkit-appearance: none;
+      appearance: none;
+      overflow: hidden;
+    }
+    #plannerModal input[type="date"]::-webkit-date-and-time-value {
+      min-width: 0;
+      text-align: left;
     }
     #plannerModal input[type="date"]::-webkit-calendar-picker-indicator {
       position: absolute;
@@ -2189,8 +2204,24 @@
         min-width: 0;
         box-sizing: border-box;
       }
+      .modal-box .form-group input[type="date"],
+      #plannerModal input[type="date"] {
+        -webkit-appearance: none;
+        appearance: none;
+        min-width: 0;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow: hidden;
+      }
       .modal-box .form-group input[type="date"] {
         padding-right: 34px;
+      }
+      .modal-box .form-group input[type="date"]::-webkit-date-and-time-value,
+      #plannerModal input[type="date"]::-webkit-date-and-time-value {
+        min-width: 0;
+        width: 100%;
+        text-align: left;
       }
       #plannerModal input[type="date"] {
         padding: 8px 34px 8px 10px !important;
@@ -3892,8 +3923,8 @@
         <button class="modal-close" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.3);color:#fff;" onclick="closeModal('plannerModal')">✕</button>
       </div>
       <div style="display:flex;gap:20px;margin-top:18px;">
-        <div style="flex:1;"><label style="font-size:11px;font-weight:700;letter-spacing:0.8px;opacity:0.7;text-transform:uppercase;" data-i18n="planner_start">Trip Start</label><input type="date" value="2026-06-12" style="width:100%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:8px 10px;color:#fff;margin-top:4px;font-family:Poppins,sans-serif;font-size:14px;outline:none;"></div>
-        <div style="flex:1;"><label style="font-size:11px;font-weight:700;letter-spacing:0.8px;opacity:0.7;text-transform:uppercase;" data-i18n="planner_end">Trip End</label><input type="date" value="2026-06-15" style="width:100%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:8px 10px;color:#fff;margin-top:4px;font-family:Poppins,sans-serif;font-size:14px;outline:none;"></div>
+        <div style="flex:1;min-width:0;"><label style="font-size:11px;font-weight:700;letter-spacing:0.8px;opacity:0.7;text-transform:uppercase;" data-i18n="planner_start">Trip Start</label><input type="date" value="2026-06-12" style="width:100%;min-width:0;box-sizing:border-box;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:8px 10px;color:#fff;margin-top:4px;font-family:Poppins,sans-serif;font-size:14px;outline:none;-webkit-appearance:none;appearance:none;overflow:hidden;"></div>
+        <div style="flex:1;min-width:0;"><label style="font-size:11px;font-weight:700;letter-spacing:0.8px;opacity:0.7;text-transform:uppercase;" data-i18n="planner_end">Trip End</label><input type="date" value="2026-06-15" style="width:100%;min-width:0;box-sizing:border-box;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:8px 10px;color:#fff;margin-top:4px;font-family:Poppins,sans-serif;font-size:14px;outline:none;-webkit-appearance:none;appearance:none;overflow:hidden;"></div>
         <div style="flex:1;"><label style="font-size:11px;font-weight:700;letter-spacing:0.8px;opacity:0.7;text-transform:uppercase;" data-i18n="planner_trav">Travellers</label><input type="number" value="2" min="1" style="width:100%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:10px;padding:8px 10px;color:#fff;margin-top:4px;font-family:Poppins,sans-serif;font-size:14px;outline:none;"></div>
       </div>
     </div>
