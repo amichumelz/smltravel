@@ -2020,15 +2020,15 @@
     #bkgPhone {
       padding-right: 18px;
     }
-    /* Date inputs: slightly narrower than full cell + compact icon so line-up matches selects */
+    /* Date inputs: same outer width as other controls; icon tucked inside with padding */
     .modal-box .form-group input[type="date"] {
       position: relative;
       display: block;
       min-width: 0;
-      width: calc(100% - 12px);
+      width: 100%;
       max-width: 100%;
       box-sizing: border-box;
-      padding-right: 26px;
+      padding-right: 30px;
     }
     .modal-box .form-group input[type="date"]::-webkit-datetime-edit-fields-wrapper {
       max-width: 100%;
@@ -2050,10 +2050,10 @@
       position: relative;
       display: block;
       min-width: 0;
-      width: calc(100% - 10px) !important;
-      max-width: 100%;
+      width: 100% !important;
+      max-width: 100% !important;
       box-sizing: border-box;
-      padding: 8px 26px 8px 10px !important;
+      padding: 8px 30px 8px 10px !important;
     }
     #plannerModal input[type="date"]::-webkit-calendar-picker-indicator {
       position: absolute;
@@ -2180,13 +2180,39 @@
       .company-logo { height: 46px; }
       .sky-wrap, .search-section, .light-wrap { padding-left: var(--gutter-mobile); padding-right: var(--gutter-mobile); }
       .light-wrap .page-section + .page-section { margin-top: 22px; }
+      /* All modal fields: one full-width track (mobile) */
+      .modal-box .form-group input:not([type="checkbox"]):not([type="radio"]),
+      .modal-box .form-group select,
+      .modal-box .form-group textarea {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+      }
       .modal-box .form-group input[type="date"] {
-        width: calc(100% - 10px);
-        padding-right: 24px;
+        padding-right: 34px;
       }
       #plannerModal input[type="date"] {
-        width: calc(100% - 8px) !important;
-        padding: 8px 24px 8px 10px !important;
+        padding: 8px 34px 8px 10px !important;
+      }
+      /* Planner hero: stack fields so date / number share the same width as each other */
+      #plannerModal .planner-hero > div:nth-child(2) {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px !important;
+      }
+      #plannerModal .planner-hero input[type="date"],
+      #plannerModal .planner-hero input[type="number"] {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      .contact-form .contact-input,
+      .contact-form .contact-textarea {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
       }
       .sky-wrap { padding-top: calc(92px + env(safe-area-inset-top, 0px)); }
       .hero { padding: 52px 0 76px; }
