@@ -2134,6 +2134,13 @@
       .company-logo { height: 46px; }
       .sky-wrap, .search-section, .light-wrap { padding-left: var(--gutter-mobile); padding-right: var(--gutter-mobile); }
       .light-wrap .page-section + .page-section { margin-top: 22px; }
+      /* Date fields: extra right padding so value aligns with text/select inputs on mobile WebKit */
+      .form-group input[type="date"] {
+        padding-right: 18px;
+      }
+      #plannerModal input[type="date"] {
+        padding: 8px 18px 8px 10px !important;
+      }
       .sky-wrap { padding-top: calc(92px + env(safe-area-inset-top, 0px)); }
       .hero { padding: 52px 0 76px; }
       .hero-title { font-size: clamp(50px,15.8vw,96px); letter-spacing: 0.6px; line-height: 0.95; }
