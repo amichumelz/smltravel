@@ -36,7 +36,7 @@
     img, video, iframe { max-width: 100%; height: auto; }
     button { cursor: pointer; font-family: inherit; border: none; background: none; }
     a { text-decoration: none; color: inherit; }
-    input, select { font-family: inherit; }
+    input, select, textarea { font-family: inherit; }
 
     /* ─── TOAST ─── */
     .toast-wrap { position: fixed; top: 24px; right: 24px; z-index: 8000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
@@ -83,12 +83,17 @@
       content: ''; position: absolute; inset: 0;
       background: linear-gradient(180deg, rgba(5,12,32,0.55) 0%, rgba(8,18,52,0.65) 50%, rgba(6,10,28,0.85) 100%);
     }
-    /* Slide images using high-quality Unsplash photos */
-    .hs1 { background-image: url('https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=800&q=75'); }
-    .hs2 { }
-    .hs3 { }
-    .hs4 { }
-    .hs5 { }
+    /* Slide images (local assets) + one solid dark-blue slide */
+    .hs1 { background-image: url('./assets/hero-slide-1.jpg'); }
+    .hs-solid {
+      background-image: none;
+      background-color: #0a1528;
+    }
+    /* Slightly lighter veil on solid slide so navy reads as dark blue */
+    .hero-slide.hs-solid::after {
+      background: linear-gradient(180deg, rgba(6,14,32,0.38) 0%, rgba(10,22,48,0.48) 50%, rgba(5,10,24,0.72) 100%);
+    }
+    .hs5 { background-image: url('./assets/hero-slide-4.jpg'); }
     .slideshow-dots {
       position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
       display: flex; gap: 8px; z-index: 6;
@@ -376,10 +381,10 @@
     .collage { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; height: 380px; }
     .col-img { border-radius: 20px; overflow: hidden; box-shadow: 0 12px 24px rgba(20,50,100,0.12); background-size: cover; background-position: center; background-repeat: no-repeat; height: 100%; }
     .col-img-tall { min-height: 240px; }
-    .col-a { background-image: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&q=75'); }
-    .col-b { background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=75'); }
-    .col-c { background-image: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=75'); }
-    .col-d { background-image: url('https://images.unsplash.com/photo-1504274066651-8d31a536b11a?w=600&q=75'); }
+    .col-a { background-image: url('./assets/about-collage-a.png'); }
+    .col-b { background-image: url('./assets/about-collage-b.png'); }
+    .col-c { background-image: url('./assets/about-collage-c.png'); }
+    .col-d { background-image: url('./assets/about-collage-d.png'); }
 
     /* ─── VISION, WHY US & SERVICES ─── */
     .vm-section {
@@ -710,30 +715,161 @@
     .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
     .ftab { border: 1.5px solid #d8e4f2; background: #fff; color: #2a3a52; border-radius: 99px; padding: 9px 20px; font-size: 13.5px; font-weight: 500; transition: 0.2s ease; }
     .ftab.active, .ftab:hover { background: #1a2a40; border-color: #1a2a40; color: #fff; }
-    .pkg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .pkg-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px 20px;
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+    }
     .pkg-card {
-      background: #fff; border: 1.5px solid #e4edf8; border-radius: 22px; overflow: hidden;
-      box-shadow: 0 8px 20px rgba(20,50,100,0.07); transition: 0.28s ease; cursor: pointer;
+      position: relative;
+      background: #fff;
+      border: 1px solid #e4eaf2;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 26px rgba(15, 23, 42, 0.07);
+      transition: 0.28s ease;
+      cursor: default;
     }
-    .pkg-card:hover { transform: translateY(-6px); box-shadow: 0 16px 32px rgba(20,50,100,0.13); border-color: #c8daf2; }
+    .pkg-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(15, 23, 42, 0.11); border-color: #d5dee9; }
     .pkg-img {
-      height: 185px; position: relative; overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat;
+      height: 210px; position: relative; overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat;
     }
-    .pkg-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,22,48,0.58), transparent 55%); }
+    .pkg-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,22,48,0.12), transparent 50%); z-index: 1; pointer-events: none; }
     .pi-skybridge { background-image: url('https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=700&q=75'); }
-    .pi-mangrove { background-image: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=700&q=75'); }
+    .pi-mangrove { background-image: url('assets/pkg-mangrove-tour.png'); }
+    .pi-sharing-basis { background-image: url('assets/pkg-mangrove-sharing.png'); }
     .pi-beach { background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=75'); }
     .pi-cable { background-image: url('https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?w=700&q=75'); }
     .pi-islandhop { background-image: url('https://images.unsplash.com/photo-1504274066651-8d31a536b11a?w=700&q=75'); }
     .pi-sunset { background-image: url('https://images.unsplash.com/photo-1493558103817-58b2924bce98?w=700&q=75'); }
+    .pi-atv { background-image: url('assets/pkg-atv-adventure.png'); }
     .pkg-badges { position: absolute; bottom: 10px; left: 10px; z-index: 2; display: flex; gap: 6px; flex-wrap: wrap; }
     .pkg-badge { background: rgba(12,30,58,0.6); color: #f0f8ff; border: 1px solid rgba(255,255,255,0.2); border-radius: 99px; padding: 5px 10px; font-size: 12px; backdrop-filter: blur(4px); }
-    .pkg-body { padding: 16px; }
-    .pkg-title { font-size: 19px; font-weight: 700; color: #1a2a40; margin-bottom: 6px; }
-    .pkg-desc { font-size: 13.5px; color: #6a7a8e; line-height: 1.5; margin-bottom: 14px; }
-    .pkg-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-    .pkg-price strong { font-size: 24px; font-weight: 800; color: #1a2a40; }
-    .pkg-price span { font-size: 12px; color: #8fa3bf; }
+    .pkg-duration-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 3;
+      background: #141820;
+      color: #fff;
+      border-radius: 8px;
+      padding: 6px 11px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      line-height: 1.25;
+      max-width: calc(100% - 20px);
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .pkg-body { padding: 18px 20px 20px; }
+    .pkg-title { font-size: 20px; font-weight: 800; color: #101820; margin: 0 0 8px; letter-spacing: -0.02em; }
+    .pkg-desc { font-size: 13.5px; color: #5c6b7e; line-height: 1.55; margin: 0 0 14px; }
+    .pkg-meta-box {
+      background: #e8f3fb;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      display: grid;
+      gap: 10px;
+      border: 1px solid rgba(58, 158, 255, 0.12);
+    }
+    .pkg-meta-row {
+      display: grid;
+      grid-template-columns: minmax(76px, 100px) minmax(0, 1fr);
+      gap: 10px 12px;
+      align-items: start;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .pkg-meta-lbl { font-weight: 700; color: var(--accent); }
+    .pkg-meta-val { color: #2f3d52; }
+    .pkg-features {
+      list-style: none;
+      margin: 0 0 4px;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .pkg-features li {
+      position: relative;
+      padding-left: 22px;
+      font-size: 13px;
+      color: #2f3d52;
+      line-height: 1.4;
+    }
+    .pkg-features li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #22c55e;
+      font-weight: 800;
+      font-size: 13px;
+    }
+    .pkg-variant-row { margin-bottom: 12px; }
+    .pkg-variant-row label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #5c6b7e;
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+    .pkg-variant-select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #c8d4e4;
+      font-size: 14px;
+      font-family: inherit;
+      color: #101820;
+      background: #fff;
+      cursor: pointer;
+    }
+    .pkg-variant-select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(47, 136, 231, 0.15);
+    }
+    .pkg-snorkel-note {
+      font-size: 12px;
+      color: #5c6b7e;
+      line-height: 1.5;
+      margin: 0 0 4px;
+      padding: 10px 12px;
+      background: #f4f7fb;
+      border-radius: 10px;
+      border: 1px dashed #c8d4e4;
+    }
+    .pkg-atv-unit-hint {
+      font-size: 11px;
+      color: #6a7a8e;
+      margin: 6px 0 0;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .pkg-footer-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding-top: 14px;
+      margin-top: 8px;
+      border-top: 1px solid #e8edf4;
+    }
+    .pkg-price-block { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+    .pkg-from { font-size: 12px; font-weight: 600; color: #1a2a40; }
+    .pkg-price-block .pkg-amount { display: flex; align-items: baseline; gap: 4px; flex-wrap: wrap; }
+    .pkg-price-block .pkg-amount strong { font-size: 26px; font-weight: 800; color: var(--accent); letter-spacing: -0.02em; }
+    .pkg-price-block .pkg-amount span { font-size: 12px; color: #6a7a8e; font-weight: 500; }
     .pkg-rating { font-size: 12px; color: #556a82; display: flex; align-items: center; gap: 4px; }
     .pkg-rating .stars-gold { color: #f4b837; letter-spacing: 1px; }
     .rating-stars-row {
@@ -759,6 +895,23 @@
       box-shadow: 0 4px 12px rgba(58,158,255,0.3);
     }
     .btn-book-sm:hover { transform: scale(1.04); box-shadow: 0 6px 16px rgba(58,158,255,0.4); }
+    .btn-book-pill {
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(110deg, #2f88e7, #1a6fd4);
+      color: #fff;
+      border-radius: 10px;
+      padding: 11px 22px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 14px rgba(47, 136, 231, 0.35);
+      transition: 0.2s ease;
+      font-family: inherit;
+      flex-shrink: 0;
+    }
+    .btn-book-pill:hover { transform: scale(1.03); box-shadow: 0 6px 18px rgba(58,158,255,0.45); }
 
     /* ─── GALLERY CAROUSEL ─── */
     .gallery-section { padding-top: 72px; position: relative; }
@@ -879,20 +1032,137 @@
     }
     .gallery-dot.active { width: 24px; border-radius: 99px; background: var(--accent); }
 
-    /* ─── REVIEWS ─── */
-    .reviews-section { padding-top: 72px; }
-    .review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
-    .rv-card { background: #fff; border: 1px solid #e4edf8; border-radius: 20px; overflow: hidden; box-shadow: 0 6px 16px rgba(20,50,100,0.07); }
-    .rv-photo { min-height: 200px; background-size: cover; background-position: center; background-repeat: no-repeat; }
-    .rv-photo.rp1 { background-image: url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=75'); }
-    .rv-photo.rp2 { background-image: url('https://images.unsplash.com/photo-1468824357306-a439d58ccb1c?w=600&q=75'); }
-    .rv-photo.rp3 { background-image: url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&q=75'); }
-    .rv-body { padding: 18px 16px; text-align: center; }
-    .rv-avatar { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; font-size: 26px; margin: 0 auto 10px; }
-    .av-a { background: #ede8ff; } .av-b { background: #ffeecf; } .av-c { background: #d8f2d4; }
-    .rv-name { font-size: 15px; font-weight: 700; color: #1a2a40; margin-bottom: 4px; }
-    .rv-stars { color: #f4b837; font-size: 14px; margin-bottom: 8px; font-weight: 600; letter-spacing: 3px; }
-    .rv-text { font-size: 13.5px; color: #556a82; line-height: 1.55; }
+    /* ─── REVIEWS (aligned with packages grid + section typography) ─── */
+    .reviews-section {
+      padding-top: 72px;
+      padding-bottom: 64px;
+    }
+    .reviews-head {
+      text-align: center;
+      max-width: 1280px;
+      margin: 0 auto 28px;
+    }
+    .reviews-head .section-eyebrow { margin-bottom: 12px; }
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px 20px;
+      max-width: 1280px;
+      margin: 0 auto;
+      align-items: stretch;
+    }
+    .rv-card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #e4eaf2;
+      box-shadow: 0 8px 26px rgba(15, 23, 42, 0.07);
+      background: #fff;
+      transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+    }
+    .rv-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.11);
+      border-color: #d5dee9;
+    }
+    .rv-card-photo {
+      padding: 0;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      min-height: 220px;
+    }
+    .rv-card-photo .rv-photo {
+      display: block;
+      flex: 1 1 auto;
+      width: 100%;
+      min-height: 220px;
+      height: 100%;
+      margin: 0;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-radius: 0;
+      animation: none;
+    }
+    .rv-photo.rp1 { background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=900&q=75'); }
+    .rv-photo.rp2 { background-image: url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=900&q=75'); }
+    .rv-photo.rp3 { background-image: url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=900&q=75'); }
+    .rv-card-quote {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 220px;
+      padding: 0;
+      overflow: hidden;
+    }
+    .rv-fold {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(145deg, #bfe0ff 0%, #7eb8ff 100%);
+      clip-path: polygon(100% 0, 100% 100%, 0 0);
+      pointer-events: none;
+      z-index: 2;
+    }
+    .rv-fold-plane {
+      position: absolute;
+      top: 9px;
+      right: 7px;
+      width: 16px;
+      height: 16px;
+      z-index: 3;
+      fill: #fff;
+      filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+    }
+    .rv-quote-body {
+      position: relative;
+      z-index: 1;
+      padding: 28px 22px 26px;
+      text-align: center;
+      width: 100%;
+    }
+    .rv-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      font-weight: 700;
+      margin: 0 auto 10px;
+      color: #2a3a52;
+      border: 2px solid #fff;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+    }
+    .av-a { background: linear-gradient(145deg, #ffe8f2, #ffd0e5); }
+    .av-b { background: linear-gradient(145deg, #e4f1ff, #cfe6ff); }
+    .av-c { background: linear-gradient(145deg, #e5faf0, #cff5df); }
+    .rv-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a2a40;
+      margin-bottom: 8px;
+      letter-spacing: 0.01em;
+    }
+    .rv-stars {
+      color: var(--accent);
+      font-size: 14px;
+      margin-bottom: 12px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      line-height: 1;
+    }
+    .rv-text {
+      font-size: 15px;
+      color: #556a82;
+      line-height: 1.65;
+      max-width: 34ch;
+      margin: 0 auto;
+    }
 
     /* ─── CAR RENTAL ─── */
     .cars-section { padding-top: 72px; }
@@ -924,20 +1194,20 @@
       display: grid;
       grid-template-columns: 1.15fr 1fr;
       gap: 12px;
-      align-items: stretch;
-      padding: 26px 30px;
+      align-items: center;
+      padding: 18px 26px;
       position: relative;
       isolation: isolate;
-      min-height: 295px;
+      min-height: 0;
     }
     .car-rental-banner::before {
       content: '';
       position: absolute;
       inset: 0;
-      width: 54%;
+      width: 46%;
       z-index: 0;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='360' viewBox='0 0 640 360'%3E%3Cg fill='none' stroke='%23c8ced8' stroke-width='4' stroke-linecap='round' opacity='0.9'%3E%3Cpath d='M-20 56 C 90 30, 146 108, 248 84 S 422 34, 560 84'/%3E%3Cpath d='M16 170 C 120 126, 202 202, 306 158 S 492 122, 640 170'/%3E%3Cpath d='M-30 294 C 86 232, 168 322, 292 274 S 504 248, 664 290'/%3E%3Cpath d='M116 -12 C 126 74, 84 126, 128 206 S 214 320, 238 392'/%3E%3Cpath d='M292 -24 C 274 56, 344 126, 300 196 S 232 302, 288 388'/%3E%3Cpath d='M470 -18 C 500 48, 444 122, 498 184 S 580 304, 552 380'/%3E%3C/g%3E%3Cg fill='none' stroke='%23bcc5d1' stroke-width='2' opacity='0.75'%3E%3Cpath d='M58 90 L118 126 L176 96 L238 136'/%3E%3Cpath d='M86 230 L142 268 L198 236 L266 276'/%3E%3C/g%3E%3Cg fill='%23c5ccd7' opacity='0.82'%3E%3Cpath d='M84 112 c-10 0-18 8-18 18 0 14 18 34 18 34s18-20 18-34c0-10-8-18-18-18zm0 24a6 6 0 1 1 0-12 6 6 0 0 1 0 12z'/%3E%3Cpath d='M156 278 c-10 0-18 8-18 18 0 14 18 34 18 34s18-20 18-34c0-10-8-18-18-18zm0 24a6 6 0 1 1 0-12 6 6 0 0 1 0 12z'/%3E%3Cpath d='M34 40 l22 9 -12 9 -10-18z'/%3E%3Cpath d='M14 322 l20 10 -11 8 -9-18z'/%3E%3C/g%3E%3C/svg%3E");
-      background-size: cover;
+      background-size: 68% auto;
       background-position: left center;
       background-repeat: no-repeat;
       pointer-events: none;
@@ -947,15 +1217,15 @@
       position: absolute;
       top: 0;
       bottom: 0;
-      right: 110px;
-      width: 220px;
-      border-radius: 12px;
+      right: 0;
+      width: min(220px, 25%);
+      border-radius: 14px 0 0 14px;
       background: linear-gradient(180deg, var(--accent), #1e76d8);
       box-shadow: 0 12px 24px rgba(58,158,255,0.28);
       z-index: 0;
       pointer-events: none;
-      transform: scaleY(1.08);
-      transform-origin: center;
+      transform: scaleY(1.15);
+      transform-origin: center right;
     }
     .car-rental-intro { position: relative; z-index: 1; }
     .car-rental-kicker {
@@ -979,10 +1249,10 @@
       height: 4px;
       border-radius: 99px;
       background: var(--accent);
-      margin-top: 12px;
+      margin-top: 8px;
     }
     .car-rental-intro p {
-      margin: 12px 0 0;
+      margin: 8px 0 0;
       font-size: 16px;
       line-height: 1.58;
       color: #626b78;
@@ -1009,7 +1279,7 @@
       border: 0;
       background: transparent;
       box-shadow: none;
-      min-height: 100%;
+      min-height: 0;
       position: relative;
       display: flex;
       align-items: center;
@@ -1021,27 +1291,27 @@
     .car-rental-hero-car {
       position: relative;
       z-index: 2;
-      width: min(170%, 620px);
-      height: 265px;
+      width: min(292%, 960px);
+      height: 390px;
       background-image: url('/Users/fatinshamirah/.cursor/projects/Users-fatinshamirah-website-sml/assets/image-removebg-preview-6-6b6c5680-96aa-4c81-a323-597c2396cc2d.png');
       background-repeat: no-repeat;
-      background-position: center;
+      background-position: center right;
       background-size: contain;
-      transform: translateX(74px);
+      transform: translateX(124px);
       filter: drop-shadow(0 14px 18px rgba(10,24,50,0.28));
     }
-    .car-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px 18px; margin-top: 12px; }
+    .car-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 22px; margin-top: 12px; }
     .car-card {
       background: #f3f5f9;
       border: 1px solid #e3e8f1;
       border-radius: 8px;
-      padding: 78px 14px 14px;
+      padding: 102px 14px 14px;
       box-shadow: 0 6px 14px rgba(20,50,100,0.06);
-      transition: 0.28s ease;
+      transition: box-shadow 0.28s ease;
       position: relative;
       overflow: visible;
+      z-index: 1;
     }
-    .car-card:hover { transform: translateY(-6px); box-shadow: 0 14px 28px rgba(20,50,100,0.12); }
     .car-card[data-hidden="true"] { display: none; }
     .car-top {
       display: flex;
@@ -1050,34 +1320,44 @@
       margin: 0;
       position: absolute;
       right: 14px;
-      top: 84px;
-      z-index: 5;
+      top: 102px;
+      z-index: 15;
     }
     .car-badge { font-size: 11px; font-weight: 700; border-radius: 2px; padding: 6px 10px; color: #fff; }
     .cb-new { background: #ff4d45; }
     .cb-pop { background: #1f2d50; }
     .car-fav { display: none; }
     .car-img {
-      height: 130px;
-      width: calc(100% - 12px);
-      border-radius: 6px;
+      height: 158px;
+      width: min(116%, 340px);
+      border-radius: 0;
       margin: 0;
       background-color: transparent;
       background-size: contain;
       background-repeat: no-repeat;
-      background-position: center;
+      background-position: center bottom;
       position: absolute;
-      left: 6px;
-      top: -34px;
-      z-index: 4;
-      filter: drop-shadow(0 14px 12px rgba(10,26,56,0.18));
+      left: 50%;
+      top: -58px;
+      transform: translateX(-50%);
+      z-index: 12;
+      filter:
+        drop-shadow(0 22px 18px rgba(10, 26, 56, 0.28))
+        drop-shadow(0 10px 8px rgba(10, 26, 56, 0.14));
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
+    }
+    .car-card:hover .car-img {
+      transform: translateX(-50%) translateY(-8px) scale(1.045);
+      filter:
+        drop-shadow(0 28px 24px rgba(10, 26, 56, 0.34))
+        drop-shadow(0 14px 10px rgba(10, 26, 56, 0.18));
     }
     .ci-bezza { background-image: url('/Users/fatinshamirah/.cursor/projects/Users-fatinshamirah-website-sml/assets/image-removebg-preview-6-6b6c5680-96aa-4c81-a323-597c2396cc2d.png'); }
-    .ci-scooter { background-image: url('https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=500&q=75'); }
-    .ci-brv { background-image: url('https://images.unsplash.com/photo-1493238792000-8113da705763?w=500&q=75'); }
-    .ci-vios { background-image: url('https://images.unsplash.com/photo-1550355291-bbee04a92027?w=500&q=75'); }
-    .ci-serena { background-image: url('/Users/fatinshamirah/.cursor/projects/Users-fatinshamirah-website-sml/assets/image-removebg-preview-7bc23404-9f28-48cc-89fd-97705629db7f.png'); }
-    .ci-hiace { background-image: url('https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=500&q=75'); }
+    .ci-scooter { background-image: url('assets/fleet-scooter-150cc.png'); }
+    .ci-brv { background-image: url('assets/fleet-honda.png'); }
+    .ci-vios { background-image: url('assets/fleet-toyota-vios.png'); }
+    .ci-serena { background-image: url('assets/fleet-nissan-serena.png'); }
+    .ci-hiace { background-image: url('assets/fleet-toyota-hiace.png'); }
     .car-stars-row { color: #f3a531; font-size: 12px; margin-bottom: 6px; margin-top: 8px; }
     .car-name { font-size: 23px; font-weight: 800; color: #0f2140; margin-bottom: 8px; min-height: auto; line-height: 1.05; text-transform: uppercase; }
     .car-specs-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; margin-bottom: 12px; }
@@ -1100,10 +1380,9 @@
     .why-vid-pill { background: #fff; color: #1a2a40; border-radius: 12px; padding: 12px 18px; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; width: fit-content; transition: 0.2s ease; }
     .why-vid-pill:hover { transform: scale(1.03); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
     .why-vid-icon { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-size: 12px; }
-    .why-imgs { display: grid; grid-template-columns: 1fr 0.65fr; gap: 12px; align-items: start; }
+    .why-imgs { width: 100%; }
     .why-img { border-radius: 18px; border: 3px solid rgba(220,240,255,0.8); min-height: 200px; box-shadow: 0 12px 24px rgba(0,0,0,0.28); background-size: cover; background-position: center; background-repeat: no-repeat; }
-    .wi-a { background-image: url('https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=600&q=75'); }
-    .wi-b { background-image: url('https://images.unsplash.com/photo-1493238792000-8113da705763?w=600&q=75'); min-height: 140px !important; margin-top: 24px; }
+    .wi-a { background-image: url('./assets/about-collage-a.png'); min-height: clamp(200px, 26vw, 300px); }
     .partner-pill { background: #fff; color: #1a2a40; border-radius: 12px; padding: 10px 14px; width: fit-content; font-size: 13px; font-weight: 700; }
     .partner-pill span { color: var(--accent); }
     .why-title { font-size: clamp(30px,3.8vw,56px); font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.05; color: #fff; margin-bottom: 14px; }
@@ -1120,52 +1399,217 @@
       background: linear-gradient(145deg, #f6faff 0%, #edf4ff 100%);
       color: #1a2a40;
     }
-    .contact-head { margin-bottom: 22px; }
-    .contact-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 20px; }
-    .contact-card {
+    .contact-panel-wrap { max-width: 1120px; margin: 0 auto; }
+    .contact-panel {
+      position: relative;
+      overflow: hidden;
       background: #fff;
       border: 1.5px solid #dfebfa;
-      border-radius: 22px;
-      box-shadow: 0 10px 24px rgba(20,50,100,0.08);
-      padding: 22px;
+      border-radius: 24px;
+      box-shadow: 0 16px 44px rgba(20, 50, 100, 0.1);
+      padding: clamp(24px, 4vw, 40px);
     }
-    .contact-list { display: grid; gap: 12px; margin-top: 8px; }
-    .contact-item {
+    .contact-panel-grid {
       display: grid;
-      grid-template-columns: 40px 1fr;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(28px, 5vw, 48px);
+      align-items: start;
+    }
+    .contact-form-title {
+      font-size: clamp(24px, 3.4vw, 34px);
+      font-weight: 800;
+      color: #0f1e30;
+      margin: 0 0 12px;
+      line-height: 1.2;
+    }
+    .contact-form-title span { color: var(--accent); }
+    .contact-form-lead {
+      font-size: 14px;
+      color: #5c7087;
+      line-height: 1.55;
+      margin: 0 0 22px;
+    }
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+    .contact-field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a2a40;
+      margin-bottom: 6px;
+    }
+    .contact-input,
+    .contact-textarea {
+      width: 100%;
+      border: 1.5px solid #dce8f4;
+      background: #f5f9ff;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 14px;
+      color: #1a2a40;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .contact-textarea { min-height: 132px; resize: vertical; line-height: 1.5; }
+    .contact-input::placeholder,
+    .contact-textarea::placeholder { color: #98a8bc; }
+    .contact-input:focus,
+    .contact-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+      background: #fff;
+    }
+    .contact-submit {
+      margin-top: 4px;
+      align-self: flex-start;
+      border-radius: 14px;
+      padding: 13px 28px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(110deg, #3a9eff, #1e76d8);
+      box-shadow: 0 8px 22px rgba(58, 158, 255, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .contact-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(58, 158, 255, 0.42); }
+    .contact-aside { display: flex; flex-direction: column; gap: 16px; }
+    .contact-aside-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a2a40;
+      margin: 0 0 2px;
+    }
+    .contact-aside-list { display: grid; gap: 12px; }
+    .contact-aside-item {
+      display: grid;
+      grid-template-columns: 42px 1fr;
       gap: 12px;
       align-items: start;
+      padding: 12px 14px;
       background: #f7fbff;
       border: 1px solid #e4eefb;
-      border-radius: 12px;
-      padding: 10px 12px;
+      border-radius: 14px;
     }
-    .contact-ico {
-      width: 40px;
-      height: 40px;
-      border-radius: 11px;
+    .contact-aside-ico {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
       display: grid;
       place-items: center;
-      font-size: 18px;
+      font-size: 14px;
+      font-weight: 700;
       background: linear-gradient(130deg, #3a9eff, #1e76d8);
       color: #fff;
     }
-    .contact-item strong { display: block; font-size: 14px; color: #1a2a40; margin-bottom: 3px; }
-    .contact-item span { font-size: 13.5px; color: #5c7087; line-height: 1.5; }
-    .contact-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+    .contact-aside-item strong { display: block; font-size: 13px; color: #1a2a40; margin-bottom: 4px; }
+    .contact-aside-item span { font-size: 13px; color: #5c7087; line-height: 1.45; }
+    .contact-aside-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 2px; }
     .contact-btn {
-      border-radius: 10px; padding: 10px 16px; font-size: 13px; font-weight: 600; transition: 0.2s ease;
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: 0.2s ease;
     }
     .contact-btn.primary { background: linear-gradient(110deg, #3a9eff, #1e76d8); color: #fff; }
     .contact-btn.secondary { background: #f3f8ff; border: 1.5px solid #d5e5f8; color: #2a3a52; }
     .contact-btn:hover { transform: translateY(-2px); }
-    .contact-mini-title { font-size: 15px; font-weight: 700; color: #1a2a40; margin-bottom: 10px; }
-    .contact-mini-list { display: grid; gap: 8px; }
-    .contact-mini-list a {
-      display: block; font-size: 13.5px; color: #56708c; background: #f7fbff; border: 1px solid #e4eefb;
-      border-radius: 10px; padding: 10px 12px; transition: 0.15s ease;
+    .contact-social-label { font-size: 13px; font-weight: 600; color: #7a8ea8; margin: 6px 0 2px; }
+    .contact-social-row { margin-top: 2px; }
+    /* ─── FAQ (contact page) ─── */
+    .faq-section {
+      padding: 48px 52px 72px;
+      background: linear-gradient(145deg, #f6faff 0%, #edf4ff 100%);
+      color: #1a2a40;
     }
-    .contact-mini-list a:hover { border-color: #c6dcf5; color: #1e76d8; }
+    .faq-inner { max-width: 1180px; margin: 0 auto; }
+    .faq-head {
+      margin-bottom: 8px;
+      min-width: 0;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+    .faq-eyebrow {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+      margin: 0 0 8px;
+    }
+    .faq-main-title {
+      font-size: clamp(22px, 3.2vw, 34px);
+      font-weight: 800;
+      color: #0f1e30;
+      line-height: 1.3;
+      margin: 0;
+    }
+    .faq-list {
+      max-width: 920px;
+      margin: 28px auto 0;
+      text-align: left;
+    }
+    .faq-item {
+      border-bottom: 1px solid #dce8f5;
+      transition: box-shadow 0.25s ease, background 0.25s ease;
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-trigger {
+      display: grid;
+      grid-template-columns: 48px 1fr 28px;
+      gap: 14px;
+      align-items: center;
+      width: 100%;
+      padding: 22px 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      font: inherit;
+    }
+    .faq-num {
+      font-size: 15px;
+      color: #9eb0c4;
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+    }
+    .faq-q {
+      font-size: 17px;
+      font-weight: 600;
+      color: #0f1e30;
+      line-height: 1.35;
+    }
+    .faq-item.is-open .faq-q { color: var(--accent); }
+    .faq-toggle {
+      font-size: 24px;
+      color: #c5d2e2;
+      font-weight: 300;
+      line-height: 1;
+      justify-self: end;
+      user-select: none;
+    }
+    .faq-item.is-open .faq-toggle { color: var(--accent); }
+    .faq-item.is-open .faq-plus { display: none; }
+    .faq-item.is-open .faq-x { display: inline; }
+    .faq-x { display: none; }
+    .faq-answer {
+      display: none;
+      padding: 0 0 20px 62px;
+      font-size: 14px;
+      color: #6b7d94;
+      line-height: 1.65;
+    }
+    .faq-item.is-open .faq-answer { display: block; }
+    .faq-item.is-open {
+      background: #fff;
+      border-radius: 22px;
+      padding: 6px 22px 4px;
+      margin: 18px 0;
+      border-bottom: none;
+      box-shadow: 0 14px 36px rgba(20, 50, 100, 0.1);
+      border: 1px solid #eef4fb;
+    }
+    .faq-item.is-open + .faq-item { border-top: 1px solid transparent; }
 
     .site-footer {
       background: #f7f9fc;
@@ -1252,7 +1696,9 @@
     .page-section .review-grid,
     .page-section .car-grid,
     .page-section .why-grid,
-    .page-section .contact-grid {
+    .page-section .contact-panel-wrap,
+    .page-section .faq-head,
+    .page-section .faq-list {
       opacity: 0;
       transform: translateY(18px);
       transition: opacity 0.55s ease, transform 0.55s ease;
@@ -1269,7 +1715,9 @@
     .page-section.active .review-grid,
     .page-section.active .car-grid,
     .page-section.active .why-grid,
-    .page-section.active .contact-grid {
+    .page-section.active .contact-panel-wrap,
+    .page-section.active .faq-head,
+    .page-section.active .faq-list {
       opacity: 1;
       transform: translateY(0);
     }
@@ -1285,7 +1733,9 @@
     .page-section.active .review-grid,
     .page-section.active .car-grid,
     .page-section.active .why-grid,
-    .page-section.active .contact-grid { transition-delay: 210ms; }
+    .page-section.active .contact-panel-wrap,
+    .page-section.active .faq-head,
+    .page-section.active .faq-list { transition-delay: 210ms; }
     [data-parallax] {
       will-change: transform;
       transform: translate3d(0, 0, 0);
@@ -1294,9 +1744,9 @@
     .hero-stat:nth-child(2) { animation-delay: 0.25s; }
     .hero-stat:nth-child(3) { animation-delay: 0.5s; }
     .hero-stat:nth-child(4) { animation-delay: 0.75s; }
-    .btn-primary, .btn-outline, .search-go, .btn-book-sm, .btn-rent { animation: btnPulse 3.8s ease-in-out infinite; }
-    .wc-card, .svc-card, .pkg-card, .car-card, .contact-card, .stat-box { animation: cardDrift 6s ease-in-out infinite; }
-    .wc-card:nth-child(even), .svc-card:nth-child(even), .pkg-card:nth-child(even), .car-card:nth-child(even), .contact-card:nth-child(even), .stat-box:nth-child(even) { animation-delay: 0.45s; }
+    .btn-primary, .btn-outline, .search-go, .btn-book-sm, .btn-book-pill, .btn-rent { animation: btnPulse 3.8s ease-in-out infinite; }
+    .wc-card, .svc-card, .pkg-card, .car-card, .stat-box { animation: cardDrift 6s ease-in-out infinite; }
+    .wc-card:nth-child(even), .svc-card:nth-child(even), .pkg-card:nth-child(even), .car-card:nth-child(even), .stat-box:nth-child(even) { animation-delay: 0.45s; }
     .img-badge, .car-badge { animation: badgePulse 2.8s ease-in-out infinite; }
     .looping { animation: scrollBounce 0.9s ease-in-out 1 !important; }
     @keyframes softFloat {
@@ -1343,7 +1793,7 @@
     }
     .gallery-wrap,
     .why-section,
-    .contact-card,
+    .contact-panel,
     .rv-card,
     .pkg-card,
     .car-card,
@@ -1353,7 +1803,7 @@
     .stat-box { animation: cardDrift 6s ease-in-out infinite, sectionGlow 7.5s ease-in-out infinite; }
     .gallery-wrap,
     .why-section,
-    .contact-card { animation-duration: 7s, 9s; }
+    .contact-panel { animation-duration: 7s, 9s; }
     .section-eyebrow,
     .section-title { animation: textBreath 5.8s ease-in-out infinite; transform-origin: left center; }
     .section-title span { display: inline-block; background: linear-gradient(90deg, #2f88e7, #f2c14e, #d9a62f, #2f88e7); background-size: 240% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shineSweep 4.8s linear infinite; }
@@ -1361,7 +1811,7 @@
     .svc-ico,
     .vm-icon,
     .success-icon,
-    .contact-ico { animation: iconWiggle 4.5s ease-in-out infinite; transform-origin: center; }
+    .contact-aside-ico { animation: iconWiggle 4.5s ease-in-out infinite; transform-origin: center; }
     .pkg-img,
     .rv-photo,
     .collage .col-img { animation: softTilt 8s ease-in-out infinite; transform-origin: center center; }
@@ -1504,7 +1954,12 @@
       .topbar { padding: calc(12px + env(safe-area-inset-top, 0px)) var(--gutter-tablet) 12px; }
       .company-logo { height: 56px; }
       .sky-wrap, .search-section, .light-wrap { padding-left: var(--gutter-tablet); padding-right: var(--gutter-tablet); }
-      .pkg-grid, .car-grid { grid-template-columns: repeat(2, 1fr); }
+      .pkg-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        max-width: none;
+        gap: 18px 16px;
+      }
+      .car-grid { grid-template-columns: repeat(2, 1fr); }
       .gallery-stage { height: 360px; }
       .gallery-card { width: 260px; height: 330px; }
       .vm-grid { grid-template-columns: 1fr; }
@@ -1513,7 +1968,8 @@
       .s-chip:nth-child(4), .s-chip:nth-child(5) { display: none; }
       .review-grid { grid-template-columns: 1fr 1fr; }
       .contact-section { padding: 52px var(--gutter-tablet) 44px; }
-      .contact-grid { grid-template-columns: 1fr; }
+      .faq-section { padding: 40px var(--gutter-tablet) 52px; }
+      .contact-panel-grid { grid-template-columns: 1fr; }
       .site-footer { padding: 32px var(--gutter-tablet) calc(16px + env(safe-area-inset-bottom, 0px)); }
       .footer-main { grid-template-columns: 1fr 1fr; gap: 24px; }
       body.inner-page .light-wrap { padding-top: 20px; }
@@ -1534,40 +1990,68 @@
         margin-top: 16px;
         opacity: 0.72;
       }
-      .pkg-grid, .car-grid, .review-grid { grid-template-columns: 1fr; }
+      .pkg-grid { grid-template-columns: 1fr; max-width: none; }
+      .car-grid, .review-grid { grid-template-columns: 1fr; }
       .car-rental-banner {
         margin: 4px 0 12px;
         border-radius: 14px;
-        grid-template-columns: 1fr;
-        gap: 8px;
-        padding: 16px 14px;
+        grid-template-columns: minmax(0, 1fr) minmax(148px, 58vw);
+        gap: 6px 4px;
+        padding: 12px 6px 12px 12px;
         min-height: 0;
+        align-items: center;
+      }
+      .car-rental-intro {
+        min-width: 0;
       }
       .car-rental-banner::before {
         width: 100%;
-        opacity: 0.7;
+        opacity: 0.55;
+        background-size: 42% auto;
+        background-position: left center;
       }
       .car-rental-banner::after {
-        width: 146px;
-        right: 46px;
-        transform: scaleY(1.06);
+        width: min(148px, 36vw);
+        right: 0;
+        border-radius: 14px 0 0 14px;
+        transform: scaleY(1.12);
+        transform-origin: center right;
+        opacity: 0.95;
       }
       .car-rental-intro h3 {
-        font-size: clamp(30px, 10.4vw, 40px);
+        font-size: clamp(22px, 5.5vw, 34px);
+        max-width: none;
       }
       .car-rental-intro p {
-        font-size: 14px;
+        font-size: 13px;
+        margin-top: 8px;
+        max-width: none;
+      }
+      .car-rental-kicker {
+        margin-bottom: 4px;
+      }
+      .car-rental-intro-line {
+        margin-top: 8px;
       }
       .car-rental-visual {
-        min-height: 210px;
+        min-height: 0;
+        align-self: stretch;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-left: 0;
+        margin-right: -10px;
       }
       .car-rental-visual::before {
         content: none;
       }
       .car-rental-hero-car {
-        height: 172px;
-        width: min(150%, 420px);
-        transform: translateX(42px);
+        height: clamp(176px, 50vw, 288px);
+        width: 100%;
+        max-width: min(380px, 68vw);
+        margin-left: auto;
+        transform: translateX(22px);
+        background-position: center right;
       }
       .car-tabs.after-intro {
         margin: 4px 0 12px;
@@ -1577,6 +2061,8 @@
         scrollbar-width: none;
       }
       .car-tabs.after-intro::-webkit-scrollbar { display: none; }
+      .pkg-meta-row { grid-template-columns: 1fr; gap: 4px; }
+      .pkg-meta-lbl { margin-bottom: 2px; }
       .svc-carousel { padding: 24px 12px 28px; }
       .svc-carousel::before, .svc-carousel::after { width: 34px; }
       .svc-card { width: 188px; min-width: 188px; padding: 16px 12px; }
@@ -1640,6 +2126,10 @@
       .hero-stats { flex-wrap: wrap; justify-content: center; row-gap: 14px; }
       .hero-stat { min-width: 120px; }
       .contact-section { padding: 44px var(--gutter-mobile) 36px; }
+      .faq-section { padding: 32px var(--gutter-mobile) 40px; }
+      .faq-trigger { grid-template-columns: 36px 1fr 22px; gap: 8px; padding: 18px 0; }
+      .faq-q { font-size: 15px; }
+      .faq-answer { padding-left: 0; }
       .contact-actions { flex-direction: column; }
       .site-footer { padding: 28px var(--gutter-mobile) calc(14px + env(safe-area-inset-bottom, 0px)); }
       .footer-main { grid-template-columns: 1fr; gap: 20px; }
@@ -1694,7 +2184,7 @@
     .reveal-rotate.show { opacity: 1; transform: none; }
 
     /* ── Shimmer on cards (::before overlay) — wc-card excluded: preserves timeline branch (::before) & dots (::after) ── */
-    .pkg-card, .rv-card, .car-card, .vm-card, .contact-card, .stat-box {
+    .pkg-card, .rv-card, .vm-card, .contact-panel, .stat-box {
       overflow: hidden;
     }
     .why-choose-section .wc-card {
@@ -1704,7 +2194,7 @@
     .rv-card::before,
     .car-card::before,
     .vm-card::before,
-    .contact-card::before,
+    .contact-panel::before,
     .stat-box::before {
       content: '';
       position: absolute;
@@ -1720,7 +2210,7 @@
     .rv-card:hover::before,
     .car-card:hover::before,
     .vm-card:hover::before,
-    .contact-card:hover::before,
+    .contact-panel:hover::before,
     .stat-box:hover::before {
       transform: translateX(110%);
       transition: transform 0.55s ease;
@@ -1729,7 +2219,7 @@
     /* ── Glowing border pulse on hover ── */
     .pkg-card:hover  { box-shadow: 0 16px 32px rgba(20,50,100,0.13), 0 0 0 2px rgba(58,158,255,0.25), 0 0 28px rgba(58,158,255,0.12) !important; }
     .svc-card:hover  { box-shadow: 0 15px 30px rgba(20,50,100,0.14), 0 0 0 2px rgba(58,158,255,0.3), 0 0 24px rgba(58,158,255,0.18) !important; }
-    .car-card:hover  { box-shadow: 0 14px 28px rgba(20,50,100,0.12), 0 0 0 2px rgba(242,193,78,0.3), 0 0 20px rgba(242,193,78,0.1) !important; }
+    .car-card:hover  { z-index: 6; box-shadow: 0 18px 36px rgba(20,50,100,0.15), 0 0 0 2px rgba(242,193,78,0.35), 0 0 26px rgba(242,193,78,0.14) !important; }
     .stat-box:hover  { box-shadow: 0 10px 24px rgba(20,50,100,0.1), 0 0 0 2px rgba(58,158,255,0.2) !important; }
 
     /* ── Gallery card tilt (JS-driven, prep styles) ── */
@@ -1764,6 +2254,45 @@
       -webkit-text-fill-color: var(--gold-deep);
       background: none;
     }
+    /* Reviews: same Poppins scale as site, no gold sweep (two-line accent title) */
+    .reviews-section h2.section-title.reviews-title {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 2px;
+      max-width: 900px;
+      margin: 0 auto 0;
+      padding: 0 8px;
+      background: none;
+      -webkit-text-fill-color: #1a2a40;
+      color: #1a2a40;
+      -webkit-background-clip: unset;
+      background-clip: unset;
+      animation: none !important;
+    }
+    .reviews-section h2.section-title.reviews-title .rt-line1,
+    .reviews-section h2.section-title.reviews-title .rt-line2 {
+      display: block;
+      width: 100%;
+      background: none;
+      animation: none;
+    }
+    .reviews-section h2.section-title.reviews-title .rt-line1 {
+      font-size: clamp(30px, 3.4vw, 44px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: #1a2a40;
+      -webkit-text-fill-color: #1a2a40;
+    }
+    .reviews-section h2.section-title.reviews-title .rt-line2 {
+      font-size: clamp(34px, 3.8vw, 56px);
+      font-weight: 800;
+      line-height: 1.08;
+      margin-top: 4px;
+      color: var(--accent);
+      -webkit-text-fill-color: var(--accent);
+    }
     @keyframes titleSweep {
       0%,100% { background-position: 0% 0%; }
       50%      { background-position: 100% 0%; }
@@ -1792,7 +2321,7 @@
     }
 
     /* ── Magnetic button – JS handles translate, CSS sets transition ── */
-    .btn-primary, .btn-outline, .search-go, .btn-book-sm, .btn-rent {
+    .btn-primary, .btn-outline, .search-go, .btn-book-sm, .btn-book-pill, .btn-rent {
       transition: transform 0.18s cubic-bezier(0.22,1,0.36,1),
                   box-shadow 0.18s ease, background 0.2s ease !important;
     }
@@ -1817,9 +2346,9 @@
     .why-item:nth-child(2) { transition-delay: 150ms; }
     .why-item:nth-child(3) { transition-delay: 250ms; }
 
-    /* ── Contact item stagger ── */
-    .contact-item { opacity: 0; transform: translateY(12px); transition: opacity 0.48s ease, transform 0.48s cubic-bezier(0.22,1,0.36,1); }
-    .contact-item.show { opacity: 1; transform: translateY(0); }
+    /* ── Contact aside stagger ── */
+    .contact-aside-item { opacity: 0; transform: translateY(12px); transition: opacity 0.48s ease, transform 0.48s cubic-bezier(0.22,1,0.36,1); }
+    .contact-aside-item.show { opacity: 1; transform: translateY(0); }
 
     /* ── Collage image tilt ── */
     .col-img { transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease; }
@@ -1858,24 +2387,20 @@
     .stat-big, .hero-stat strong { display: inline-block; }
     .hero-stat strong.hero-rating-stars { display: block; }
 
-    /* ── Package badge float ── */
-    .pkg-badge {
-      transition: transform 0.3s ease, background 0.3s ease;
-    }
-    .pkg-card:hover .pkg-badge { transform: translateY(-2px) scale(1.04); background: rgba(8,24,52,0.82); }
+    .pkg-card:hover .pkg-duration-badge { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28); }
 
     /* ── Social btn spin on hover ── */
     .social-btn { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s ease, box-shadow 0.2s ease; }
     .social-btn:hover { transform: translateY(-3px) rotate(8deg) scale(1.08) !important; }
 
-    /* ── Contact card border glow ── */
-    .contact-card {
+    /* ── Contact panel border glow ── */
+    .contact-panel {
       transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s cubic-bezier(0.22,1,0.36,1);
     }
-    .contact-card:hover {
-      transform: translateY(-5px);
+    .contact-panel:hover {
+      transform: translateY(-4px);
       border-color: rgba(58,158,255,0.3);
-      box-shadow: 0 16px 32px rgba(20,50,100,0.12), 0 0 0 1px rgba(58,158,255,0.18), 0 0 20px rgba(58,158,255,0.07);
+      box-shadow: 0 20px 44px rgba(20,50,100,0.14), 0 0 0 1px rgba(58,158,255,0.18), 0 0 20px rgba(58,158,255,0.07);
     }
 
     /* ── Why icon orbit glow ── */
@@ -1891,15 +2416,6 @@
     /* ── Section title word-pop (animated spans added by JS) ── */
     .word-pop { display: inline-block; animation: wordPop 0.55s cubic-bezier(0.34,1.56,0.64,1) both; }
     @keyframes wordPop { from { opacity:0; transform:translateY(16px) scale(0.9); } to { opacity:1; transform:none; } }
-
-    /* ── Review card entrance ── */
-    .rv-card {
-      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease;
-    }
-    .rv-card:hover {
-      transform: translateY(-7px) scale(1.01);
-      box-shadow: 0 18px 36px rgba(20,50,100,0.12);
-    }
 
     /* ── Floating action button pulse ring ── */
     .float-whatsapp::before {
@@ -1986,10 +2502,12 @@
     .s-chip:hover label { color: var(--gold-deep); transition: color 0.18s ease; }
 
     /* ── Btn book sm sparkle ring ── */
-    .btn-book-sm {
+    .btn-book-sm,
+    .btn-book-pill {
       position: relative;
     }
-    .btn-book-sm::after {
+    .btn-book-sm::after,
+    .btn-book-pill::after {
       content: '';
       position: absolute; inset: 0; border-radius: inherit;
       background: transparent;
@@ -2018,9 +2536,9 @@
       50%     { transform: translate(-40px,40px) scale(1.1); }
     }
 
-    /* ── Contact section floating icon ── */
-    .contact-ico { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
-    .contact-item:hover .contact-ico { transform: scale(1.15) rotate(-5deg); }
+    /* ── Contact aside floating icon ── */
+    .contact-aside-ico { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+    .contact-aside-item:hover .contact-aside-ico { transform: scale(1.15) rotate(-5deg); }
 
     /* ── img-badge pop ── */
     .img-badge { animation: badgePop 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
@@ -2105,7 +2623,7 @@
       <button class="lang-btn active" id="langEN" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="langZH" onclick="setLang('zh')">中文</button>
     </div>
-    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileNav()" aria-label="Open menu">≡</button>
+    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileNav()" data-i18n-aria="aria_nav_menu" aria-label="Open menu">≡</button>
   </div>
 </header>
 <!-- SIMPLE NAV DROPDOWN -->
@@ -2123,8 +2641,7 @@
   <!-- SLIDESHOW -->
   <div class="hero-slideshow" id="heroSlideshow" data-parallax data-speed="0.08">
     <div class="hero-slide hs1 active"></div>
-    <div class="hero-slide hs2"></div>
-    <div class="hero-slide hs3"></div>
+    <div class="hero-slide hs-solid"></div>
     <div class="hero-slide hs5"></div>
   </div>
   <div class="aurora" data-parallax data-speed="0.22"></div>
@@ -2146,7 +2663,7 @@
     <div class="hero-stats">
       <div class="hero-stat"><strong>5k+</strong><span data-i18n="stat_clients">Clients Served</span></div>
       <div class="hero-stat"><strong>120+</strong><span data-i18n="stat_exp">Local Experiences</span></div>
-      <div class="hero-stat"><strong class="hero-rating-stars" aria-label="4.9 out of 5 stars">★★★★★</strong><span data-i18n="stat_rating">Average Rating</span></div>
+      <div class="hero-stat"><strong class="hero-rating-stars" data-i18n-aria="aria_hero_rating" aria-label="4.9 out of 5 stars average rating">★★★★★</strong><span data-i18n="stat_rating">Average Rating</span></div>
       <div class="hero-stat"><strong>24/7</strong><span data-i18n="stat_support">Support Team</span></div>
     </div>
     <div class="hero-scroll"><span class="scroll-arrow">↓</span><span data-i18n="hero_scroll">Scroll to explore</span></div>
@@ -2156,7 +2673,6 @@
     <button class="ss-dot active" onclick="goSlide(0)"></button>
     <button class="ss-dot" onclick="goSlide(1)"></button>
     <button class="ss-dot" onclick="goSlide(2)"></button>
-    <button class="ss-dot" onclick="goSlide(3)"></button>
   </div>
 </div>
 
@@ -2385,104 +2901,103 @@
   <section class="packages-section reveal page-section" data-page="packages" id="packages" style="--d:0ms;">
     <div class="packages-head">
       <div>
-        <p class="section-eyebrow" data-i18n="pkg_eyebrow">Top Experiences</p>
-        <h2 class="section-title" data-i18n="pkg_title">Top Langkawi <span>Highlights</span></h2>
+        <p class="section-eyebrow" data-i18n="pkg_eyebrow">Featured Tours</p>
+        <h2 class="section-title" data-i18n="pkg_title">Popular <span>Package Tours</span></h2>
       </div>
     </div>
     <div class="pkg-grid" id="pkgGrid">
 
-      <!-- Card 1 -->
-      <article class="pkg-card reveal" style="--d:0ms;" data-cat="nature">
-        <div class="pkg-img pi-skybridge">
-          <div class="pkg-badges"><span class="pkg-badge" data-i18n="badge_nature">Nature</span><span class="pkg-badge" data-i18n="badge_half">Half day</span></div>
+      <!-- Mangrove Sharing -->
+      <article class="pkg-card reveal" style="--d:0ms;" data-cat="tour">
+        <div class="pkg-img pi-sharing-basis" role="img" aria-label="">
+          <span class="pkg-duration-badge" data-i18n="pkg2_dur">Max 4 hours</span>
         </div>
         <div class="pkg-body">
-          <h3 class="pkg-title" data-i18n="pkg1_t">SkyBridge Adventure</h3>
-          <p class="pkg-desc" data-i18n="pkg1_d">Ride the cable car and walk above rainforest peaks with panoramic sea views.</p>
-          <div class="pkg-footer">
-            <div class="pkg-price"><strong>RM 180</strong><span>/pax</span></div>
-            <div class="pkg-rating"><span class="rating-stars-row" aria-label="4.9 out of 5">★★★★★</span></div>
-            <button class="btn-book-sm" onclick="openBooking('SkyBridge Adventure','RM 180',180,'nature','天空之桥探险')" data-i18n="pkg_book">Book Now</button>
+          <h3 class="pkg-title" data-i18n="pkg2_t">Mangrove Sharing</h3>
+          <p class="pkg-desc" data-i18n="pkg2_d">Shared Kilim tour up to 4 hours — Bat Cave, fish farm, eagles, beaches &amp; lunch. Pickup Chenang/Kuah; meet at Pengkalan Kilim jetty.</p>
+          <div class="pkg-meta-box">
+            <div class="pkg-meta-row"><span class="pkg-meta-lbl" data-i18n="pkg_lbl_slot">Slot:</span><span class="pkg-meta-val" data-i18n="pkg2_slot_val">Shared departure · max 4 hours</span></div>
+            <div class="pkg-meta-row"><span class="pkg-meta-lbl" data-i18n="pkg_lbl_meeting">Meeting:</span><span class="pkg-meta-val" data-i18n="pkg2_meet_val">Jeti Pelancongan Pengkalan Kilim</span></div>
+            <div class="pkg-meta-row"><span class="pkg-meta-lbl" data-i18n="pkg_lbl_best">Best for:</span><span class="pkg-meta-val" data-i18n="pkg2_best_val">Eco travellers &amp; small groups</span></div>
+          </div>
+          <ul class="pkg-features">
+            <li data-i18n="pkg2_li1">Bat Cave &amp; floating fish farm</li>
+            <li data-i18n="pkg2_li2">Live eagle watching &amp; coastal cruise</li>
+            <li data-i18n="pkg2_li3">Beach swim + lunch included</li>
+            <li data-i18n="pkg2_li4">Hotel pickup (Chenang / Kuah)</li>
+          </ul>
+          <div class="pkg-footer-bar">
+            <div class="pkg-price-block">
+              <span class="pkg-from" data-i18n="pkg_from">From</span>
+              <div class="pkg-amount"><strong>RM 120</strong><span data-i18n="suffix_pax">/pax</span></div>
+            </div>
+            <button type="button" class="btn-book-pill" onclick="openBooking('Mangrove Sharing','RM 120',120,'tour','红树林共享拼团')" data-i18n="pkg_book_short">BOOK</button>
           </div>
         </div>
       </article>
 
-      <!-- Card 2 -->
-      <article class="pkg-card reveal" style="--d:80ms;" data-cat="tour">
-        <div class="pkg-img pi-mangrove">
-          <div class="pkg-badges"><span class="pkg-badge" data-i18n="badge_popular">Popular</span><span class="pkg-badge" data-i18n="badge_half">Half day</span></div>
+      <!-- Mangrove private charter -->
+      <article class="pkg-card reveal" id="mangrovePkgCard" style="--d:80ms;" data-cat="tour">
+        <div class="pkg-img pi-mangrove" role="img" aria-label="">
+          <span class="pkg-duration-badge" data-i18n="pkg7_dur">Flexible</span>
         </div>
         <div class="pkg-body">
-          <h3 class="pkg-title" data-i18n="pkg2_t">Kilim Mangrove Tour</h3>
-          <p class="pkg-desc" data-i18n="pkg2_d">Cruise through mangrove forests, spot eagles, and visit hidden limestone caves.</p>
-          <div class="pkg-footer">
-            <div class="pkg-price"><strong>RM 220</strong><span>/pax</span></div>
-            <div class="pkg-rating"><span class="rating-stars-row" aria-label="4.8 out of 5">★★★★<span class="star-dim">☆</span></span></div>
-            <button class="btn-book-sm" onclick="openBooking('Kilim Mangrove Tour','RM 220',220,'tour','红树林生态游')" data-i18n="pkg_book">Book Now</button>
+          <h3 class="pkg-title" data-i18n="pkg7_t">Mangrove Tour Package</h3>
+          <p class="pkg-desc" data-i18n="pkg7_d">Chartered private boat in Kilim Geoforest — pick your duration. Bat Cave, fish farm, eagles &amp; more.</p>
+          <div class="pkg-meta-box">
+            <div class="pkg-meta-row"><span class="pkg-meta-lbl" data-i18n="pkg_lbl_slot">Slot:</span><span class="pkg-meta-val" data-i18n="pkg7_mv_slot">Private charter · duration as selected</span></div>
+            <div class="pkg-meta-row"><span class="pkg-meta-lbl" data-i18n="pkg_lbl_meeting">Meeting:</span><span class="pkg-meta-val" data-i18n="pkg7_mv_meet">Jetty as arranged (e.g. Pengkalan Kilim)</span></div>
+            <div class="pkg-meta-row"><span class="pkg-meta-lbl" data-i18n="pkg_lbl_best">Best for:</span><span class="pkg-meta-val" data-i18n="pkg7_mv_best">Families &amp; small groups</span></div>
+          </div>
+          <div class="pkg-variant-row">
+            <label for="mangroveVariant" data-i18n="pkg7_sel_label">Duration &amp; rate (private boat)</label>
+            <select id="mangroveVariant" class="pkg-variant-select" data-i18n-aria="pkg_mangrove_sel_aria" aria-label="Mangrove tour duration" onchange="refreshMangrovePkgCard()">
+              <option value="1" data-price="290" data-i18n="pkg7_opt_1">1 hour — RM 290</option>
+              <option value="2" data-price="350" data-i18n="pkg7_opt_2">2 hours — RM 350</option>
+              <option value="3" data-price="430" data-i18n="pkg7_opt_3">3 hours — RM 430</option>
+              <option value="4" data-price="500" data-i18n="pkg7_opt_4">4 hours — RM 500</option>
+            </select>
+          </div>
+          <ul class="pkg-features" id="mangroveFeatList"></ul>
+          <p class="pkg-snorkel-note" data-i18n="pkg7_note">Snorkelling at Dangli Island is excluded — RM15 per snorkelling set.</p>
+          <div class="pkg-footer-bar">
+            <div class="pkg-price-block">
+              <span class="pkg-from" data-i18n="pkg_from">From</span>
+              <div class="pkg-amount"><strong id="mangrovePriceStrong">RM 290</strong><span data-i18n="pkg7_per_boat">/boat</span></div>
+            </div>
+            <button type="button" class="btn-book-pill" onclick="bookMangrovePrivate()" data-i18n="pkg_book_short">BOOK</button>
           </div>
         </div>
       </article>
 
-      <!-- Card 3 -->
-      <article class="pkg-card reveal" style="--d:160ms;" data-cat="beach">
-        <div class="pkg-img pi-beach">
-          <div class="pkg-badges"><span class="pkg-badge" data-i18n="badge_beach">Beach</span><span class="pkg-badge" data-i18n="badge_full">Full day</span></div>
+      <!-- ATV Adventure -->
+      <article class="pkg-card reveal" style="--d:160ms;" data-cat="tour">
+        <div class="pkg-img pi-atv" role="img" aria-label="">
+          <span class="pkg-duration-badge" data-i18n="pkg8_dur">1 hour</span>
         </div>
         <div class="pkg-body">
-          <h3 class="pkg-title" data-i18n="pkg3_t">Pantai Cenang Chill Day</h3>
-          <p class="pkg-desc" data-i18n="pkg3_d">Relax by clear waters, try water sports, and enjoy local cafes by the beach.</p>
-          <div class="pkg-footer">
-            <div class="pkg-price"><strong>RM 150</strong><span>/pax</span></div>
-            <div class="pkg-rating"><span class="rating-stars-row" aria-label="4.7 out of 5">★★★★<span class="star-dim">☆</span></span></div>
-            <button class="btn-book-sm" onclick="openBooking('Pantai Cenang Chill Day','RM 150',150,'beach','珍南海滩悠闲日')" data-i18n="pkg_book">Book Now</button>
+          <h3 class="pkg-title" data-i18n="pkg8_t">ATV Adventure Package</h3>
+          <p class="pkg-desc" data-i18n="pkg8_d">One-hour guided ATV ride through Ruber Estate, village, Padang Saga, paddy fields &amp; waterfalls — stay with your convoy and enjoy the scenery.</p>
+          <div class="pkg-meta-box">
+            <div class="pkg-meta-row"><span class="pkg-meta-lbl" data-i18n="pkg_lbl_slot">Slot:</span><span class="pkg-meta-val" data-i18n="pkg8_mv_slot">Duration: 1 hour</span></div>
+            <div class="pkg-meta-row"><span class="pkg-meta-lbl" data-i18n="pkg_lbl_meeting">Meeting:</span><span class="pkg-meta-val" data-i18n="pkg8_mv_meet">Meeting point as advised when you book</span></div>
+            <div class="pkg-meta-row"><span class="pkg-meta-lbl" data-i18n="pkg_lbl_best">Best for:</span><span class="pkg-meta-val" data-i18n="pkg8_mv_best">Adventure seekers, couples &amp; friends</span></div>
           </div>
-        </div>
-      </article>
-
-      <!-- Card 4 -->
-      <article class="pkg-card reveal" style="--d:0ms;" data-cat="nature">
-        <div class="pkg-img pi-cable">
-          <div class="pkg-badges"><span class="pkg-badge" data-i18n="badge_must">Must Try</span><span class="pkg-badge" data-i18n="badge_3h">3 hours</span></div>
-        </div>
-        <div class="pkg-body">
-          <h3 class="pkg-title" data-i18n="pkg4_t">Machinchang Sunset Ride</h3>
-          <p class="pkg-desc" data-i18n="pkg4_d">Golden hour cable car ride with dramatic mountain silhouettes and sea horizon.</p>
-          <div class="pkg-footer">
-            <div class="pkg-price"><strong>RM 130</strong><span>/pax</span></div>
-            <div class="pkg-rating"><span class="rating-stars-row" aria-label="4.9 out of 5">★★★★★</span></div>
-            <button class="btn-book-sm" onclick="openBooking('Machinchang Sunset Ride','RM 130',130,'evening','玛青岗日落缆车')" data-i18n="pkg_book">Book Now</button>
-          </div>
-        </div>
-      </article>
-
-      <!-- Card 5 -->
-      <article class="pkg-card reveal" style="--d:80ms;" data-cat="tour">
-        <div class="pkg-img pi-islandhop">
-          <div class="pkg-badges"><span class="pkg-badge" data-i18n="badge_tour">Tour</span><span class="pkg-badge" data-i18n="badge_full">Full day</span></div>
-        </div>
-        <div class="pkg-body">
-          <h3 class="pkg-title" data-i18n="pkg5_t">Island Hopping Combo</h3>
-          <p class="pkg-desc" data-i18n="pkg5_d">Visit Dayang Bunting Lake, Beras Basah Island, and eagle feeding spots.</p>
-          <div class="pkg-footer">
-            <div class="pkg-price"><strong>RM 240</strong><span>/pax</span></div>
-            <div class="pkg-rating"><span class="rating-stars-row" aria-label="4.8 out of 5">★★★★<span class="star-dim">☆</span></span></div>
-            <button class="btn-book-sm" onclick="openBooking('Island Hopping Combo','RM 240',240,'tour','跳岛组合行程')" data-i18n="pkg_book">Book Now</button>
-          </div>
-        </div>
-      </article>
-
-      <!-- Card 6 -->
-      <article class="pkg-card reveal" style="--d:160ms;" data-cat="evening">
-        <div class="pkg-img pi-sunset">
-          <div class="pkg-badges"><span class="pkg-badge" data-i18n="badge_new">New</span><span class="pkg-badge" data-i18n="badge_evening">Evening</span></div>
-        </div>
-        <div class="pkg-body">
-          <h3 class="pkg-title" data-i18n="pkg6_t">Sunset Cruise Experience</h3>
-          <p class="pkg-desc" data-i18n="pkg6_d">Sail around Langkawi waters with dinner, music, and a stunning sunset backdrop.</p>
-          <div class="pkg-footer">
-            <div class="pkg-price"><strong>RM 290</strong><span>/pax</span></div>
-            <div class="pkg-rating"><span class="rating-stars-row" aria-label="5 out of 5">★★★★★</span></div>
-            <button class="btn-book-sm" onclick="openBooking('Sunset Cruise Experience','RM 290',290,'evening','日落游船体验')" data-i18n="pkg_book">Book Now</button>
+          <ul class="pkg-features">
+            <li data-i18n="pkg8_f1">Ruber Estate</li>
+            <li data-i18n="pkg8_f2">Village Tour</li>
+            <li data-i18n="pkg8_f3">Padang Saga</li>
+            <li data-i18n="pkg8_f4">Paddy Field</li>
+            <li data-i18n="pkg8_f5">Waterfalls</li>
+          </ul>
+          <p class="pkg-snorkel-note" data-i18n="pkg8_note">You’ll be guided by a lead guide in front — just follow the convoy and you won’t get lost.</p>
+          <div class="pkg-footer-bar">
+            <div class="pkg-price-block">
+              <span class="pkg-from" data-i18n="pkg_from">From</span>
+              <div class="pkg-amount"><strong>RM 250</strong><span data-i18n="pkg8_per_unit">/unit</span></div>
+              <p class="pkg-atv-unit-hint" data-i18n="pkg8_unit_hint">Up to 2 persons per ATV</p>
+            </div>
+            <button type="button" class="btn-book-pill" onclick="bookAtvAdventure()" data-i18n="pkg_book_short">BOOK</button>
           </div>
         </div>
       </article>
@@ -2492,36 +3007,47 @@
 
   <!-- REVIEWS -->
   <section class="reviews-section reveal page-section" data-page="packages" style="--d:0ms;">
-    <p class="section-eyebrow" data-i18n="rev_eyebrow">Testimonials</p>
-    <h2 class="section-title" data-i18n="rev_title">More than a booking site — <span>your local partner</span></h2>
+    <header class="reviews-head">
+      <p class="section-eyebrow" data-i18n="rev_eyebrow">Testimonials</p>
+      <h2 class="section-title reviews-title">
+        <span class="rt-line1" data-i18n="rev_title_l1">We're more than a brand we're the choice</span>
+        <span class="rt-line2" data-i18n="rev_title_l2">trusted by thousands</span>
+      </h2>
+    </header>
     <div class="review-grid">
-      <div class="rv-card"><div class="rv-photo rp1"></div></div>
-      <div class="rv-card">
-        <div class="rv-body">
-          <div class="rv-avatar av-a">AR</div>
+      <article class="rv-card rv-card-photo"><div class="rv-photo rp1" role="img" aria-label="Tropical beach and sea"></div></article>
+      <article class="rv-card rv-card-quote">
+        <div class="rv-fold" aria-hidden="true"></div>
+        <svg class="rv-fold-plane" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        <div class="rv-quote-body">
+          <div class="rv-avatar av-a"><span>AR</span></div>
           <p class="rv-name">Aina Rahman</p>
-          <p class="rv-stars rating-stars-row" aria-label="5 out of 5 stars">★★★★★</p>
+          <p class="rv-stars rating-stars-row" data-i18n-aria="aria_stars_5" aria-label="5 out of 5 stars">★★★★★</p>
           <p class="rv-text" data-i18n="rv1_t">Everything was smooth from airport pickup to island hopping. Perfect for first-time visitors.</p>
         </div>
-      </div>
-      <div class="rv-card"><div class="rv-photo rp2"></div></div>
-      <div class="rv-card">
-        <div class="rv-body">
-          <div class="rv-avatar av-b">DW</div>
+      </article>
+      <article class="rv-card rv-card-photo"><div class="rv-photo rp2" role="img" aria-label="Resort pool"></div></article>
+      <article class="rv-card rv-card-quote">
+        <div class="rv-fold" aria-hidden="true"></div>
+        <svg class="rv-fold-plane" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        <div class="rv-quote-body">
+          <div class="rv-avatar av-b"><span>DW</span></div>
           <p class="rv-name">Daniel Wong</p>
-          <p class="rv-stars rating-stars-row" aria-label="5 out of 5 stars">★★★★★</p>
+          <p class="rv-stars rating-stars-row" data-i18n-aria="aria_stars_5" aria-label="5 out of 5 stars">★★★★★</p>
           <p class="rv-text" data-i18n="rv2_t">Great recommendations and quick response from the team. We saw all key spots in two days.</p>
         </div>
-      </div>
-      <div class="rv-card"><div class="rv-photo rp3"></div></div>
-      <div class="rv-card">
-        <div class="rv-body">
-          <div class="rv-avatar av-c">NI</div>
+      </article>
+      <article class="rv-card rv-card-photo"><div class="rv-photo rp3" role="img" aria-label="Lake and mountains"></div></article>
+      <article class="rv-card rv-card-quote">
+        <div class="rv-fold" aria-hidden="true"></div>
+        <svg class="rv-fold-plane" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        <div class="rv-quote-body">
+          <div class="rv-avatar av-c"><span>NI</span></div>
           <p class="rv-name">Nurul Izzati</p>
-          <p class="rv-stars rating-stars-row" aria-label="5 out of 5 stars">★★★★★</p>
+          <p class="rv-stars rating-stars-row" data-i18n-aria="aria_stars_5" aria-label="5 out of 5 stars">★★★★★</p>
           <p class="rv-text" data-i18n="rv3_t">The itinerary was balanced and not rushed. Highly recommended for a stress-free trip.</p>
         </div>
-      </div>
+      </article>
     </div>
   </section>
 
@@ -2546,10 +3072,10 @@
     </div>
     <div class="car-rental-banner reveal" style="--d:40ms;">
       <div class="car-rental-intro">
-        <p class="car-rental-kicker">Carsharing</p>
-        <h3>Book a Car Near You and Drive in Minutes</h3>
+        <p class="car-rental-kicker" data-i18n="car_banner_kicker">Carsharing</p>
+        <h3 data-i18n="car_banner_h">Book a Car Near You and Drive in Minutes</h3>
         <div class="car-rental-intro-line" aria-hidden="true"></div>
-        <p>Choose from reliable daily rentals in Langkawi for solo trips, family holidays, or business movement with smooth pickup and fast support.</p>
+        <p data-i18n="car_banner_p">Choose from reliable daily rentals in Langkawi for solo trips, family holidays, or business movement with smooth pickup and fast support.</p>
       </div>
       <div class="car-rental-visual">
         <div class="car-rental-hero-car" aria-hidden="true"></div>
@@ -2566,54 +3092,54 @@
       <div class="car-card reveal" style="--d:0ms;" data-cat="sedan family" data-price="95" data-type="car">
         <div class="car-top"><span class="car-badge cb-new">15% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
         <div class="car-img ci-bezza"></div>
-        <p class="car-stars-row rating-stars-row" aria-label="5 out of 5 stars">★★★★★</p>
+        <p class="car-stars-row rating-stars-row" data-i18n-aria="aria_stars_5" aria-label="5 out of 5 stars">★★★★★</p>
         <h3 class="car-name">Perodua Bezza</h3>
-        <div class="car-specs-row"><span class="car-spec">Diesel</span><span class="car-spec">Family</span><span class="car-spec">4,000 Miles</span><span class="car-spec">5 Seats</span><span class="car-spec">Automatic</span><span class="car-spec">Sedan</span></div>
+        <div class="car-specs-row"><span class="car-spec" data-i18n="car_spec_diesel">Diesel</span><span class="car-spec" data-i18n="car_tab_family">Family</span><span class="car-spec"><span>4,000</span> <span data-i18n="car_spec_miles">Miles</span></span><span class="car-spec"><span>5</span> <span data-i18n="car_spec_seats">Seats</span></span><span class="car-spec" data-i18n="car_spec_auto">Automatic</span><span class="car-spec" data-i18n="car_tab_sedan">Sedan</span></div>
         <div class="car-footer"><div class="car-price">RM 95<small data-i18n="car_day">/Day</small></div><button class="btn-rent" onclick="openCarBooking('Perodua Bezza',95,'Perodua Bezza')" data-i18n="car_book">Book Now</button></div>
       </div>
 
       <div class="car-card reveal" style="--d:80ms;" data-cat="sport" data-price="60" data-type="scooter">
         <div class="car-top"><span class="car-badge cb-pop">10% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
         <div class="car-img ci-scooter"></div>
-        <p class="car-stars-row rating-stars-row" aria-label="5 out of 5 stars">★★★★★</p>
+        <p class="car-stars-row rating-stars-row" data-i18n-aria="aria_stars_5" aria-label="5 out of 5 stars">★★★★★</p>
         <h3 class="car-name">Scooter 150cc</h3>
-        <div class="car-specs-row"><span class="car-spec">Petrol</span><span class="car-spec">Sport</span><span class="car-spec">3,000 Miles</span><span class="car-spec">2 Seats</span><span class="car-spec">Automatic</span><span class="car-spec">Compact</span></div>
+        <div class="car-specs-row"><span class="car-spec" data-i18n="car_spec_petrol">Petrol</span><span class="car-spec" data-i18n="car_tab_sport">Sport</span><span class="car-spec"><span>3,000</span> <span data-i18n="car_spec_miles">Miles</span></span><span class="car-spec"><span>2</span> <span data-i18n="car_spec_seats">Seats</span></span><span class="car-spec" data-i18n="car_spec_auto">Automatic</span><span class="car-spec" data-i18n="car_spec_compact">Compact</span></div>
         <div class="car-footer"><div class="car-price">RM 60<small data-i18n="car_day">/Day</small></div><button class="btn-rent" onclick="openCarBooking('Scooter 150cc',60,'150cc 摩托车')" data-i18n="car_book">Book Now</button></div>
       </div>
 
       <div class="car-card reveal" style="--d:160ms;" data-cat="jeep family" data-price="180" data-type="car">
         <div class="car-top"><span class="car-badge cb-new">15% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
         <div class="car-img ci-brv"></div>
-        <p class="car-stars-row rating-stars-row" aria-label="5 out of 5 stars">★★★★★</p>
+        <p class="car-stars-row rating-stars-row" data-i18n-aria="aria_stars_5" aria-label="5 out of 5 stars">★★★★★</p>
         <h3 class="car-name">Honda BR-V</h3>
-        <div class="car-specs-row"><span class="car-spec">Diesel</span><span class="car-spec">Jeep</span><span class="car-spec">5,000 Miles</span><span class="car-spec">7 Seats</span><span class="car-spec">Automatic</span><span class="car-spec">SUV</span></div>
+        <div class="car-specs-row"><span class="car-spec" data-i18n="car_spec_diesel">Diesel</span><span class="car-spec" data-i18n="car_tab_jeep">Jeep</span><span class="car-spec"><span>5,000</span> <span data-i18n="car_spec_miles">Miles</span></span><span class="car-spec"><span>7</span> <span data-i18n="car_spec_seats">Seats</span></span><span class="car-spec" data-i18n="car_spec_auto">Automatic</span><span class="car-spec" data-i18n="car_spec_suv">SUV</span></div>
         <div class="car-footer"><div class="car-price">RM 180<small data-i18n="car_day">/Day</small></div><button class="btn-rent" onclick="openCarBooking('Honda BR-V',180,'Honda BR-V')" data-i18n="car_book">Book Now</button></div>
       </div>
 
       <div class="car-card reveal" style="--d:0ms;" data-cat="sedan" data-price="140" data-type="car">
         <div class="car-top"><span class="car-badge cb-pop">15% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
         <div class="car-img ci-vios"></div>
-        <p class="car-stars-row rating-stars-row" aria-label="5 out of 5 stars">★★★★★</p>
+        <p class="car-stars-row rating-stars-row" data-i18n-aria="aria_stars_5" aria-label="5 out of 5 stars">★★★★★</p>
         <h3 class="car-name">Toyota Vios</h3>
-        <div class="car-specs-row"><span class="car-spec">Diesel</span><span class="car-spec">Sedan</span><span class="car-spec">7,000 Miles</span><span class="car-spec">4 Seats</span><span class="car-spec">Automatic</span><span class="car-spec">Urban</span></div>
+        <div class="car-specs-row"><span class="car-spec" data-i18n="car_spec_diesel">Diesel</span><span class="car-spec" data-i18n="car_tab_sedan">Sedan</span><span class="car-spec"><span>7,000</span> <span data-i18n="car_spec_miles">Miles</span></span><span class="car-spec"><span>4</span> <span data-i18n="car_spec_seats">Seats</span></span><span class="car-spec" data-i18n="car_spec_auto">Automatic</span><span class="car-spec" data-i18n="car_spec_urban">Urban</span></div>
         <div class="car-footer"><div class="car-price">RM 140<small data-i18n="car_day">/Day</small></div><button class="btn-rent" onclick="openCarBooking('Toyota Vios',140,'Toyota Vios')" data-i18n="car_book">Book Now</button></div>
       </div>
 
       <div class="car-card reveal" style="--d:80ms;" data-cat="family sport" data-price="240" data-type="van">
         <div class="car-top"><span class="car-badge cb-new">12% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
         <div class="car-img ci-serena"></div>
-        <p class="car-stars-row rating-stars-row" aria-label="5 out of 5 stars">★★★★★</p>
+        <p class="car-stars-row rating-stars-row" data-i18n-aria="aria_stars_5" aria-label="5 out of 5 stars">★★★★★</p>
         <h3 class="car-name">Nissan Serena</h3>
-        <div class="car-specs-row"><span class="car-spec">Diesel</span><span class="car-spec">Family</span><span class="car-spec">7,000 Miles</span><span class="car-spec">8 Seats</span><span class="car-spec">Automatic</span><span class="car-spec">MPV</span></div>
+        <div class="car-specs-row"><span class="car-spec" data-i18n="car_spec_diesel">Diesel</span><span class="car-spec" data-i18n="car_tab_family">Family</span><span class="car-spec"><span>7,000</span> <span data-i18n="car_spec_miles">Miles</span></span><span class="car-spec"><span>8</span> <span data-i18n="car_spec_seats">Seats</span></span><span class="car-spec" data-i18n="car_spec_auto">Automatic</span><span class="car-spec" data-i18n="car_spec_mpv">MPV</span></div>
         <div class="car-footer"><div class="car-price">RM 240<small data-i18n="car_day">/Day</small></div><button class="btn-rent" onclick="openCarBooking('Nissan Serena',240,'Nissan Serena')" data-i18n="car_book">Book Now</button></div>
       </div>
 
       <div class="car-card reveal" style="--d:160ms;" data-cat="jeep family" data-price="320" data-type="van">
         <div class="car-top"><span class="car-badge cb-pop">15% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
         <div class="car-img ci-hiace"></div>
-        <p class="car-stars-row rating-stars-row" aria-label="5 out of 5 stars">★★★★★</p>
+        <p class="car-stars-row rating-stars-row" data-i18n-aria="aria_stars_5" aria-label="5 out of 5 stars">★★★★★</p>
         <h3 class="car-name">Toyota Hiace</h3>
-        <div class="car-specs-row"><span class="car-spec">Diesel</span><span class="car-spec">Jeep</span><span class="car-spec">7,000 Miles</span><span class="car-spec">10 Seats</span><span class="car-spec">Manual</span><span class="car-spec">Van</span></div>
+        <div class="car-specs-row"><span class="car-spec" data-i18n="car_spec_diesel">Diesel</span><span class="car-spec" data-i18n="car_tab_jeep">Jeep</span><span class="car-spec"><span>7,000</span> <span data-i18n="car_spec_miles">Miles</span></span><span class="car-spec"><span>10</span> <span data-i18n="car_spec_seats">Seats</span></span><span class="car-spec" data-i18n="car_spec_manual">Manual</span><span class="car-spec" data-i18n="car_spec_van_type">Van</span></div>
         <div class="car-footer"><div class="car-price">RM 320<small data-i18n="car_day">/Day</small></div><button class="btn-rent" onclick="openCarBooking('Toyota Hiace',320,'Toyota Hiace')" data-i18n="car_book">Book Now</button></div>
       </div>
 
@@ -2629,7 +3155,6 @@
         </button>
         <div class="why-imgs">
           <div class="why-img wi-a"></div>
-          <div class="why-img wi-b"></div>
         </div>
         <div class="partner-pill" data-i18n="why_partner">250+ Trusted <span>Local Partners</span></div>
       </div>
@@ -2659,47 +3184,119 @@
 
 <!-- CONTACT -->
 <section class="contact-section page-section" data-page="contact" id="contact">
-  <div class="contact-head">
-    <p class="section-eyebrow" data-i18n="contact_eyebrow">Get In Touch</p>
-    <h2 class="section-title" data-i18n="contact_title">Contact <span>SM Leisure</span></h2>
-    <p class="section-desc" data-i18n="contact_desc">Need ground handling, VIP assistance, or corporate travel support? Our team is ready to help with fast and reliable arrangements.</p>
+  <div class="contact-panel-wrap">
+    <div class="contact-panel">
+      <div class="contact-panel-grid">
+        <div class="contact-form-col">
+          <h2 class="contact-form-title" data-i18n="contact_title">Send <span>Enquiry</span></h2>
+          <p class="contact-form-lead" data-i18n="contact_desc">Tell us your dates, group size, and questions — our team will respond quickly with availability and next steps.</p>
+          <form class="contact-form" id="enquiryForm" onsubmit="submitEnquiry(event)" novalidate>
+            <div class="contact-field">
+              <label for="enqName" data-i18n="enquiry_lbl_name">Your Name</label>
+              <input class="contact-input" type="text" id="enqName" name="name" autocomplete="name" required maxlength="120" data-i18n-placeholder="enquiry_ph_name" placeholder="Your full name" />
+            </div>
+            <div class="contact-field">
+              <label for="enqEmail" data-i18n="enquiry_lbl_email">Your Email</label>
+              <input class="contact-input" type="email" id="enqEmail" name="email" autocomplete="email" required maxlength="120" data-i18n-placeholder="enquiry_ph_email" placeholder="you@example.com" />
+            </div>
+            <div class="contact-field">
+              <label for="enqMsg" data-i18n="enquiry_lbl_message">Your Message</label>
+              <textarea class="contact-textarea" id="enqMsg" name="message" required maxlength="4000" rows="5" data-i18n-placeholder="enquiry_ph_message" placeholder="Type something if you want…"></textarea>
+            </div>
+            <button type="submit" class="contact-submit" data-i18n="enquiry_btn_send">Send Message</button>
+          </form>
+        </div>
+        <aside class="contact-aside">
+          <p class="contact-aside-title" data-i18n="contact_aside_title">Contact details</p>
+          <div class="contact-aside-list">
+            <div class="contact-aside-item">
+              <div class="contact-aside-ico" aria-hidden="true">AD</div>
+              <div><strong data-i18n="lbl_address">Office Address</strong><span data-i18n="contact_addr_line">Lot 116, Pusat Perniagaan Kelana Mas, Kuah 07000, Langkawi, Kedah.</span></div>
+            </div>
+            <div class="contact-aside-item">
+              <div class="contact-aside-ico" aria-hidden="true">PH</div>
+              <div><strong data-i18n="lbl_phone">Phone / WhatsApp</strong><span>+60 17-508 6608 · +60 4-499 5295</span></div>
+            </div>
+            <div class="contact-aside-item">
+              <div class="contact-aside-ico" aria-hidden="true">EM</div>
+              <div><strong data-i18n="lbl_email">Email</strong><span>smleisuretravel@gmail.com</span></div>
+            </div>
+            <div class="contact-aside-item">
+              <div class="contact-aside-ico" aria-hidden="true">MD</div>
+              <div><strong data-i18n="lbl_md">Managing Director</strong><span>Raymond Lau</span></div>
+            </div>
+          </div>
+          <div class="contact-aside-actions">
+            <button type="button" class="contact-btn primary" onclick="toast(t('toast_contact_wa'),'info')" data-i18n="btn_wa">WhatsApp Us</button>
+            <button type="button" class="contact-btn secondary" onclick="toast(t('toast_contact_email'),'info')" data-i18n="btn_email">Send Email</button>
+          </div>
+          <p class="contact-social-label" data-i18n="foot_social">Social Media Channel</p>
+          <div class="social-row contact-social-row">
+            <a class="social-btn" href="https://wa.me/60175086608" target="_blank" rel="noopener noreferrer" data-i18n-aria="aria_whatsapp" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.79 11.79 0 0 0 12.12 0C5.67 0 .42 5.24.42 11.7c0 2.06.54 4.08 1.56 5.85L0 24l6.62-1.92a11.67 11.67 0 0 0 5.5 1.4h.01c6.45 0 11.7-5.25 11.7-11.7 0-3.12-1.21-6.05-3.31-8.3Zm-8.4 18.02h-.01a9.75 9.75 0 0 1-4.98-1.37l-.36-.21-3.93 1.14 1.18-3.83-.24-.39a9.75 9.75 0 0 1-1.5-5.16c0-5.38 4.38-9.76 9.76-9.76a9.7 9.7 0 0 1 6.9 2.86 9.69 9.69 0 0 1 2.86 6.9c0 5.38-4.38 9.76-9.76 9.76Zm5.35-7.33c-.29-.15-1.72-.85-1.98-.95-.26-.1-.45-.15-.64.14s-.73.95-.89 1.14c-.16.19-.33.21-.62.07-.29-.15-1.22-.45-2.32-1.42-.86-.77-1.44-1.72-1.61-2.01-.16-.29-.02-.45.12-.59.13-.13.29-.33.43-.5.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.07-.15-.64-1.54-.88-2.11-.23-.56-.47-.49-.64-.49h-.55c-.19 0-.5.07-.76.36-.26.29-1 1-1 2.43s1.02 2.81 1.16 3c.14.19 2 3.05 4.84 4.27.68.29 1.22.47 1.63.6.68.22 1.3.19 1.79.12.55-.08 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.19-.55-.33Z"/></svg>
+            </a>
+            <a class="social-btn" href="https://www.facebook.com/smleisuretravel" target="_blank" rel="noopener noreferrer" data-i18n-aria="aria_facebook" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z"/></svg>
+            </a>
+            <a class="social-btn" href="https://www.instagram.com/sm_leisure/" target="_blank" rel="noopener noreferrer" data-i18n-aria="aria_instagram" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm8.38 1.75H7.87a4.12 4.12 0 0 0-4.12 4.12v8.26a4.12 4.12 0 0 0 4.12 4.12h8.26a4.12 4.12 0 0 0 4.12-4.12V7.87a4.12 4.12 0 0 0-4.12-4.12ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.75a3.25 3.25 0 1 0 0 6.5 3.25 3.25 0 0 0 0-6.5Zm5.25-2a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg>
+            </a>
+            <a class="social-btn" href="https://www.tiktok.com/@smleisuretravel" target="_blank" rel="noopener noreferrer" data-i18n-aria="aria_tiktok" aria-label="TikTok">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 2h2.29a4.72 4.72 0 0 0 3.21 3.21V7.5a7.2 7.2 0 0 1-3.25-.78v7.05A6.77 6.77 0 1 1 12 7v2.33a4.44 4.44 0 1 0 4.5 4.44V2Z"/></svg>
+            </a>
+            <a class="social-btn" href="https://www.xiaohongshu.com/user/profile/42153895034" target="_blank" rel="noopener noreferrer" data-i18n-aria="aria_rednote" aria-label="Rednote">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="2.5" y="2.5" width="19" height="19" rx="5" fill="#ff2442"></rect>
+                <text x="12" y="15.1" text-anchor="middle" font-size="7.2" font-weight="700" fill="#ffffff">小红书</text>
+              </svg>
+            </a>
+          </div>
+        </aside>
+      </div>
+    </div>
   </div>
-  <div class="contact-grid">
-    <article class="contact-card">
-      <h3 class="contact-mini-title" data-i18n="contact_mini1">Direct Contact</h3>
-      <div class="contact-list">
-        <div class="contact-item">
-          <div class="contact-ico">EM</div>
-          <div><strong data-i18n="lbl_email">Email</strong><span>smleisuretravel@gmail.com</span></div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-ico">PH</div>
-          <div><strong data-i18n="lbl_phone">Phone / WhatsApp</strong><span>+60 17-508 6608 · +60 4-499 5295</span></div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-ico">AD</div>
-          <div><strong data-i18n="lbl_address">Office Address</strong><span>Lot 116, Pusat Perniagaan Kelana Mas, Kuah 07000, Langkawi, Kedah.</span></div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-ico">MD</div>
-          <div><strong data-i18n="lbl_md">Managing Director</strong><span>Raymond Lau</span></div>
-        </div>
-      </div>
-      <div class="contact-actions">
-        <button class="contact-btn primary" onclick="toast('WhatsApp: +60 17-508 6608','info')" data-i18n="btn_wa">WhatsApp Us</button>
-        <button class="contact-btn secondary" onclick="toast('Email: smleisuretravel@gmail.com','info')" data-i18n="btn_email">Send Email</button>
-      </div>
-    </article>
-    <article class="contact-card">
-      <h3 class="contact-mini-title" data-i18n="contact_mini2">Quick Links</h3>
-      <div class="contact-mini-list">
-        <a href="#services" onclick="navigateToSection('services')" data-i18n="ql_services">Our Services</a>
-        <a href="#packages" onclick="navigateToSection('packages')" data-i18n="ql_top">Top Experiences</a>
-        <a href="#transport" onclick="navigateToSection('transport')" data-i18n="ql_transport">Transport Booking</a>
-        <a href="#about" onclick="navigateToSection('about')" data-i18n="ql_about">About SM Leisure</a>
-        <a href="#contact" onclick="navigateToSection('contact')" data-i18n="ql_contact">Contact Us</a>
-      </div>
-    </article>
+</section>
+
+<section class="faq-section page-section reveal" data-page="contact" id="faq" style="--d:0ms;">
+  <div class="faq-inner">
+    <div class="faq-head">
+      <p class="faq-eyebrow" data-i18n="faq_eyebrow">Frequently Asked Questions</p>
+      <h2 class="faq-main-title" data-i18n="faq_title">Everything you need to know before diving into travel</h2>
+    </div>
+    <div class="faq-list" role="list">
+      <article class="faq-item" role="listitem">
+        <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">
+          <span class="faq-num">01</span>
+          <span class="faq-q" data-i18n="faq_q1">How do I book a tour with SM Leisure?</span>
+          <span class="faq-toggle" aria-hidden="true"><span class="faq-plus">+</span><span class="faq-x">×</span></span>
+        </button>
+        <div class="faq-answer" id="faq-a1" role="region" aria-labelledby="faq-q1" data-i18n="faq_a1">Use the Book buttons on our packages (mangrove and ATV) or message us on WhatsApp / email.</div>
+      </article>
+      <article class="faq-item is-open" role="listitem">
+        <button type="button" class="faq-trigger" aria-expanded="true" aria-controls="faq-a2" id="faq-q2">
+          <span class="faq-num">02</span>
+          <span class="faq-q" data-i18n="faq_q2">Can I change the travel dates after booking?</span>
+          <span class="faq-toggle" aria-hidden="true"><span class="faq-plus">+</span><span class="faq-x">×</span></span>
+        </button>
+        <div class="faq-answer" id="faq-a2" role="region" aria-labelledby="faq-q2" data-i18n="faq_a2">Yes, subject to availability and supplier policies. Contact us as early as you can.</div>
+      </article>
+      <article class="faq-item" role="listitem">
+        <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-a3" id="faq-q3">
+          <span class="faq-num">03</span>
+          <span class="faq-q" data-i18n="faq_q3">What payment methods do you accept?</span>
+          <span class="faq-toggle" aria-hidden="true"><span class="faq-plus">+</span><span class="faq-x">×</span></span>
+        </button>
+        <div class="faq-answer" id="faq-a3" role="region" aria-labelledby="faq-q3" data-i18n="faq_a3">Options are confirmed during booking.</div>
+      </article>
+      <article class="faq-item" role="listitem">
+        <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-a4" id="faq-q4">
+          <span class="faq-num">04</span>
+          <span class="faq-q" data-i18n="faq_q4">Do you offer hotel pickup for tours?</span>
+          <span class="faq-toggle" aria-hidden="true"><span class="faq-plus">+</span><span class="faq-x">×</span></span>
+        </button>
+        <div class="faq-answer" id="faq-a4" role="region" aria-labelledby="faq-q4" data-i18n="faq_a4">Many Langkawi tours include or can arrange pickup — check each package.</div>
+      </article>
+    </div>
   </div>
 </section>
 <div class="site-footer">
@@ -2711,7 +3308,7 @@
         <a href="tel:+6044995295">+60 4-499 5295</a>
         <a href="mailto:smleisuretravel@gmail.com">✉ smleisuretravel@gmail.com</a>
         <a href="#" data-i18n="foot_desk">24 Hours Front Desk Service</a>
-        <a href="#">Lot 116, Pusat Perniagaan Kelana Mas, Kuah 07000 Langkawi, Kedah.</a>
+        <a href="#" data-i18n="contact_addr_line">Lot 116, Pusat Perniagaan Kelana Mas, Kuah 07000 Langkawi, Kedah.</a>
       </div>
     </div>
     <div>
@@ -2729,19 +3326,19 @@
       <h4 class="footer-col-title" data-i18n="foot_follow">Follow Us</h4>
       <p class="footer-text" data-i18n="foot_social">Social Media Channel</p>
       <div class="social-row">
-        <a class="social-btn" href="https://wa.me/60175086608" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+        <a class="social-btn" href="https://wa.me/60175086608" target="_blank" rel="noopener noreferrer" data-i18n-aria="aria_whatsapp" aria-label="WhatsApp">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.79 11.79 0 0 0 12.12 0C5.67 0 .42 5.24.42 11.7c0 2.06.54 4.08 1.56 5.85L0 24l6.62-1.92a11.67 11.67 0 0 0 5.5 1.4h.01c6.45 0 11.7-5.25 11.7-11.7 0-3.12-1.21-6.05-3.31-8.3Zm-8.4 18.02h-.01a9.75 9.75 0 0 1-4.98-1.37l-.36-.21-3.93 1.14 1.18-3.83-.24-.39a9.75 9.75 0 0 1-1.5-5.16c0-5.38 4.38-9.76 9.76-9.76a9.7 9.7 0 0 1 6.9 2.86 9.69 9.69 0 0 1 2.86 6.9c0 5.38-4.38 9.76-9.76 9.76Zm5.35-7.33c-.29-.15-1.72-.85-1.98-.95-.26-.1-.45-.15-.64.14s-.73.95-.89 1.14c-.16.19-.33.21-.62.07-.29-.15-1.22-.45-2.32-1.42-.86-.77-1.44-1.72-1.61-2.01-.16-.29-.02-.45.12-.59.13-.13.29-.33.43-.5.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.07-.15-.64-1.54-.88-2.11-.23-.56-.47-.49-.64-.49h-.55c-.19 0-.5.07-.76.36-.26.29-1 1-1 2.43s1.02 2.81 1.16 3c.14.19 2 3.05 4.84 4.27.68.29 1.22.47 1.63.6.68.22 1.3.19 1.79.12.55-.08 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.19-.55-.33Z"/></svg>
         </a>
-        <a class="social-btn" href="https://www.facebook.com/smleisuretravel" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+        <a class="social-btn" href="https://www.facebook.com/smleisuretravel" target="_blank" rel="noopener noreferrer" data-i18n-aria="aria_facebook" aria-label="Facebook">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z"/></svg>
         </a>
-        <a class="social-btn" href="https://www.instagram.com/sm_leisure/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <a class="social-btn" href="https://www.instagram.com/sm_leisure/" target="_blank" rel="noopener noreferrer" data-i18n-aria="aria_instagram" aria-label="Instagram">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm8.38 1.75H7.87a4.12 4.12 0 0 0-4.12 4.12v8.26a4.12 4.12 0 0 0 4.12 4.12h8.26a4.12 4.12 0 0 0 4.12-4.12V7.87a4.12 4.12 0 0 0-4.12-4.12ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.75a3.25 3.25 0 1 0 0 6.5 3.25 3.25 0 0 0 0-6.5Zm5.25-2a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/></svg>
         </a>
-        <a class="social-btn" href="https://www.tiktok.com/@smleisuretravel" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+        <a class="social-btn" href="https://www.tiktok.com/@smleisuretravel" target="_blank" rel="noopener noreferrer" data-i18n-aria="aria_tiktok" aria-label="TikTok">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 2h2.29a4.72 4.72 0 0 0 3.21 3.21V7.5a7.2 7.2 0 0 1-3.25-.78v7.05A6.77 6.77 0 1 1 12 7v2.33a4.44 4.44 0 1 0 4.5 4.44V2Z"/></svg>
         </a>
-        <a class="social-btn" href="https://www.xiaohongshu.com/user/profile/42153895034" target="_blank" rel="noopener noreferrer" aria-label="Rednote">
+        <a class="social-btn" href="https://www.xiaohongshu.com/user/profile/42153895034" target="_blank" rel="noopener noreferrer" data-i18n-aria="aria_rednote" aria-label="Rednote">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <rect x="2.5" y="2.5" width="19" height="19" rx="5" fill="#ff2442"></rect>
             <text x="12" y="15.1" text-anchor="middle" font-size="7.2" font-weight="700" fill="#ffffff">小红书</text>
@@ -2752,7 +3349,7 @@
   </div>
   <div class="footer-bottom" data-i18n="foot_copy">© 2026 SM Leisure Travel & Tours Sdn Bhd. All Rights Reserved.</div>
 </div>
-<a class="float-whatsapp" href="https://wa.me/60175086608" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+<a class="float-whatsapp" href="https://wa.me/60175086608" target="_blank" rel="noopener noreferrer" data-i18n-aria="aria_float_wa" aria-label="Chat on WhatsApp">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.79 11.79 0 0 0 12.12 0C5.67 0 .42 5.24.42 11.7c0 2.06.54 4.08 1.56 5.85L0 24l6.62-1.92a11.67 11.67 0 0 0 5.5 1.4h.01c6.45 0 11.7-5.25 11.7-11.7 0-3.12-1.21-6.05-3.31-8.3Zm-8.4 18.02h-.01a9.75 9.75 0 0 1-4.98-1.37l-.36-.21-3.93 1.14 1.18-3.83-.24-.39a9.75 9.75 0 0 1-1.5-5.16c0-5.38 4.38-9.76 9.76-9.76a9.7 9.7 0 0 1 6.9 2.86 9.69 9.69 0 0 1 2.86 6.9c0 5.38-4.38 9.76-9.76 9.76Z"/></svg>
 </a>
 
@@ -2892,7 +3489,7 @@
       <button class="btn-modal-next" onclick="confirmCarBooking()" data-i18n="car_confirm">Confirm Rental →</button>
     </div>
     <div class="success-screen" id="carSuccess">
-      <div class="success-icon">Booking</div>
+      <div class="success-icon" data-i18n="car_success_icon">OK</div>
       <h2 data-i18n="car_success_h">Rental Confirmed!</h2>
       <p data-i18n="car_success_p">Your vehicle has been booked. Our team will contact you with pick-up details.</p>
       <div class="booking-ref" id="carRef">Booking #CAR-XXXXX</div>
@@ -2921,34 +3518,34 @@
     <div class="planner-body">
       <div class="planner-grid" id="plannerGrid">
         <div class="day-card">
-          <h4><span class="day-num">Day 1</span> Jun 12, 2026 — Arrival Day</h4>
+          <h4 data-i18n="planner_h4_d1"><span class="day-num">Day 1</span> Jun 12, 2026 — Arrival Day</h4>
           <div class="day-slots">
-            <div class="day-slot"><span>🛬 Airport Arrival & Check-in</span><span style="color:#8fa3bf;font-size:12px;">10:00 AM</span></div>
-            <div class="day-slot"><span>Sunset at Pantai Cenang</span><span style="color:#8fa3bf;font-size:12px;">06:00 PM</span></div>
-            <div class="day-slot-add" onclick="addSlot(this)">+ Add Activity</div>
+            <div class="day-slot"><span data-i18n="planner_slot_airport">🛬 Airport arrival & check-in</span><span style="color:#8fa3bf;font-size:12px;">10:00 AM</span></div>
+            <div class="day-slot"><span data-i18n="planner_slot_evening_hotel">Evening at your hotel area</span><span style="color:#8fa3bf;font-size:12px;">06:00 PM</span></div>
+            <div class="day-slot-add" onclick="addSlot(this)" data-i18n="planner_add_slot">+ Add Activity</div>
           </div>
         </div>
         <div class="day-card">
-          <h4><span class="day-num">Day 2</span> Jun 13, 2026</h4>
+          <h4 data-i18n="planner_h4_d2"><span class="day-num">Day 2</span> Jun 13, 2026</h4>
           <div class="day-slots">
-            <div class="day-slot"><span>🦅 Kilim Mangrove Tour</span><span style="color:#8fa3bf;font-size:12px;">09:00 AM</span></div>
-            <div class="day-slot-add" onclick="addSlot(this)">+ Add Activity</div>
+            <div class="day-slot"><span data-i18n="planner_slot_mangrove_share">🦅 Mangrove Sharing (Kilim)</span><span style="color:#8fa3bf;font-size:12px;">09:00 AM</span></div>
+            <div class="day-slot-add" onclick="addSlot(this)" data-i18n="planner_add_slot">+ Add Activity</div>
           </div>
         </div>
         <div class="day-card">
-          <h4><span class="day-num">Day 3</span> Jun 14, 2026</h4>
+          <h4 data-i18n="planner_h4_d3"><span class="day-num">Day 3</span> Jun 14, 2026</h4>
           <div class="day-slots">
-            <div class="day-slot"><span>🚡 SkyBridge Cable Car</span><span style="color:#8fa3bf;font-size:12px;">08:30 AM</span></div>
-            <div class="day-slot"><span>Island Hopping</span><span style="color:#8fa3bf;font-size:12px;">01:00 PM</span></div>
-            <div class="day-slot-add" onclick="addSlot(this)">+ Add Activity</div>
+            <div class="day-slot"><span data-i18n="planner_slot_mangrove_charter">🛶 Mangrove Private Charter (Kilim)</span><span style="color:#8fa3bf;font-size:12px;">08:30 AM</span></div>
+            <div class="day-slot"><span data-i18n="planner_slot_atv">🏎️ ATV Adventure</span><span style="color:#8fa3bf;font-size:12px;">02:00 PM</span></div>
+            <div class="day-slot-add" onclick="addSlot(this)" data-i18n="planner_add_slot">+ Add Activity</div>
           </div>
         </div>
         <div class="day-card">
-          <h4><span class="day-num">Day 4</span> Jun 15, 2026 — Departure</h4>
+          <h4 data-i18n="planner_h4_d4"><span class="day-num">Day 4</span> Jun 15, 2026 — Departure</h4>
           <div class="day-slots">
-            <div class="day-slot"><span>Sunrise walk</span><span style="color:#8fa3bf;font-size:12px;">06:30 AM</span></div>
-            <div class="day-slot"><span>🛫 Departure</span><span style="color:#8fa3bf;font-size:12px;">12:00 PM</span></div>
-            <div class="day-slot-add" onclick="addSlot(this)">+ Add Activity</div>
+            <div class="day-slot"><span data-i18n="planner_slot_sunrise">Sunrise walk</span><span style="color:#8fa3bf;font-size:12px;">06:30 AM</span></div>
+            <div class="day-slot"><span data-i18n="planner_slot_departure">🛫 Departure</span><span style="color:#8fa3bf;font-size:12px;">12:00 PM</span></div>
+            <div class="day-slot-add" onclick="addSlot(this)" data-i18n="planner_add_slot">+ Add Activity</div>
           </div>
         </div>
       </div>
@@ -2976,20 +3573,6 @@
 <!-- ─── SCRIPTS ─── -->
 <script src="./assets/i18n.js"></script>
 <script>
-  /* ── Deferred hero slide loads ── */
-  window.addEventListener('load', function(){
-    var deferredSlides = [
-      ['hs2','https://images.unsplash.com/photo-1504274066651-8d31a536b11a?w=800&q=75'],
-      ['hs3','https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=75'],
-      ['hs5','https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?w=800&q=75']
-    ];
-    deferredSlides.forEach(function(s, i){
-      setTimeout(function(){
-        document.querySelectorAll('.'+s[0]).forEach(function(el){ el.style.backgroundImage = "url('"+s[1]+"')"; });
-      }, 300 + i * 500);
-    });
-  });
-
   /* ── SCROLL REVEAL ── */
   var revEls = document.querySelectorAll('.reveal');
   var ro = new IntersectionObserver(function(entries){
@@ -3074,7 +3657,8 @@
       services:'home',
       packages:'packages',
       transport:'transport',
-      contact:'contact'
+      contact:'contact',
+      faq:'contact'
     };
     return map[id] || 'home';
   }
@@ -3180,7 +3764,7 @@
   var scrollLoopTimer = null;
   var scrollLoopTicking = false;
   function triggerScrollLoops(){
-    var loopTargets = document.querySelectorAll('.page-section.active .stat-box, .page-section.active .wc-card, .page-section.active .svc-card, .page-section.active .pkg-card, .page-section.active .car-card, .page-section.active .contact-card, .page-section.active .hero-stat');
+    var loopTargets = document.querySelectorAll('.page-section.active .stat-box, .page-section.active .wc-card, .page-section.active .svc-card, .page-section.active .pkg-card, .page-section.active .car-card, .page-section.active .contact-panel, .page-section.active .hero-stat');
     loopTargets.forEach(function(el){
       el.classList.remove('looping');
       void el.offsetWidth;
@@ -3205,6 +3789,29 @@
   } else {
     showPage('home', 'hero');
   }
+
+  function initFaq(){
+    var root = document.getElementById('faq');
+    if(!root) return;
+    root.querySelectorAll('.faq-item').forEach(function(item){
+      var btn = item.querySelector('.faq-trigger');
+      if(!btn || btn.dataset.faqBound) return;
+      btn.dataset.faqBound = '1';
+      btn.addEventListener('click', function(){
+        var wasOpen = item.classList.contains('is-open');
+        root.querySelectorAll('.faq-item').forEach(function(x){
+          x.classList.remove('is-open');
+          var b = x.querySelector('.faq-trigger');
+          if(b) b.setAttribute('aria-expanded','false');
+        });
+        if(!wasOpen){
+          item.classList.add('is-open');
+          btn.setAttribute('aria-expanded','true');
+        }
+      });
+    });
+  }
+  initFaq();
 
   /* ── HERO SLIDESHOW ── */
   var heroIndex = 0;
@@ -3278,6 +3885,25 @@
     setTimeout(function(){ t.classList.remove('show'); setTimeout(function(){ t.remove(); },400); },3000);
   }
 
+  function submitEnquiry(ev){
+    ev.preventDefault();
+    var form = ev.target;
+    var nameEl = form.querySelector('[name="name"]');
+    var emailEl = form.querySelector('[name="email"]');
+    var msgEl = form.querySelector('[name="message"]');
+    var name = nameEl ? nameEl.value.trim() : '';
+    var email = emailEl ? emailEl.value.trim() : '';
+    var message = msgEl ? msgEl.value.trim() : '';
+    if(!name || !email || !message){
+      toast(t('enquiry_fill_all'), 'warning');
+      return;
+    }
+    var subject = t('enquiry_mail_subject') + ' — ' + name;
+    var body = message + '\n\n— ' + name + '\n' + email;
+    window.location.href = 'mailto:smleisuretravel@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    toast(t('enquiry_mailto_toast'), 'info');
+  }
+
   /* ── SEARCH BAR ── */
   var guests = {adults:2, children:0, infants:0};
   function toggleDrop(id){
@@ -3307,21 +3933,21 @@
     ev.stopPropagation();
     guests[type] = Math.max(0, guests[type]+delta);
     if(type==='adults') guests.adults = Math.max(1, guests.adults);
-    document.getElementById('g'+type.charAt(0).toUpperCase()+type.slice(1)).textContent = guests[type];
-    var parts = [];
-    if(guests.adults) parts.push(guests.adults+' Adult'+(guests.adults>1?'s':''));
-    if(guests.children) parts.push(guests.children+' Child'+(guests.children>1?'ren':''));
-    if(guests.infants) parts.push(guests.infants+' Infant'+(guests.infants>1?'s':''));
-    document.getElementById('valGuests').textContent = parts.join(', ');
+    var gEl = document.getElementById('g'+type.charAt(0).toUpperCase()+type.slice(1));
+    if(gEl) gEl.textContent = guests[type];
+    refreshGuestChip();
   }
   function doSearch(){
     var searchInput = document.getElementById('smartSearchInput');
-    var dest = (searchInput && searchInput.value.trim()) || document.getElementById('valDest').textContent;
-    document.getElementById('valDest').textContent = dest;
-    var ci = document.getElementById('valCheckin').textContent;
-    var co = document.getElementById('valCheckout').textContent;
-    var gst = document.getElementById('valGuests').textContent;
-    toast('Searching for tours in '+dest+' · '+ci+' to '+co+' · '+gst+'...','info');
+    var destEl = document.getElementById('valDest');
+    var ciEl = document.getElementById('valCheckin');
+    var coEl = document.getElementById('valCheckout');
+    var dest = (searchInput && searchInput.value.trim()) || (destEl && destEl.textContent) || '';
+    if(destEl) destEl.textContent = dest;
+    var ci = ciEl ? ciEl.textContent : '';
+    var co = coEl ? coEl.textContent : '';
+    var gst = guestSummaryText();
+    toast(i18nTpl(t('toast_do_search'), { dest: dest, ci: ci, co: co, gst: gst }),'info');
     var q = dest.toLowerCase();
     var target = 'packages';
     if (/(about|vision|mission|company|team|why)/.test(q)) target = 'about';
@@ -3348,13 +3974,13 @@
   function toggleFav(btn){
     btn.classList.toggle('liked');
     btn.textContent = btn.classList.contains('liked') ? 'Added' : '+';
-    toast(btn.classList.contains('liked') ? 'Added to shortlist.' : 'Removed from shortlist.','heart');
+    toast(btn.classList.contains('liked') ? t('toast_fav_add') : t('toast_fav_remove'),'heart');
     event.stopPropagation();
   }
   function toggleCarFav(btn){
     btn.classList.toggle('liked');
     btn.textContent = btn.classList.contains('liked') ? 'Added' : '+';
-    toast(btn.classList.contains('liked') ? 'Added to shortlist.' : 'Removed from shortlist.','heart');
+    toast(btn.classList.contains('liked') ? t('toast_fav_add') : t('toast_fav_remove'),'heart');
   }
 
   /* ── CAR FILTER & SORT ── */
@@ -3382,7 +4008,7 @@
       return 0;
     });
     cards.forEach(function(c){ grid.appendChild(c); });
-    if(val!=='default') toast('📊 Sorted by '+val.replace('-',' '),'info');
+    if(val!=='default') toast(i18nTpl(t('toast_sort'), { v: val.replace('-',' ') }),'info');
   }
 
   /* ── CART ── */
@@ -3393,7 +4019,7 @@
     var id = Date.now();
     cartItems.push({id:id, name:name, details:details, price:price});
     renderCart();
-    toast('Added to cart: '+name,'success');
+    toast(i18nTpl(t('toast_cart_added'), { name: name }),'success');
   }
   function removeFromCart(id){
     cartItems = cartItems.filter(function(i){ return i.id!==id; });
@@ -3404,7 +4030,7 @@
     var cnt = document.getElementById('cartCount');
     var total = 0;
     if(cartItems.length===0){
-      wrap.innerHTML = '<div class="cart-empty"><span>—</span><p>No bookings yet</p></div>';
+      wrap.innerHTML = '<div class="cart-empty"><span>—</span><p>'+t('cart_empty')+'</p></div>';
       if (cnt) cnt.classList.remove('show');
     } else {
       wrap.innerHTML = '';
@@ -3426,11 +4052,13 @@
   }
 
   /* ── BOOKING MODAL ── */
-  var bkgStep=1, bkgBasePrice=0, bkgQtyVal=2, currentBookingNameEn='', currentBookingNameZh='';
-  function openBooking(name, priceStr, price, cat, nameZh){
+  var bkgStep=1, bkgBasePrice=0, bkgQtyVal=2, bkgFlatPrice=false, bkgFlatType=null, currentBookingNameEn='', currentBookingNameZh='';
+  function openBooking(name, priceStr, price, cat, nameZh, flatPrice, flatType){
     currentBookingNameEn = name;
     currentBookingNameZh = nameZh || name;
     bkgBasePrice = price; bkgQtyVal = 2; bkgStep=1;
+    bkgFlatPrice = !!flatPrice;
+    bkgFlatType = flatPrice ? (flatType || 'charter') : null;
     document.getElementById('bkgTitle').textContent = currentLang === 'zh' ? currentBookingNameZh : currentBookingNameEn;
     document.getElementById('bkgSub').textContent = t('bkg_sub_step1');
     document.getElementById('bkgImg').className = 'modal-img pi-'+catToClass(cat);
@@ -3443,7 +4071,7 @@
     updateBkgPrice();
     openModal('bookingModal');
   }
-  function catToClass(cat){ return {nature:'skybridge',beach:'beach',tour:'mangrove',evening:'sunset'}[cat]||'skybridge'; }
+  function catToClass(cat){ return {nature:'skybridge',beach:'beach',tour:'mangrove',evening:'sunset',atv:'atv'}[cat]||'skybridge'; }
   function showBkgStep(n){
     bkgStep = n;
     [1,2].forEach(function(i){
@@ -3463,15 +4091,27 @@
     updateBkgPrice();
   }
   function updateBkgPrice(){
-    var sub = bkgBasePrice*bkgQtyVal, fee = Math.round(sub*0.05), total = sub+fee;
-    document.getElementById('bkgPriceLabel').textContent = 'RM '+bkgBasePrice+' × '+bkgQtyVal+' '+t('word_pax');
-    document.getElementById('bkgSubtotal').textContent = 'RM '+sub;
-    document.getElementById('bkgFee').textContent = 'RM '+fee;
-    document.getElementById('bkgTotal').textContent = 'RM '+total;
-    document.getElementById('bkgPriceLabel2').textContent = 'RM '+bkgBasePrice+' × '+bkgQtyVal+' '+t('word_pax');
-    document.getElementById('bkgSubtotal2').textContent = 'RM '+sub;
-    document.getElementById('bkgFee2').textContent = 'RM '+fee;
-    document.getElementById('bkgTotal2').textContent = 'RM '+total;
+    var sub, fee, total, line;
+    if (bkgFlatPrice) {
+      sub = bkgBasePrice;
+      fee = Math.round(sub * 0.05);
+      total = sub + fee;
+      var flatLbl = bkgFlatType === 'atv' ? 'bkg_lbl_atv_unit' : 'bkg_lbl_charter';
+      line = t(flatLbl) + ': RM ' + bkgBasePrice + ' — ' + bkgQtyVal + ' ' + t('bkg_lbl_party');
+    } else {
+      sub = bkgBasePrice * bkgQtyVal;
+      fee = Math.round(sub * 0.05);
+      total = sub + fee;
+      line = 'RM ' + bkgBasePrice + ' × ' + bkgQtyVal + ' ' + t('word_pax');
+    }
+    document.getElementById('bkgPriceLabel').textContent = line;
+    document.getElementById('bkgSubtotal').textContent = 'RM ' + sub;
+    document.getElementById('bkgFee').textContent = 'RM ' + fee;
+    document.getElementById('bkgTotal').textContent = 'RM ' + total;
+    document.getElementById('bkgPriceLabel2').textContent = line;
+    document.getElementById('bkgSubtotal2').textContent = 'RM ' + sub;
+    document.getElementById('bkgFee2').textContent = 'RM ' + fee;
+    document.getElementById('bkgTotal2').textContent = 'RM ' + total;
   }
   function bkgNext(){
     if(bkgStep===1){
@@ -3493,7 +4133,7 @@
     nextBtn.disabled=true;
     try {
       var ref = 'LKW-'+Math.floor(10000+Math.random()*90000);
-      var sub = bkgBasePrice*bkgQtyVal, fee = Math.round(sub*0.05), total = sub+fee;
+      var sub = bkgFlatPrice ? bkgBasePrice : bkgBasePrice*bkgQtyVal, fee = Math.round(sub*0.05), total = sub+fee;
       var bookingDate = document.getElementById('bkgDate').value;
       var bookingTime = document.getElementById('bkgTime').value;
       var fullName = document.getElementById('bkgName').value.trim();
@@ -3547,7 +4187,7 @@
         }
       }, 1400);
     } catch (err) {
-      toast('Tak dapat redirect ke WhatsApp. Cuba sekali lagi.','warning');
+      toast(t('toast_wa_redirect_fail'),'warning');
       nextBtn.disabled=false;
       nextBtn.textContent = t('btn_confirm_booking');
     }
@@ -3627,7 +4267,7 @@
       ring.style.cssText='width:'+size+'px;height:'+size+'px;left:'+(e.clientX-rect.left-size/2)+'px;top:'+(e.clientY-rect.top-size/2)+'px;';
       btn.appendChild(ring); setTimeout(function(){ ring.remove(); },600);
     }
-    document.querySelectorAll('.btn-primary,.btn-outline,.btn-book-sm,.search-go,.btn-plan,.btn-rent,.contact-btn,.btn-checkout,.gallery-nav,.mega-cta').forEach(function(btn){
+    document.querySelectorAll('.btn-primary,.btn-outline,.btn-book-sm,.btn-book-pill,.search-go,.btn-plan,.btn-rent,.contact-btn,.btn-checkout,.gallery-nav,.mega-cta').forEach(function(btn){
       btn.addEventListener('click',addRipple);
     });
   })();
@@ -3708,7 +4348,7 @@
   }, function(c){ c.style.transitionDelay='0ms'; c.style.opacity='0'; c.style.transform='translateX(-20px)'; }, 0.15);
 
   /* -- Contact items -- */
-  staggerObserve('.contact-list,.contact-mini-list', '.contact-item', function(c,i){
+  staggerObserve('.contact-aside-list', '.contact-aside-item', function(c,i){
     c.style.transition='none'; c.style.opacity='0'; c.style.transform='translateY(14px)';
     requestAnimationFrame(function(){ requestAnimationFrame(function(){
       c.style.transition='opacity 0.48s ease, transform 0.48s cubic-bezier(0.22,1,0.36,1)';
@@ -3891,6 +4531,62 @@
     if (d[k] !== undefined) return d[k];
     return (i18n.en[k] !== undefined) ? i18n.en[k] : k;
   }
+  window.t = t;
+  function i18nTpl(str, vars){
+    if (!str) return '';
+    return String(str).replace(/\{\{(\w+)\}\}/g, function(_, key){
+      return vars && vars[key] !== undefined && vars[key] !== null ? String(vars[key]) : '';
+    });
+  }
+  function guestSummaryText(){
+    var parts = [];
+    if (currentLang === 'zh') {
+      if (guests.adults) parts.push(guests.adults + '位成人');
+      if (guests.children) parts.push(guests.children + '位儿童');
+      if (guests.infants) parts.push(guests.infants + '位婴儿');
+      return parts.join('，');
+    }
+    if (guests.adults) parts.push(guests.adults + ' ' + (guests.adults === 1 ? t('word_adult') : t('word_adults')));
+    if (guests.children) parts.push(guests.children + ' ' + (guests.children === 1 ? t('word_child') : t('word_children')));
+    if (guests.infants) parts.push(guests.infants + ' ' + (guests.infants === 1 ? t('word_infant') : t('word_infants')));
+    return parts.join(', ');
+  }
+  function refreshGuestChip(){
+    var vg = document.getElementById('valGuests');
+    if (vg) vg.textContent = guestSummaryText();
+  }
+  function refreshMangrovePkgCard(){
+    var sel = document.getElementById('mangroveVariant');
+    var list = document.getElementById('mangroveFeatList');
+    var strong = document.getElementById('mangrovePriceStrong');
+    if (!sel || !list || !strong) return;
+    var v = sel.value;
+    var opt = sel.options[sel.selectedIndex];
+    var price = opt.getAttribute('data-price');
+    strong.textContent = 'RM ' + price;
+    var raw = t('pkg7_li_' + v);
+    list.innerHTML = '';
+    raw.split('|').forEach(function(line){
+      line = line.trim();
+      if (!line) return;
+      var li = document.createElement('li');
+      li.textContent = line;
+      list.appendChild(li);
+    });
+  }
+  function bookMangrovePrivate(){
+    var sel = document.getElementById('mangroveVariant');
+    if (!sel) return;
+    var opt = sel.options[sel.selectedIndex];
+    var price = parseInt(opt.getAttribute('data-price'), 10);
+    var h = sel.value;
+    var nameEn = 'Mangrove Tour — ' + h + 'h chartered boat';
+    var nameZh = '红树林包船 ' + h + '小时';
+    openBooking(nameEn, 'RM ' + price, price, 'tour', nameZh, true, 'charter');
+  }
+  function bookAtvAdventure(){
+    openBooking('ATV Adventure — 1 hour', 'RM 250', 250, 'atv', 'ATV 探险 1小时', true, 'atv');
+  }
   function setLang(lang){
     currentLang = lang;
     try { localStorage.setItem('sml_lang', lang); } catch (e) {}
@@ -3905,10 +4601,15 @@
       var key = el.getAttribute('data-i18n-placeholder');
       if(dict[key] !== undefined){ el.setAttribute('placeholder', dict[key]); }
     });
+    document.querySelectorAll('[data-i18n-aria]').forEach(function(el){
+      var key = el.getAttribute('data-i18n-aria');
+      if(dict[key] !== undefined){ el.setAttribute('aria-label', dict[key]); }
+    });
     document.querySelectorAll('option[data-i18n]').forEach(function(opt){
       var key = opt.getAttribute('data-i18n');
       if(dict[key] !== undefined){ opt.textContent = dict[key]; }
     });
+    if (dict.page_title !== undefined) document.title = dict.page_title;
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
     var bkgModal = document.getElementById('bookingModal');
     if (bkgModal && !bkgModal.classList.contains('open')) {
@@ -3919,12 +4620,16 @@
     } else if (bkgModal && bkgModal.classList.contains('open') && currentBookingNameEn) {
       document.getElementById('bkgTitle').textContent = lang === 'zh' ? currentBookingNameZh : currentBookingNameEn;
       showBkgStep(bkgStep);
+      updateBkgPrice();
     }
     var carModal = document.getElementById('carModal');
     if (carModal && carModal.classList.contains('open') && typeof carNameEn !== 'undefined' && carNameEn) {
       document.getElementById('carTitle').textContent = t('car_rent_prefix') + (lang === 'zh' ? carNameZh : carNameEn);
       updateCarPrice();
     }
+    refreshMangrovePkgCard();
+    refreshGuestChip();
+    renderCart();
   }
 
   var carBasePrice = 0, carNameEn = '', carNameZh = '';
@@ -3960,15 +4665,15 @@
   /* ── PLANNER ── */
   function openPlanner(){ openModal('plannerModal'); }
   function addSlot(btn){
-    var activities = ['Snorkelling at Pulau Payar','Local Food Trail','Wildlife Sanctuary','Scooter Island Tour','Sunrise Walk','Coral Reef Diving','Durian Farm Visit','Fishing Trip'];
-    var act = activities[Math.floor(Math.random()*activities.length)];
+    var idx = Math.floor(Math.random() * 8) + 1;
+    var act = t('planner_rand_' + idx);
     var times = ['08:00 AM','10:30 AM','01:00 PM','03:00 PM','05:00 PM'];
     var time = times[Math.floor(Math.random()*times.length)];
     var slot = document.createElement('div');
     slot.className='day-slot';
     slot.innerHTML='<span>'+act+'</span><span style="color:#8fa3bf;font-size:12px;">'+time+'</span>';
     btn.parentNode.insertBefore(slot, btn);
-    toast('Added: '+act,'success');
+    toast(i18nTpl(t('toast_planner_added'), { act: act }),'success');
   }
   function savePlanner(){ toast(t('planner_toast_saved'),'success'); closeModal('plannerModal'); }
 
