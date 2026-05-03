@@ -2020,13 +2020,15 @@
     #bkgPhone {
       padding-right: 18px;
     }
-    /* Native date fields: WebKit draws the calendar icon outside padding — pin it inside so width matches select/text */
+    /* Date inputs: slightly narrower than full cell + compact icon so line-up matches selects */
     .modal-box .form-group input[type="date"] {
       position: relative;
+      display: block;
       min-width: 0;
+      width: calc(100% - 12px);
       max-width: 100%;
       box-sizing: border-box;
-      padding-right: 42px;
+      padding-right: 26px;
     }
     .modal-box .form-group input[type="date"]::-webkit-datetime-edit-fields-wrapper {
       max-width: 100%;
@@ -2034,11 +2036,11 @@
     }
     .modal-box .form-group input[type="date"]::-webkit-calendar-picker-indicator {
       position: absolute;
-      right: 10px;
+      right: 6px;
       top: 50%;
       transform: translateY(-50%);
-      width: 22px;
-      height: 22px;
+      width: 18px;
+      height: 18px;
       margin: 0;
       padding: 0;
       cursor: pointer;
@@ -2046,18 +2048,20 @@
     }
     #plannerModal input[type="date"] {
       position: relative;
+      display: block;
       min-width: 0;
+      width: calc(100% - 10px) !important;
       max-width: 100%;
       box-sizing: border-box;
-      padding: 8px 42px 8px 10px !important;
+      padding: 8px 26px 8px 10px !important;
     }
     #plannerModal input[type="date"]::-webkit-calendar-picker-indicator {
       position: absolute;
-      right: 10px;
+      right: 6px;
       top: 50%;
       transform: translateY(-50%);
-      width: 22px;
-      height: 22px;
+      width: 18px;
+      height: 18px;
       margin: 0;
       cursor: pointer;
       opacity: 0.9;
@@ -2177,10 +2181,12 @@
       .sky-wrap, .search-section, .light-wrap { padding-left: var(--gutter-mobile); padding-right: var(--gutter-mobile); }
       .light-wrap .page-section + .page-section { margin-top: 22px; }
       .modal-box .form-group input[type="date"] {
-        padding-right: 44px;
+        width: calc(100% - 10px);
+        padding-right: 24px;
       }
       #plannerModal input[type="date"] {
-        padding: 8px 44px 8px 10px !important;
+        width: calc(100% - 8px) !important;
+        padding: 8px 24px 8px 10px !important;
       }
       .sky-wrap { padding-top: calc(92px + env(safe-area-inset-top, 0px)); }
       .hero { padding: 52px 0 76px; }
