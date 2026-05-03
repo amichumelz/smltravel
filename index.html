@@ -247,6 +247,7 @@
     .hero-stat span { font-size: 12px; color: rgba(190,218,255,0.7); letter-spacing: 0.5px; }
     .hero-scroll { position: absolute; bottom: 130px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0.5; animation: bounce 2s ease-in-out infinite; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
     @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+    @keyframes bounceScrollMobile { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
     .scroll-arrow { font-size: 20px; }
     .plane-deco { position: absolute; right: 13%; top: 38%; font-size: 58px; transform: rotate(-14deg); opacity: 0.85; filter: drop-shadow(0 6px 8px rgba(4,12,38,0.4)); animation: planeFloat 4.5s ease-in-out infinite; z-index: 3; }
     @keyframes planeFloat { 0%,100%{transform:rotate(-14deg) translateY(0)} 50%{transform:rotate(-11deg) translateY(-12px)} }
@@ -435,11 +436,13 @@
     }
     .vm-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 18px; }
     .vm-card {
-      background: #fff;
-      border: 1.5px solid #dee8f5;
+      background: rgba(255, 255, 255, 0.58);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(255, 255, 255, 0.42);
       border-radius: 24px;
       padding: 24px;
-      box-shadow: 0 10px 24px rgba(20,50,100,0.08);
+      box-shadow: 0 10px 28px rgba(8, 24, 52, 0.12);
       transition: 0.25s ease;
       position: relative;
       overflow: hidden;
@@ -452,7 +455,11 @@
       background: linear-gradient(90deg, #3a9eff, #66c6ff);
       opacity: 0.9;
     }
-    .vm-card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(20,50,100,0.13); }
+    .vm-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 40px rgba(8, 24, 52, 0.18);
+      background: rgba(255, 255, 255, 0.68);
+    }
     .vm-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
     .vm-icon {
       width: 44px;
@@ -471,10 +478,10 @@
     .vm-list { list-style: none; display: grid; gap: 10px; margin-top: 8px; }
     .vm-list li {
       font-size: 14px;
-      color: #4f637a;
+      color: #3d5268;
       line-height: 1.55;
-      background: #f7fbff;
-      border: 1px solid #e2edf9;
+      background: rgba(247, 251, 255, 0.52);
+      border: 1px solid rgba(226, 237, 249, 0.65);
       border-radius: 12px;
       padding: 10px 12px 10px 38px;
       position: relative;
@@ -742,9 +749,9 @@
     .pi-mangrove { background-image: url('assets/pkg-mangrove-tour.png'); }
     .pi-sharing-basis { background-image: url('assets/pkg-mangrove-sharing.png'); }
     .pi-beach { background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=75'); }
-    .pi-cable { background-image: url('https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?w=700&q=75'); }
-    .pi-islandhop { background-image: url('https://images.unsplash.com/photo-1504274066651-8d31a536b11a?w=700&q=75'); }
-    .pi-sunset { background-image: url('https://images.unsplash.com/photo-1493558103817-58b2924bce98?w=700&q=75'); }
+    .pi-cable { background-image: url('assets/pkg-cable-car.png'); }
+    .pi-islandhop { background-image: url('assets/pkg-island-hopping.png'); }
+    .pi-sunset { background-image: url('assets/pkg-sunset-cruise.png'); }
     .pi-atv { background-image: url('assets/pkg-atv-adventure.png'); }
     .pkg-badges { position: absolute; bottom: 10px; left: 10px; z-index: 2; display: flex; gap: 6px; flex-wrap: wrap; }
     .pkg-badge { background: rgba(12,30,58,0.6); color: #f0f8ff; border: 1px solid rgba(255,255,255,0.2); border-radius: 99px; padding: 5px 10px; font-size: 12px; backdrop-filter: blur(4px); }
@@ -1988,7 +1995,16 @@
         position: static;
         transform: none;
         margin-top: 16px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        max-width: 22rem;
+        align-self: center;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
         opacity: 0.72;
+        animation: bounceScrollMobile 2s ease-in-out infinite;
       }
       .pkg-grid { grid-template-columns: 1fr; max-width: none; }
       .car-grid, .review-grid { grid-template-columns: 1fr; }
@@ -2929,8 +2945,94 @@
     </div>
     <div class="pkg-grid" id="pkgGrid">
 
-      <!-- Mangrove Sharing -->
+      <!-- Island Hopping -->
       <article class="pkg-card reveal" style="--d:0ms;" data-cat="tour">
+        <div class="pkg-img pi-islandhop" role="img" aria-label="">
+          <span class="pkg-duration-badge" data-i18n="pkg9_dur">Duration: 4 hours</span>
+        </div>
+        <div class="pkg-body">
+          <h3 class="pkg-title" data-i18n="pkg9_t">Island Hopping</h3>
+          <p class="pkg-desc" data-i18n="pkg9_d">A relaxed package for first-time visitors, focused on popular islands and photo stops.</p>
+          <div class="pkg-meta-box">
+            <div class="pkg-meta-row"><span class="pkg-meta-lbl" data-i18n="pkg_lbl_slot">Slot:</span><span class="pkg-meta-val" data-i18n="pkg9_mv_slot">Morning 9:00 AM or afternoon 2:00 PM</span></div>
+            <div class="pkg-meta-row"><span class="pkg-meta-lbl" data-i18n="pkg_lbl_meeting">Meeting:</span><span class="pkg-meta-val" data-i18n="pkg9_mv_meet">Teluk Baru Jetty (arrive 10 minutes earlier)</span></div>
+            <div class="pkg-meta-row"><span class="pkg-meta-lbl" data-i18n="pkg_lbl_best">Best for:</span><span class="pkg-meta-val" data-i18n="pkg9_mv_best">Families, couples &amp; small groups</span></div>
+          </div>
+          <ul class="pkg-features">
+            <li data-i18n="pkg9_li1">3 islands tour</li>
+            <li data-i18n="pkg9_li2">Pregnant Maiden Lake</li>
+            <li data-i18n="pkg9_li3">Life jacket included</li>
+            <li data-i18n="pkg9_li4">Note: food &amp; drinks are not included</li>
+          </ul>
+          <div class="pkg-footer-bar">
+            <div class="pkg-price-block">
+              <span class="pkg-from" data-i18n="pkg_from">From</span>
+              <div class="pkg-amount"><strong>RM 45</strong><span data-i18n="suffix_pax">/pax</span></div>
+            </div>
+            <button type="button" class="btn-book-pill" onclick="openBooking('Island Hopping','RM 45',45,'tour','跳岛游')" data-i18n="pkg_book_short">BOOK</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Cable Car -->
+      <article class="pkg-card reveal" style="--d:80ms;" data-cat="tour">
+        <div class="pkg-img pi-cable" role="img" aria-label="">
+          <span class="pkg-duration-badge" data-i18n="pkg10_dur">Full day</span>
+        </div>
+        <div class="pkg-body">
+          <h3 class="pkg-title" data-i18n="pkg10_t">Cable Car</h3>
+          <p class="pkg-desc" data-i18n="pkg10_d">A great full-day option with panoramic views and a mix of indoor and outdoor attractions.</p>
+          <div class="pkg-meta-box">
+            <div class="pkg-meta-row"><span class="pkg-meta-lbl" data-i18n="pkg_lbl_slot">Slot:</span><span class="pkg-meta-val" data-i18n="pkg10_mv_slot">Flexible ticket (based on SkyCab available slots)</span></div>
+            <div class="pkg-meta-row"><span class="pkg-meta-lbl" data-i18n="pkg_lbl_meeting">Meeting:</span><span class="pkg-meta-val" data-i18n="pkg10_mv_meet">Oriental Village, Pantai Kok</span></div>
+            <div class="pkg-meta-row"><span class="pkg-meta-lbl" data-i18n="pkg_lbl_best">Best for:</span><span class="pkg-meta-val" data-i18n="pkg10_mv_best">Couples, families &amp; travel groups</span></div>
+          </div>
+          <ul class="pkg-features">
+            <li data-i18n="pkg10_li1">Official SkyCab ticket</li>
+            <li data-i18n="pkg10_li2">Free SkyDome access</li>
+            <li data-i18n="pkg10_li3">Free 3D Art Museum access</li>
+            <li data-i18n="pkg10_li4">Express Lane upgrade option (add-on)</li>
+          </ul>
+          <div class="pkg-footer-bar">
+            <div class="pkg-price-block">
+              <span class="pkg-from" data-i18n="pkg_from">From</span>
+              <div class="pkg-amount"><strong>RM 85</strong><span data-i18n="suffix_pax">/pax</span></div>
+            </div>
+            <button type="button" class="btn-book-pill" onclick="openBooking('Cable Car','RM 85',85,'tour','缆车')" data-i18n="pkg_book_short">BOOK</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Sunset Cruise -->
+      <article class="pkg-card reveal" style="--d:160ms;" data-cat="tour">
+        <div class="pkg-img pi-sunset" role="img" aria-label="">
+          <span class="pkg-duration-badge" data-i18n="pkg11_dur">Evening</span>
+        </div>
+        <div class="pkg-body">
+          <h3 class="pkg-title" data-i18n="pkg11_t">Sunset Cruise</h3>
+          <p class="pkg-desc" data-i18n="pkg11_d">Enjoy a breathtaking sunset view on a boat cruise during a beautiful Langkawi evening.</p>
+          <div class="pkg-meta-box">
+            <div class="pkg-meta-row"><span class="pkg-meta-lbl" data-i18n="pkg_lbl_slot">Slot:</span><span class="pkg-meta-val" data-i18n="pkg11_mv_slot">Evening — based on sunset time</span></div>
+            <div class="pkg-meta-row"><span class="pkg-meta-lbl" data-i18n="pkg_lbl_meeting">Meeting:</span><span class="pkg-meta-val" data-i18n="pkg11_mv_meet">Jetty as advised when you book</span></div>
+            <div class="pkg-meta-row"><span class="pkg-meta-lbl" data-i18n="pkg_lbl_best">Best for:</span><span class="pkg-meta-val" data-i18n="pkg11_mv_best">Couples &amp; families</span></div>
+          </div>
+          <ul class="pkg-features">
+            <li data-i18n="pkg11_li1">Evening boat cruise</li>
+            <li data-i18n="pkg11_li2">Panoramic sunset views</li>
+            <li data-i18n="pkg11_li3">Life jacket provided</li>
+          </ul>
+          <div class="pkg-footer-bar">
+            <div class="pkg-price-block">
+              <span class="pkg-from" data-i18n="pkg_from">From</span>
+              <div class="pkg-amount"><strong>RM 190</strong><span data-i18n="suffix_pax">/pax</span></div>
+            </div>
+            <button type="button" class="btn-book-pill" onclick="openBooking('Sunset Cruise','RM 190',190,'tour','日落游船')" data-i18n="pkg_book_short">BOOK</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Mangrove Sharing -->
+      <article class="pkg-card reveal" style="--d:240ms;" data-cat="tour">
         <div class="pkg-img pi-sharing-basis" role="img" aria-label="">
           <span class="pkg-duration-badge" data-i18n="pkg2_dur">Max 4 hours</span>
         </div>
@@ -2959,7 +3061,7 @@
       </article>
 
       <!-- Mangrove private charter -->
-      <article class="pkg-card reveal" id="mangrovePkgCard" style="--d:80ms;" data-cat="tour">
+      <article class="pkg-card reveal" id="mangrovePkgCard" style="--d:320ms;" data-cat="tour">
         <div class="pkg-img pi-mangrove" role="img" aria-label="">
           <span class="pkg-duration-badge" data-i18n="pkg7_dur">Flexible</span>
         </div>
@@ -2993,7 +3095,7 @@
       </article>
 
       <!-- ATV Adventure -->
-      <article class="pkg-card reveal" style="--d:160ms;" data-cat="tour">
+      <article class="pkg-card reveal" style="--d:400ms;" data-cat="tour">
         <div class="pkg-img pi-atv" role="img" aria-label="">
           <span class="pkg-duration-badge" data-i18n="pkg8_dur">1 hour</span>
         </div>
