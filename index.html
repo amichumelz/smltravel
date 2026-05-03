@@ -1293,7 +1293,7 @@
       z-index: 2;
       width: min(292%, 960px);
       height: 390px;
-      background-image: url('/Users/fatinshamirah/.cursor/projects/Users-fatinshamirah-website-sml/assets/image-removebg-preview-6-6b6c5680-96aa-4c81-a323-597c2396cc2d.png');
+      background-image: url('assets/fleet-toyota-vios.png');
       background-repeat: no-repeat;
       background-position: center right;
       background-size: contain;
@@ -1352,7 +1352,7 @@
         drop-shadow(0 28px 24px rgba(10, 26, 56, 0.34))
         drop-shadow(0 14px 10px rgba(10, 26, 56, 0.18));
     }
-    .ci-bezza { background-image: url('/Users/fatinshamirah/.cursor/projects/Users-fatinshamirah-website-sml/assets/image-removebg-preview-6-6b6c5680-96aa-4c81-a323-597c2396cc2d.png'); }
+    .ci-bezza { background-image: url('assets/fleet-toyota-vios.png'); }
     .ci-scooter { background-image: url('assets/fleet-scooter-150cc.png'); }
     .ci-brv { background-image: url('assets/fleet-honda.png'); }
     .ci-vios { background-image: url('assets/fleet-toyota-vios.png'); }
@@ -1995,37 +1995,48 @@
       .car-rental-banner {
         margin: 4px 0 12px;
         border-radius: 14px;
-        grid-template-columns: minmax(0, 1fr) minmax(148px, 58vw);
-        gap: 6px 4px;
-        padding: 12px 6px 12px 12px;
+        display: block;
+        position: relative;
+        padding: 14px 14px min(120px, 28vw);
         min-height: 0;
-        align-items: center;
+        overflow: visible;
+        isolation: isolate;
       }
       .car-rental-intro {
         min-width: 0;
+        position: relative;
+        z-index: 2;
+        max-width: 100%;
+        padding-right: 0;
       }
       .car-rental-banner::before {
         width: 100%;
-        opacity: 0.55;
-        background-size: 42% auto;
-        background-position: left center;
+        opacity: 0.45;
+        background-size: 38% auto;
+        background-position: left top;
       }
       .car-rental-banner::after {
-        width: min(148px, 36vw);
+        width: min(200px, 48vw);
         right: 0;
-        border-radius: 14px 0 0 14px;
-        transform: scaleY(1.12);
-        transform-origin: center right;
-        opacity: 0.95;
+        top: 0;
+        bottom: auto;
+        height: min(200px, 46vw);
+        border-radius: 0 14px 0 40px;
+        transform: none;
+        transform-origin: top right;
+        opacity: 0.88;
+        z-index: 0;
       }
       .car-rental-intro h3 {
         font-size: clamp(22px, 5.5vw, 34px);
-        max-width: none;
+        max-width: 16ch;
+        text-shadow: 0 0 1px rgba(255,255,255,0.6);
       }
       .car-rental-intro p {
         font-size: 13px;
         margin-top: 8px;
-        max-width: none;
+        max-width: 22ch;
+        text-shadow: 0 0 1px rgba(255,255,255,0.5);
       }
       .car-rental-kicker {
         margin-bottom: 4px;
@@ -2034,24 +2045,35 @@
         margin-top: 8px;
       }
       .car-rental-visual {
+        position: absolute;
+        right: -6px;
+        bottom: 2px;
+        left: auto;
+        width: min(104vw, 360px);
+        max-width: none;
         min-height: 0;
-        align-self: stretch;
+        height: min(200px, 48vw);
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         justify-content: flex-end;
-        padding-left: 0;
-        margin-right: -10px;
+        padding: 0;
+        margin: 0;
+        z-index: 1;
+        pointer-events: none;
       }
       .car-rental-visual::before {
         content: none;
       }
       .car-rental-hero-car {
-        height: clamp(176px, 50vw, 288px);
+        height: min(200px, 50vw);
+        min-height: 160px;
         width: 100%;
-        max-width: min(380px, 68vw);
-        margin-left: auto;
-        transform: translateX(22px);
-        background-position: center right;
+        max-width: min(400px, 95vw);
+        margin: 0;
+        transform: translate(8px, 4px);
+        background-position: right bottom;
+        background-size: contain;
+        filter: drop-shadow(0 10px 16px rgba(10,24,50,0.32));
       }
       .car-tabs.after-intro {
         margin: 4px 0 12px;
