@@ -1479,6 +1479,42 @@
     .ci-scooter { background-image: url('assets/fleet-scooter-150cc.png'); }
     .ci-brv { background-image: url('assets/fleet-honda.png'); }
     .ci-vios { background-image: url('assets/fleet-toyota-vios.png'); }
+    .ci-myvi-old {
+      background-image: url('assets/fleet-myvi-old-model.png');
+    }
+    .ci-axia { background-image: url('assets/fleet-axia.png'); background-size: 90% auto; }
+    .ci-bezza-custom { background-image: url('assets/fleet-bezza.png'); }
+    .ci-almera-new-turbo { background-image: url('assets/fleet-nissan-almera-new-turbo.png'); }
+    .ci-almera-old { background-image: url('assets/fleet-nissan-almera-old.png'); }
+    .ci-honda-city-old {
+      background-image: url('assets/fleet-honda-city-old-model.png');
+      background-size: 60% auto;
+    }
+    .ci-vios-new { background-image: url('assets/fleet-toyota-vios-new-model.png'); }
+    .ci-polo {
+      background-image: url('assets/fleet-volkswagen-polo.png');
+    }
+    .ci-camry-old { background-image: url('assets/fleet-toyota-camry-old-model.png'); }
+    .ci-mini-cooper { background-image: url('assets/fleet-mini-cooper-new-model.png'); }
+    .ci-mg5-new { background-image: url('assets/fleet-mg5-new-model.png'); }
+    .ci-zenix-new { background-image: url('assets/fleet-toyota-zenix-new-model.png'); }
+    .ci-innova-new { background-image: url('assets/fleet-toyota-innova-new-model.png'); }
+    .ci-avanza-old {
+      background-image: url('assets/fleet-toyota-avanza-old-model.png');
+      background-size: 80% auto;
+      background-position: center center;
+    }
+    .car-card:hover .ci-avanza-old {
+      transform: translateX(-50%) translateY(-8px) scale(1.045);
+    }
+    .ci-serena-ice-new { background-image: url('assets/fleet-nissan-serena-ice-new.png'); }
+    .ci-alphard-new { background-image: url('assets/fleet-alphard-2-5-sc-new.png'); background-size: 72% auto; }
+    .ci-vellfire-new { background-image: url('assets/fleet-vellfire-new.png'); background-size: 72% auto; }
+    .ci-starex { background-image: url('assets/fleet-hyundai-starex.png'); }
+    .ci-staria-new { background-image: url('assets/fleet-hyundai-staria-new.png'); }
+    .ci-hiace-manual { background-image: url('assets/fleet-toyota-hiace-manual.png'); }
+    .ci-urvan-low { background-image: url('assets/fleet-urvan-low-roof.png'); }
+    .ci-urvan-high { background-image: url('assets/fleet-urvan-high-roof.png'); }
     .ci-serena { background-image: url('assets/fleet-nissan-serena.png'); }
     .ci-hiace { background-image: url('assets/fleet-toyota-hiace.png'); }
     .car-stars-row { color: #f3a531; font-size: 12px; margin-bottom: 6px; margin-top: 8px; }
@@ -2935,7 +2971,9 @@
 <!-- GLOBAL NAV -->
 <header class="topbar">
   <div class="logo">
-    <img class="company-logo" src="./assets/sm-leisure-logo.png" alt="SM Leisure Travel & Tours logo" />
+    <a href="#" onclick="navigateToSection('hero');return false;" aria-label="Back to Home">
+      <img class="company-logo" src="./assets/sm-leisure-logo.png" alt="SM Leisure Travel & Tours logo" />
+    </a>
   </div>
   <nav class="nav-pill" id="mainNav">
     <a href="#" class="active" data-section="hero" data-i18n="nav_home">Home</a>
@@ -3495,68 +3533,12 @@
       </div>
     </div>
     <div class="car-tabs after-intro">
-      <button class="car-tab active" onclick="filterCars('family',this)" data-i18n="car_tab_family">Family</button>
-      <button class="car-tab" onclick="filterCars('sport',this)" data-i18n="car_tab_sport">Sport</button>
-      <button class="car-tab" onclick="filterCars('sedan',this)" data-i18n="car_tab_sedan">Sedan</button>
-      <button class="car-tab" onclick="filterCars('jeep',this)" data-i18n="car_tab_jeep">Jeep</button>
+      <button class="car-tab active" onclick="filterCars('all',this)">All</button>
+      <button class="car-tab" onclick="filterCars('sedan',this)">Sedan</button>
+      <button class="car-tab" onclick="filterCars('mpv',this)">MPV</button>
+      <button class="car-tab" onclick="filterCars('van',this)">Van</button>
     </div>
-    <div class="car-grid" id="carGrid">
-
-      <div class="car-card reveal" style="--d:0ms;" data-cat="sedan family" data-price="95" data-type="car">
-        <div class="car-top"><span class="car-badge cb-new">15% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
-        <div class="car-img ci-bezza"></div>
-        <p class="car-stars-row rating-stars-row" data-i18n-aria="aria_stars_5" aria-label="5 out of 5 stars">★★★★★</p>
-        <h3 class="car-name">Perodua Bezza</h3>
-        <div class="car-specs-row"><span class="car-spec" data-i18n="car_spec_diesel">Diesel</span><span class="car-spec" data-i18n="car_tab_family">Family</span><span class="car-spec"><span>4,000</span> <span data-i18n="car_spec_miles">Miles</span></span><span class="car-spec"><span>5</span> <span data-i18n="car_spec_seats">Seats</span></span><span class="car-spec" data-i18n="car_spec_auto">Automatic</span><span class="car-spec" data-i18n="car_tab_sedan">Sedan</span></div>
-        <div class="car-footer"><div class="car-price">RM 95<small data-i18n="car_day">/Day</small></div><button class="btn-rent" onclick="openCarBooking('Perodua Bezza',95,'Perodua Bezza')" data-i18n="car_book">Book Now</button></div>
-      </div>
-
-      <div class="car-card reveal" style="--d:80ms;" data-cat="sport" data-price="60" data-type="scooter">
-        <div class="car-top"><span class="car-badge cb-pop">10% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
-        <div class="car-img ci-scooter"></div>
-        <p class="car-stars-row rating-stars-row" data-i18n-aria="aria_stars_5" aria-label="5 out of 5 stars">★★★★★</p>
-        <h3 class="car-name">Scooter 150cc</h3>
-        <div class="car-specs-row"><span class="car-spec" data-i18n="car_spec_petrol">Petrol</span><span class="car-spec" data-i18n="car_tab_sport">Sport</span><span class="car-spec"><span>3,000</span> <span data-i18n="car_spec_miles">Miles</span></span><span class="car-spec"><span>2</span> <span data-i18n="car_spec_seats">Seats</span></span><span class="car-spec" data-i18n="car_spec_auto">Automatic</span><span class="car-spec" data-i18n="car_spec_compact">Compact</span></div>
-        <div class="car-footer"><div class="car-price">RM 60<small data-i18n="car_day">/Day</small></div><button class="btn-rent" onclick="openCarBooking('Scooter 150cc',60,'150cc 摩托车')" data-i18n="car_book">Book Now</button></div>
-      </div>
-
-      <div class="car-card reveal" style="--d:160ms;" data-cat="jeep family" data-price="180" data-type="car">
-        <div class="car-top"><span class="car-badge cb-new">15% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
-        <div class="car-img ci-brv"></div>
-        <p class="car-stars-row rating-stars-row" data-i18n-aria="aria_stars_5" aria-label="5 out of 5 stars">★★★★★</p>
-        <h3 class="car-name">Honda BR-V</h3>
-        <div class="car-specs-row"><span class="car-spec" data-i18n="car_spec_diesel">Diesel</span><span class="car-spec" data-i18n="car_tab_jeep">Jeep</span><span class="car-spec"><span>5,000</span> <span data-i18n="car_spec_miles">Miles</span></span><span class="car-spec"><span>7</span> <span data-i18n="car_spec_seats">Seats</span></span><span class="car-spec" data-i18n="car_spec_auto">Automatic</span><span class="car-spec" data-i18n="car_spec_suv">SUV</span></div>
-        <div class="car-footer"><div class="car-price">RM 180<small data-i18n="car_day">/Day</small></div><button class="btn-rent" onclick="openCarBooking('Honda BR-V',180,'Honda BR-V')" data-i18n="car_book">Book Now</button></div>
-      </div>
-
-      <div class="car-card reveal" style="--d:0ms;" data-cat="sedan" data-price="140" data-type="car">
-        <div class="car-top"><span class="car-badge cb-pop">15% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
-        <div class="car-img ci-vios"></div>
-        <p class="car-stars-row rating-stars-row" data-i18n-aria="aria_stars_5" aria-label="5 out of 5 stars">★★★★★</p>
-        <h3 class="car-name">Toyota Vios</h3>
-        <div class="car-specs-row"><span class="car-spec" data-i18n="car_spec_diesel">Diesel</span><span class="car-spec" data-i18n="car_tab_sedan">Sedan</span><span class="car-spec"><span>7,000</span> <span data-i18n="car_spec_miles">Miles</span></span><span class="car-spec"><span>4</span> <span data-i18n="car_spec_seats">Seats</span></span><span class="car-spec" data-i18n="car_spec_auto">Automatic</span><span class="car-spec" data-i18n="car_spec_urban">Urban</span></div>
-        <div class="car-footer"><div class="car-price">RM 140<small data-i18n="car_day">/Day</small></div><button class="btn-rent" onclick="openCarBooking('Toyota Vios',140,'Toyota Vios')" data-i18n="car_book">Book Now</button></div>
-      </div>
-
-      <div class="car-card reveal" style="--d:80ms;" data-cat="family sport" data-price="240" data-type="van">
-        <div class="car-top"><span class="car-badge cb-new">12% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
-        <div class="car-img ci-serena"></div>
-        <p class="car-stars-row rating-stars-row" data-i18n-aria="aria_stars_5" aria-label="5 out of 5 stars">★★★★★</p>
-        <h3 class="car-name">Nissan Serena</h3>
-        <div class="car-specs-row"><span class="car-spec" data-i18n="car_spec_diesel">Diesel</span><span class="car-spec" data-i18n="car_tab_family">Family</span><span class="car-spec"><span>7,000</span> <span data-i18n="car_spec_miles">Miles</span></span><span class="car-spec"><span>8</span> <span data-i18n="car_spec_seats">Seats</span></span><span class="car-spec" data-i18n="car_spec_auto">Automatic</span><span class="car-spec" data-i18n="car_spec_mpv">MPV</span></div>
-        <div class="car-footer"><div class="car-price">RM 240<small data-i18n="car_day">/Day</small></div><button class="btn-rent" onclick="openCarBooking('Nissan Serena',240,'Nissan Serena')" data-i18n="car_book">Book Now</button></div>
-      </div>
-
-      <div class="car-card reveal" style="--d:160ms;" data-cat="jeep family" data-price="320" data-type="van">
-        <div class="car-top"><span class="car-badge cb-pop">15% OFF</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>
-        <div class="car-img ci-hiace"></div>
-        <p class="car-stars-row rating-stars-row" data-i18n-aria="aria_stars_5" aria-label="5 out of 5 stars">★★★★★</p>
-        <h3 class="car-name">Toyota Hiace</h3>
-        <div class="car-specs-row"><span class="car-spec" data-i18n="car_spec_diesel">Diesel</span><span class="car-spec" data-i18n="car_tab_jeep">Jeep</span><span class="car-spec"><span>7,000</span> <span data-i18n="car_spec_miles">Miles</span></span><span class="car-spec"><span>10</span> <span data-i18n="car_spec_seats">Seats</span></span><span class="car-spec" data-i18n="car_spec_manual">Manual</span><span class="car-spec" data-i18n="car_spec_van_type">Van</span></div>
-        <div class="car-footer"><div class="car-price">RM 320<small data-i18n="car_day">/Day</small></div><button class="btn-rent" onclick="openCarBooking('Toyota Hiace',320,'Toyota Hiace')" data-i18n="car_book">Book Now</button></div>
-      </div>
-
-    </div>
+    <div class="car-grid" id="carGrid"></div>
   </section>
 
   <div class="why-section reveal page-section" data-page="about" style="--d:0ms;">
@@ -4396,6 +4378,79 @@
     toast(btn.classList.contains('liked') ? t('toast_fav_add') : t('toast_fav_remove'),'heart');
   }
 
+  var rentalCars = [
+    { name: 'MYVI - OLD MODEL', low: 'RM100.00', peak: 'RM120.00', price: 100, type: 'car', cat: 'sedan' },
+    { name: 'AXIA', low: 'RM80.00', peak: 'RM100.00', price: 80, type: 'car', cat: 'sedan' },
+    { name: 'BEZZA', low: 'RM100.00', peak: 'RM120.00', price: 100, type: 'car', cat: 'sedan' },
+    { name: 'NISSAN ALMERA', low: 'RM120.00', peak: 'RM150.00', price: 120, type: 'car', cat: 'sedan' },
+    { name: 'NISSAN NEW ALMERA TURBO', low: 'RM120.00', peak: 'RM150.00', price: 120, type: 'car', cat: 'sedan' },
+    { name: 'HONDA CITY - OLD MODEL', low: 'RM120.00', peak: 'RM150.00', price: 120, type: 'car', cat: 'sedan' },
+    { name: 'TOYOTA VIOS - OLD MODEL', low: 'RM120.00', peak: 'RM150.00', price: 120, type: 'car', cat: 'sedan' },
+    { name: 'TOYOTA VIOS - NEW MODEL', low: 'RM130.00', peak: 'RM160.00', price: 130, type: 'car', cat: 'sedan' },
+    { name: 'VOLKSWAGEN POLO', low: 'RM130.00', peak: 'RM150.00', price: 130, type: 'car', cat: 'sedan' },
+    { name: 'TOYOTA CAMRY - OLD MODEL', low: 'RM350.00', peak: 'RM400.00', price: 350, type: 'car', cat: 'sedan' },
+    { name: 'MINI COOPER TWIN TURBO - NEW MODEL', low: 'RM700.00', peak: 'RM800.00', price: 700, type: 'car', cat: 'sedan' },
+    { name: 'MG 5 - NEW MODEL', low: 'RM130.00', peak: 'RM160.00', price: 130, type: 'car', cat: 'sedan' },
+    { name: 'TOYOTA ZENIX (NEW MODEL)', low: 'RM230.00', peak: 'RM280.00', price: 230, type: 'car', cat: 'mpv' },
+    { name: 'TOYOTA INOVA (NEW MODEL)', low: 'RM200.00', peak: 'RM250.00', price: 200, type: 'car', cat: 'mpv' },
+    { name: 'TOYOTA AVANZA (OLD MODEL)', low: 'RM120.00', peak: 'RM150.00', price: 120, type: 'car', cat: 'mpv' },
+    { name: 'NEW NISSAN SERENA (ICE)', low: 'RM200.00', peak: 'RM250.00', price: 200, type: 'van', cat: 'mpv' },
+    { name: 'NEW ALPHARD 2.5 SC PILOT SEAT', low: 'RM800.00', peak: 'RM900.00', price: 800, type: 'van', cat: 'mpv' },
+    { name: 'NEW VELLFIRE PILOT SEAT', low: 'RM700.00', peak: 'RM800.00', price: 700, type: 'van', cat: 'mpv' },
+    { name: 'HYUNDAI STAREX (OLD MODEL)', low: 'RM400.00', peak: 'RM450.00', price: 400, type: 'van', cat: 'mpv' },
+    { name: 'HYUNDAI STAREX (NEW MODEL)', low: 'RM400.00', peak: 'RM450.00', price: 400, type: 'van', cat: 'mpv' },
+    { name: 'HYUNDAI STARIA (NEW MODEL)', low: 'RM450.00', peak: 'RM500.00', price: 450, type: 'van', cat: 'mpv' },
+    { name: 'TOYOTA HIACE VAN 11 SEATER (MANUAL)', low: 'RM350.00', peak: 'RM450.00', price: 350, type: 'van', cat: 'van' },
+    { name: 'URVAN LOW ROOF 14 SEATER', low: 'RM200.00', peak: 'RM300.00', price: 200, type: 'van', cat: 'van' },
+    { name: 'URVAN HIGH ROOF 14 SEATER', low: 'RM250.00', peak: 'RM350.00', price: 250, type: 'van', cat: 'van' },
+    { name: 'TOYOTA HIACE VAN AUTO 10-14 SEATER - NEW', low: 'RM350.00', peak: 'RM450.00', price: 350, type: 'van', cat: 'van' }
+  ];
+  function getCarImageClass(item){
+    if(item.name === 'MYVI - OLD MODEL') return 'ci-myvi-old';
+    if(item.name === 'AXIA') return 'ci-axia';
+    if(item.name === 'BEZZA') return 'ci-bezza-custom';
+    if(item.name === 'NISSAN ALMERA') return 'ci-almera-old';
+    if(item.name === 'NISSAN NEW ALMERA TURBO') return 'ci-almera-new-turbo';
+    if(item.name === 'HONDA CITY - OLD MODEL') return 'ci-honda-city-old';
+    if(item.name === 'TOYOTA VIOS - NEW MODEL') return 'ci-vios-new';
+    if(item.name === 'VOLKSWAGEN POLO') return 'ci-polo';
+    if(item.name === 'TOYOTA CAMRY - OLD MODEL') return 'ci-camry-old';
+    if(item.name === 'MINI COOPER TWIN TURBO - NEW MODEL') return 'ci-mini-cooper';
+    if(item.name === 'MG 5 - NEW MODEL') return 'ci-mg5-new';
+    if(item.name === 'TOYOTA ZENIX (NEW MODEL)') return 'ci-zenix-new';
+    if(item.name === 'TOYOTA INOVA (NEW MODEL)') return 'ci-innova-new';
+    if(item.name === 'TOYOTA AVANZA (OLD MODEL)') return 'ci-avanza-old';
+    if(item.name === 'NEW NISSAN SERENA (ICE)') return 'ci-serena-ice-new';
+    if(item.name === 'NEW ALPHARD 2.5 SC PILOT SEAT') return 'ci-alphard-new';
+    if(item.name === 'NEW VELLFIRE PILOT SEAT') return 'ci-vellfire-new';
+    if(item.name === 'HYUNDAI STAREX (OLD MODEL)' || item.name === 'HYUNDAI STAREX (NEW MODEL)') return 'ci-starex';
+    if(item.name === 'HYUNDAI STARIA (NEW MODEL)') return 'ci-staria-new';
+    if(item.name === 'TOYOTA HIACE VAN 11 SEATER (MANUAL)') return 'ci-hiace-manual';
+    if(item.name === 'URVAN LOW ROOF 14 SEATER') return 'ci-urvan-low';
+    if(item.name === 'URVAN HIGH ROOF 14 SEATER') return 'ci-urvan-high';
+    if(item.type === 'van') return 'ci-hiace';
+    if((item.cat || '').includes('mpv')) return 'ci-serena';
+    if((item.cat || '').includes('suv')) return 'ci-brv';
+    return 'ci-vios';
+  }
+  function renderRentalCars(){
+    var grid = document.getElementById('carGrid');
+    if(!grid) return;
+    grid.innerHTML = rentalCars.map(function(item, idx){
+      var badgeClass = idx % 2 === 0 ? 'cb-new' : 'cb-pop';
+      var delay = (idx % 3) * 80;
+      return '' +
+        '<div class="car-card reveal" style="--d:'+delay+'ms;" data-cat="'+item.cat+'" data-price="'+item.price+'" data-type="'+item.type+'">' +
+          '<div class="car-top"><span class="car-badge '+badgeClass+'">Low '+item.low+'</span><button class="car-fav" onclick="toggleCarFav(this)">+</button></div>' +
+          '<div class="car-img '+getCarImageClass(item)+'"></div>' +
+          '<p class="car-stars-row rating-stars-row" data-i18n-aria="aria_stars_5" aria-label="5 out of 5 stars">★★★★★</p>' +
+          '<h3 class="car-name">'+item.name+'</h3>' +
+          '<div class="car-specs-row"><span class="car-spec">Low: '+item.low+'</span><span class="car-spec">Peak: '+item.peak+'</span><span class="car-spec">'+item.type.toUpperCase()+'</span></div>' +
+          '<div class="car-footer"><div class="car-price">RM '+item.price+'<small data-i18n="car_day">/Day</small></div><button class="btn-rent" onclick="openCarBooking(\''+item.name.replace(/'/g, "\\'")+'\','+item.price+',\''+item.name.replace(/'/g, "\\'")+'\')" data-i18n="car_book">Book Now</button></div>' +
+        '</div>';
+    }).join('');
+  }
+
   /* ── CAR FILTER & SORT ── */
   function filterCars(cat, btn){
     document.querySelectorAll('.car-tab').forEach(function(b){ b.classList.remove('active'); });
@@ -5108,6 +5163,7 @@
   }
   function handleModalClick(e, id){ if(e.target===document.getElementById(id)) closeModal(id); }
 
+  renderRentalCars();
   setLang(currentLang);
 </script>
 </body>
