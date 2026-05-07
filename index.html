@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Langkawi Escape — Island Adventures & Booking</title>
+  <title>SM Leisure Travel &amp; Tours | Langkawi , Malaysia Tours &amp; Activities</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet" />
@@ -3521,17 +3521,6 @@
         </select>
       </div>
     </div>
-    <div class="car-rental-banner reveal" style="--d:40ms;">
-      <div class="car-rental-intro">
-        <p class="car-rental-kicker" data-i18n="car_banner_kicker">Carsharing</p>
-        <h3 data-i18n="car_banner_h">Book and drive in minutes</h3>
-        <div class="car-rental-intro-line" aria-hidden="true"></div>
-        <p data-i18n="car_banner_p">Choose from reliable daily rentals in Langkawi for solo trips, family holidays, or business movement with smooth pickup and fast support.</p>
-      </div>
-      <div class="car-rental-visual">
-        <div class="car-rental-hero-car" aria-hidden="true"></div>
-      </div>
-    </div>
     <div class="car-tabs after-intro">
       <button class="car-tab active" onclick="filterCars('all',this)">All</button>
       <button class="car-tab" onclick="filterCars('sedan',this)">Sedan</button>
@@ -4627,7 +4616,7 @@
         '国籍：'+nationality,
         '备注：'+(note || '-')
       ].join('\n') : [
-        'Hi SM Leisure, saya nak confirm booking.',
+        'Hi SM Leisure, I would like to confirm my booking.',
         '',
         'Booking Number: '+ref,
         'Package: '+pkgLabel,
@@ -5121,14 +5110,59 @@
   function confirmCarBooking(){
     var name = document.getElementById('carName').value;
     if(!name.trim()){ toast(t('toast_car_driver'),'warning'); return; }
+    var phone = document.getElementById('carPhone').value.trim();
     var ref = 'CAR-'+Math.floor(10000+Math.random()*90000);
-    document.getElementById('carRef').textContent = 'Booking #'+ref;
-    document.querySelector('#carModal .modal-body').style.display='none';
-    document.querySelector('#carModal .modal-footer').style.display='none';
-    var s=document.getElementById('carSuccess');
-    s.style.display='flex'; s.classList.add('show');
     var days=3, sub=carBasePrice*days, ins=Math.round(sub*0.1), total=sub+ins;
-    addToCart(carNameEn, t('car_cart_days'), total);
+    var pickupDate = document.getElementById('carPickup').value;
+    var returnDate = document.getElementById('carReturn').value;
+    var pickupLoc = document.getElementById('carPickupLoc');
+    var dropLoc = document.getElementById('carDropLoc');
+    var pickupLabel = pickupLoc && pickupLoc.options[pickupLoc.selectedIndex] ? pickupLoc.options[pickupLoc.selectedIndex].text : '';
+    var dropLabel = dropLoc && dropLoc.options[dropLoc.selectedIndex] ? dropLoc.options[dropLoc.selectedIndex].text : '';
+    var carLabel = currentLang === 'zh' ? carNameZh : carNameEn;
+    var waMsg = currentLang === 'zh' ? [
+      '您好 SM Leisure，我想确认租车预订。',
+      '',
+      '预订编号：'+ref,
+      '车型：'+carLabel,
+      '取车日期：'+pickupDate,
+      '还车日期：'+returnDate,
+      '取车地点：'+pickupLabel,
+      '还车地点：'+dropLabel,
+      '租期：'+days+'天',
+      '小计：RM '+sub,
+      '保险与服务费：RM '+ins,
+      '合计：RM '+total,
+      '',
+      '驾驶人姓名：'+name.trim(),
+      '电话：'+(phone || '-')
+    ].join('\n') : [
+      'Hi SM Leisure, I would like to confirm my car rental booking.',
+      '',
+      'Booking Number: '+ref,
+      'Vehicle: '+carLabel,
+      'Pick-up Date: '+pickupDate,
+      'Return Date: '+returnDate,
+      'Pick-up Location: '+pickupLabel,
+      'Drop-off Location: '+dropLabel,
+      'Rental Period: '+days+' days',
+      'Subtotal: RM '+sub,
+      'Insurance & Service: RM '+ins,
+      'Total: RM '+total,
+      '',
+      'Driver Name: '+name.trim(),
+      'Phone: '+(phone || '-')
+    ].join('\n');
+    var waUrl = 'https://wa.me/60175086608?text='+encodeURIComponent(waMsg);
+    var opened = window.open(waUrl, '_blank');
+    if (!opened) {
+      window.location.href = waUrl;
+    }
+    setTimeout(function(){
+      if (document.visibilityState === 'visible') {
+        toast(t('toast_wa_retry'),'info');
+      }
+    }, 1400);
   }
 
   /* ── PLANNER ── */
